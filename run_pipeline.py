@@ -6,7 +6,8 @@ from pathlib import Path
 SRC = Path(__file__).resolve().parent / "src"
 sys.path.insert(0, str(SRC))
 
-STEPS = ["collect/eurostat", "collect/destatis", "clean/eurostat", "clean/destatis", "clean/manual"]
+STEPS = ["collect/eurostat", "collect/destatis", "collect/enseignes",
+         "clean/eurostat", "clean/destatis", "clean/enseignes", "clean/manual"]
 
 for step in STEPS:
     print(f"\n=== {step}")

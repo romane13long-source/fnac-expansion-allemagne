@@ -3,6 +3,7 @@
 Une seule source par sujet, même nomenclature (COICOP 2018) pour le marché et les prix :
 - marché : dépenses des ménages par fonction (nama_10_cp18)
 - prix   : indices de niveau des prix (prc_ppp_ind_1)
+- population : population au 1er janvier (demo_pjan)
 """
 import json
 import urllib.parse
@@ -16,6 +17,8 @@ DATASETS = {
     "nama_10_cp18": {"coicop18": ["CP081", "CP097"], "unit": ["CP_MEUR"]},
     # A010801 = même catégorie que CP081 ; A0109 = loisirs, sport et culture (livres non isolés)
     "prc_ppp_ind_1": {"ppp_cat18": ["A010801", "A0109"], "indic_ppp": ["PLI_EU27_2020"]},
+    # Population au 1er janvier : pour ramener le marché par habitant (taux de pénétration)
+    "demo_pjan": {"age": ["TOTAL"], "sex": ["T"]},
 }
 
 
