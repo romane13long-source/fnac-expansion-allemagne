@@ -57,7 +57,18 @@ if __name__ == "__main__":
     prices = tidy(prices, labels, "ppp_cat18", "indice_niveau_prix_ue100")
     prices.to_csv(SILVER / "prix.csv", index=False)
 
-    for name, table in {"marche": market, "prix": prices}.items():
+    population, _ = load("demo_pjan")
+    population = pd.DataFrame({
+        "pays": population["geo"],
+        "annee": population["time"].astype(int),
+        "population_1er_janvier": population["value"].astype(int),
+        "statut_eurostat": population["status"],
+    }).sort_values(["pays", "annee"]).reset_index(drop=True)
+    assert set(population["pays"]) == set(COUNTRIES), "pays manquant"
+    assert not population.duplicated(["pays", "annee"]).any(), "doublon pays / année"
+    population.to_csv(SILVER / "population.csv", index=False)
+
+    for name, table in {"marche": market, "prix": prices, "population": population}.items():
         flagged = (table["statut_eurostat"] != "").sum()
         print(f"{name}.csv : {len(table)} lignes, {table['annee'].min()}-{table['annee'].max()}, "
               f"{flagged} valeurs signalées par Eurostat")
