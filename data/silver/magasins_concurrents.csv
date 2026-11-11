@@ -1,0 +1,395 @@
+enseigne,magasin_id,page,nom_page,methode_rattachement,liste_sur_les_deux_sites,code_commune,commune,land_code,land_nom,longitude,latitude
+mediamarkt,201,Erlangen-201,erlangen,nom exact,False,09562000,Erlangen,09,Bayern,11.003274,49.59508
+mediamarkt,92,Oldenburg-Schlosshoefe-92,oldenburg-schlosshoefe,nom exact,False,03403000,"Oldenburg (Oldb), Stadt",03,Niedersachsen,8.212993,53.140025
+mediamarkt,309,aachen-aquis-plaza-309,aachen-aquis-plaza,nom exact,False,05334002,"Aachen, Stadt",05,Nordrhein-Westfalen,6.0848,50.773516
+mediamarkt,526,aalen-526,aalen,nom exact,False,08136088,"Aalen, Stadt",08,Baden-Württemberg,10.092337,48.835057
+mediamarkt,544,albstadt-544,albstadt,nom exact,False,08417079,"Albstadt, Stadt",08,Baden-Württemberg,9.026328,48.214156
+mediamarkt,252,alzey-252,alzey,nom exact,False,07331003,"Alzey, Stadt",07,Rheinland-Pfalz,8.112469,49.745225
+mediamarkt,1254,amberg-1254,amberg,nom exact,False,09361000,Amberg,09,Bayern,11.856142,49.445278
+mediamarkt,503,ansbach-503,ansbach,nom exact,False,09561000,Ansbach,09,Bayern,10.577254,49.303682
+mediamarkt,85,ansbach_brucken_center-85,ansbach-brucken-center,nom exact,False,09561000,Ansbach,09,Bayern,10.577254,49.303682
+mediamarkt,416,aschaffenburg-416,aschaffenburg,nom exact,False,09661000,Aschaffenburg,09,Bayern,9.147832,49.973506
+mediamarkt,514,aschaffenburg-city-514,aschaffenburg-city,nom exact,False,09661000,Aschaffenburg,09,Bayern,9.147832,49.973506
+mediamarkt,558,augsburg-goeggingen-558,augsburg-goeggingen,nom exact,False,09761000,Augsburg,09,Bayern,10.897594,48.368384
+mediamarkt,506,augsburg-oberhausen-506,augsburg-oberhausen,nom exact,False,09761000,Augsburg,09,Bayern,10.897594,48.368384
+mediamarkt,529,backnang-529,backnang,nom exact,False,08119008,"Backnang, Stadt",08,Baden-Württemberg,9.424452,48.94691
+mediamarkt,472,bad-duerrheim-472,bad-duerrheim,nom exact,False,08326003,"Bad Dürrheim, Stadt",08,Baden-Württemberg,8.530554,48.022026
+mediamarkt,551,bad-kreuznach-551,bad-kreuznach,nom exact,False,07133006,"Bad Kreuznach, Stadt",07,Rheinland-Pfalz,7.861839,49.844515
+mediamarkt,272,bad-neustadt-272,bad-neustadt,début du nom officiel,False,09673114,"Bad Neustadt a.d.Saale, St",09,Bayern,10.206512,50.329758
+mediamarkt,213,bad-oeynhausen-213,bad-oeynhausen,nom exact,False,05770004,"Bad Oeynhausen, Stadt",05,Nordrhein-Westfalen,8.805514,52.205258
+mediamarkt,6297,bad_hersfeld-6297,bad-hersfeld,nom exact,False,06632002,"Bad Hersfeld, Kreisstadt",06,Hessen,9.706008,50.867805
+mediamarkt,793,bad_homburg-793,bad-homburg,début du nom officiel,True,06434001,"Bad Homburg v. d. Höhe, Stadt",06,Hessen,8.61299,50.228406
+mediamarkt,246,baden-baden-246,baden-baden,nom exact,False,08211000,"Baden-Baden, Stadt",08,Baden-Württemberg,8.239951,48.761794
+mediamarkt,438,bamberg-438,bamberg,nom exact,False,09461000,Bamberg,09,Bayern,10.886786,49.893387
+mediamarkt,1203,baunatal-1203,baunatal,nom exact,False,06633003,"Baunatal, Stadt",06,Hessen,9.415659,51.254184
+mediamarkt,468,bayreuth-468,bayreuth,nom exact,False,09462000,Bayreuth,09,Bayern,11.575301,49.943752
+mediamarkt,426,belm-osnabrueck-426,belm-osnabrueck,nom exact,False,03459008,Belm,03,Niedersachsen,8.140643,52.302111
+mediamarkt,6058,bergisch-gladbach-6058,bergisch-gladbach,nom exact,False,05378004,"Bergisch Gladbach, Stadt",05,Nordrhein-Westfalen,7.130608,50.992244
+mediamarkt,221,berlin-Gesundbrunnen-221,berlin-gesundbrunnen,nom exact,True,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,483,berlin-biesdorf-483,berlin-biesdorf,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,596,berlin-charlottenburg-596,berlin-charlottenburg,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,1922,berlin-friedrichshain-1922,berlin-friedrichshain,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,535,berlin-gropiusstadt-535,berlin-gropiusstadt,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,1465,berlin-hauptbahnhof-1465,berlin-hauptbahnhof,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,413,berlin-hohenschoenhausen-413,berlin-hohenschoenhausen,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,25,berlin-leipziger-platz-25,berlin-leipziger-platz,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,210,berlin-marzahn-210,berlin-marzahn,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,190,berlin-mitte-190,berlin-mitte,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,459,berlin-neukoelln-459,berlin-neukoelln,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,262,berlin-prenzlauer-berg-262,berlin-prenzlauer-berg,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,578,berlin-schoeneweide-578,berlin-schoeneweide,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,412,berlin-spandau-412,berlin-spandau,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,270,berlin-steglitz-270,berlin-steglitz,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,510,berlin-tegel-510,berlin-tegel,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,628,berlin-tempelhof-628,berlin-tempelhof,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,404,berlin-waltersdorf-404,berlin-waltersdorf,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,406,berlin-wedding-406,berlin-wedding,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,1234,berlin_köpenick-1234,berlin-koepenick,nom exact,True,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,216,berlin_spandau_arcaden-216,berlin-spandau-arcaden,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,446,bielefeld-446,bielefeld,nom exact,False,05711000,"Bielefeld, Stadt",05,Nordrhein-Westfalen,8.534049,52.021995
+mediamarkt,10,bielefeld_city-10,bielefeld-city,nom exact,True,05711000,"Bielefeld, Stadt",05,Nordrhein-Westfalen,8.534049,52.021995
+mediamarkt,457,bischofsheim-457,bischofsheim,nom exact,False,06433002,Bischofsheim,06,Hessen,8.355011,49.989065
+mediamarkt,335,bocholt-335,bocholt,nom exact,False,05554008,"Bocholt, Stadt",05,Nordrhein-Westfalen,6.61564,51.837931
+mediamarkt,451,bochum-hofstede-451,bochum-hofstede,nom exact,False,05911000,"Bochum, Stadt",05,Nordrhein-Westfalen,7.217177,51.482699
+mediamarkt,403,bochum-ruhrpark-403,bochum-ruhrpark,nom exact,False,05911000,"Bochum, Stadt",05,Nordrhein-Westfalen,7.217177,51.482699
+mediamarkt,276,bochum_kortumhaus-276,bochum-kortumhaus,nom exact,False,05911000,"Bochum, Stadt",05,Nordrhein-Westfalen,7.217177,51.482699
+mediamarkt,1466,boeblingen-1466,boeblingen,nom exact,False,08115003,"Böblingen, Stadt",08,Baden-Württemberg,9.009663,48.685296
+mediamarkt,1309,bonn-1309,bonn,nom exact,False,05314000,"Bonn, Stadt",05,Nordrhein-Westfalen,7.099187,50.734245
+mediamarkt,1826,bornheim-1826,bornheim,nom exact,False,05382012,"Bornheim, Stadt",05,Nordrhein-Westfalen,6.990342,50.762547
+mediamarkt,49,boulevard_berlin_steglitz-49,berlin-steglitz,nom exact,True,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,681,brandenburg-681,brandenburg,début du nom officiel,False,12051000,"Brandenburg an der Havel, Stadt",12,Brandenburg,12.563364,52.408651
+mediamarkt,431,braunschweig-431,braunschweig,nom exact,False,03101000,"Braunschweig, Stadt",03,Niedersachsen,10.520525,52.26249
+mediamarkt,60,braunschweig_schloss_arkaden-60,braunschweig-schloss-arkaden,nom exact,True,03101000,"Braunschweig, Stadt",03,Niedersachsen,10.520525,52.26249
+mediamarkt,220,bremen-habenhausen-220,bremen-habenhausen,nom exact,False,04011000,"Bremen, Stadt",04,Bremen,8.809338,53.075606
+mediamarkt,259,bremen-waterfront-259,bremen-waterfront,nom exact,False,04011000,"Bremen, Stadt",04,Bremen,8.809338,53.075606
+mediamarkt,454,bremen-weserpark-454,bremen-weserpark,nom exact,False,04011000,"Bremen, Stadt",04,Bremen,8.809338,53.075606
+mediamarkt,1437,bremen_roland_center-1437,bremen-roland-center,nom exact,False,04011000,"Bremen, Stadt",04,Bremen,8.809338,53.075606
+mediamarkt,428,bremerhaven-schiffdorf-spaden-428,bremerhaven-schiffdorf-spaden,nom exact,False,04012000,"Bremerhaven, Stadt",04,Bremen,8.578068,53.543032
+mediamarkt,505,bruchsal-505,bruchsal,nom exact,False,08215009,"Bruchsal, Stadt",08,Baden-Württemberg,8.5977,49.125785
+mediamarkt,275,buchholz-in-der-nordheide-275,buchholz-in-der-nordheide,nom exact,False,03353005,"Buchholz in der Nordheide, Stadt",03,Niedersachsen,9.881469,53.329257
+mediamarkt,1841,burghausen-1841,burghausen,nom exact,False,09171112,"Burghausen, St",09,Bayern,12.831282,48.168825
+mediamarkt,556,buxtehude-556,buxtehude,nom exact,False,03359010,"Buxtehude, Hansestadt",03,Niedersachsen,9.698611,53.475851
+mediamarkt,251,castrop-rauxel-251,castrop-rauxel,nom exact,False,05562004,"Castrop-Rauxel, Stadt",05,Nordrhein-Westfalen,7.310311,51.548997
+mediamarkt,1175,celle-1175,celle,nom exact,False,03351006,"Celle, Stadt",03,Niedersachsen,10.08067,52.626307
+mediamarkt,508,chemnitz-roehrsdorf-508,chemnitz-roehrsdorf,nom exact,False,14511000,"Chemnitz, Stadt",14,Sachsen,12.921602,50.833593
+mediamarkt,492,chemnitz-sachsenallee-492,chemnitz-sachsenallee,nom exact,False,14511000,"Chemnitz, Stadt",14,Sachsen,12.921602,50.833593
+mediamarkt,396,chemnitz_roter_turm-396,chemnitz-roter-turm,nom exact,True,14511000,"Chemnitz, Stadt",14,Sachsen,12.921602,50.833593
+mediamarkt,548,coburg-548,coburg,nom exact,False,09463000,Coburg,09,Bayern,10.964232,50.258421
+mediamarkt,541,cottbus-541,cottbus,début du nom officiel,False,12052000,"Cottbus/Chóśebuz, Stadt",12,Brandenburg,14.335117,51.759345
+mediamarkt,525,crailsheim-525,crailsheim,nom exact,False,08127014,"Crailsheim, Stadt",08,Baden-Württemberg,10.071139,49.135752
+mediamarkt,205,darmstadt-city-205,darmstadt-city,nom exact,False,06411000,"Darmstadt, Wissenschaftsstadt",06,Hessen,8.653838,49.872238
+mediamarkt,264,deggendorf-264,deggendorf,nom exact,False,09271119,"Deggendorf, GKSt",09,Bayern,12.960122,48.842204
+mediamarkt,1444,delmenhorst-1444,delmenhorst,nom exact,False,03401000,"Delmenhorst, Stadt",03,Niedersachsen,8.630108,53.049883
+mediamarkt,589,dessau-589,dessau,début du nom officiel,False,15001000,"Dessau-Roßlau, Stadt",15,Sachsen-Anhalt,12.245715,51.834703
+mediamarkt,6096,dessau-city-6096,dessau-city,début du nom officiel,False,15001000,"Dessau-Roßlau, Stadt",15,Sachsen-Anhalt,12.245715,51.834703
+mediamarkt,278,dietzenbach-278,dietzenbach,nom exact,False,06438001,"Dietzenbach, Kreisstadt",06,Hessen,8.781779,50.008939
+mediamarkt,585,donauwoerth-585,donauwoerth,nom exact,False,09779131,"Donauwörth, GKSt",09,Bayern,10.777945,48.719139
+mediamarkt,1232,dorsten-1232,dorsten,nom exact,False,05562012,"Dorsten, Stadt",05,Nordrhein-Westfalen,6.964689,51.660837
+mediamarkt,91,dortmund-eving-91,dortmund-eving,nom exact,False,05913000,"Dortmund, Stadt",05,Nordrhein-Westfalen,7.464165,51.514171
+mediamarkt,1775,dortmund-hoerde-1775,dortmund-hoerde,nom exact,False,05913000,"Dortmund, Stadt",05,Nordrhein-Westfalen,7.464165,51.514171
+mediamarkt,1182,dortmund-oespel-1182,dortmund-oespel,nom exact,False,05913000,"Dortmund, Stadt",05,Nordrhein-Westfalen,7.464165,51.514171
+mediamarkt,649,dresden-centrum-649,dresden-centrum,nom exact,False,14612000,"Dresden, Stadt",14,Sachsen,13.736883,51.051697
+mediamarkt,480,dresden-mickten-480,dresden-mickten,nom exact,False,14612000,"Dresden, Stadt",14,Sachsen,13.736883,51.051697
+mediamarkt,460,dresden-prohlis-460,dresden-prohlis,nom exact,False,14612000,"Dresden, Stadt",14,Sachsen,13.736883,51.051697
+mediamarkt,304,dueren-304,dueren,nom exact,False,05358008,"Düren, Stadt",05,Nordrhein-Westfalen,6.482964,50.801678
+mediamarkt,377,duesseldorf-bilk-377,duesseldorf-bilk,nom exact,False,05111000,"Düsseldorf, Stadt",05,Nordrhein-Westfalen,6.780068,51.22422
+mediamarkt,250,duesseldorf-metrostrasse-250,duesseldorf-metrostrasse,nom exact,False,05111000,"Düsseldorf, Stadt",05,Nordrhein-Westfalen,6.780068,51.22422
+mediamarkt,271,duisburg-grossenbaum-271,duisburg-grossenbaum,nom exact,False,05112000,"Duisburg, Stadt",05,Nordrhein-Westfalen,6.765477,51.433259
+mediamarkt,425,duisburg-marxloh-425,duisburg-marxloh,nom exact,False,05112000,"Duisburg, Stadt",05,Nordrhein-Westfalen,6.765477,51.433259
+mediamarkt,379,duisburg_forum-379,duisburg-forum,nom exact,True,05112000,"Duisburg, Stadt",05,Nordrhein-Westfalen,6.765477,51.433259
+mediamarkt,419,egelsbach-419,egelsbach,nom exact,False,06438003,Egelsbach,06,Hessen,8.666586,49.969305
+mediamarkt,258,eiche-258,eiche,table manuelle,False,12060005,Ahrensfelde,12,Brandenburg,13.57961,52.576115
+mediamarkt,1334,eisenach-1334,eisenach,nom exact,False,16063105,"Eisenach, Stadt",16,Thüringen,10.322388,50.977287
+mediamarkt,532,eislingen-532,eislingen,début du nom officiel,False,08117019,"Eislingen/Fils, Stadt",08,Baden-Württemberg,9.707697,48.700842
+mediamarkt,1183,elmshorn-1183,elmshorn,nom exact,False,01056015,"Elmshorn, Stadt",01,Schleswig-Holstein,9.655259,53.754958
+mediamarkt,135,emden-135,emden,nom exact,False,03402000,"Emden, Stadt",03,Niedersachsen,7.205946,53.370558
+mediamarkt,1823,emmendingen-1823,emmendingen,nom exact,False,08316011,"Emmendingen, Stadt",08,Baden-Württemberg,7.847625,48.122053
+mediamarkt,381,erding-381,erding,nom exact,False,09177117,"Erding, GKSt",09,Bayern,11.907169,48.306323
+mediamarkt,46,erfurt-city-46,erfurt-city,nom exact,True,16051000,"Erfurt, Stadt",16,Thüringen,11.027236,50.977122
+mediamarkt,266,erfurt-tec-266,erfurt-tec,nom exact,False,16051000,"Erfurt, Stadt",16,Thüringen,11.027236,50.977122
+mediamarkt,409,erfurt-thueringenpark-409,erfurt-thueringenpark,nom exact,False,16051000,"Erfurt, Stadt",16,Thüringen,11.027236,50.977122
+mediamarkt,408,erlangen-408,erlangen,nom exact,False,09562000,Erlangen,09,Bayern,11.003274,49.59508
+mediamarkt,279,eschweiler-279,eschweiler,nom exact,False,05334012,"Eschweiler, Stadt",05,Nordrhein-Westfalen,6.266781,50.817431
+mediamarkt,424,essen-424,essen,nom exact,False,05113000,"Essen, Stadt",05,Nordrhein-Westfalen,7.012583,51.455843
+mediamarkt,28,essen_limbecker_platz-28,essen-limbecker-platz,nom exact,False,05113000,"Essen, Stadt",05,Nordrhein-Westfalen,7.012583,51.455843
+mediamarkt,464,esslingen-464,esslingen,nom exact,False,07232034,Eßlingen,07,Rheinland-Pfalz,6.527107,49.914744
+mediamarkt,130,europa_center_berlin_charlottenburg-130,europa-center-berlin-charlottenburg,table manuelle,True,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+mediamarkt,215,euskirchen-215,euskirchen,nom exact,True,05366016,"Euskirchen, Stadt",05,Nordrhein-Westfalen,6.786098,50.660933
+mediamarkt,32,fellbach-32,fellbach,nom exact,False,08119020,"Fellbach, Stadt",08,Baden-Württemberg,9.278375,48.80685
+mediamarkt,509,flensburg-509,flensburg,nom exact,False,01001000,"Flensburg, Stadt",01,Schleswig-Holstein,9.43751,54.78252
+mediamarkt,224,flensburg-galerie-224,flensburg-galerie,nom exact,False,01001000,"Flensburg, Stadt",01,Schleswig-Holstein,9.43751,54.78252
+mediamarkt,1878,forchheim-1878,forchheim,nom exact,False,09474126,"Forchheim, GKSt",09,Bayern,11.0594,49.720292
+mediamarkt,555,frankfurt-borsigallee-555,frankfurt-borsigallee,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
+mediamarkt,447,frankfurt-nordwestzentrum-447,frankfurt-nordwestzentrum,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
+mediamarkt,1292,frankfurt_skyline_plaza-1292,frankfurt-skyline-plaza,nom exact,True,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
+mediamarkt,50,frankfurt_zeil-50,frankfurt-zeil,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
+mediamarkt,421,freiburg-421,freiburg,nom exact,False,03359018,"Freiburg (Elbe), Flecken",03,Niedersachsen,9.287803,53.824052
+mediamarkt,47,freiburg-city-47,freiburg-city,nom exact,False,03359018,"Freiburg (Elbe), Flecken",03,Niedersachsen,9.287803,53.824052
+mediamarkt,63,freising-63,freising,nom exact,False,09178124,"Freising, GKSt",09,Bayern,11.748361,48.403627
+mediamarkt,84,friedberg-84,friedberg,nom exact,False,06440008,"Friedberg (Hessen), Kreisstadt",06,Hessen,8.754091,50.33776
+mediamarkt,570,friedrichshafen-570,friedrichshafen,nom exact,False,08435016,"Friedrichshafen, Stadt",08,Baden-Württemberg,9.479614,47.652205
+mediamarkt,448,fulda-448,fulda,nom exact,False,06631009,"Fulda, Stadt",06,Hessen,9.675061,50.55323
+mediamarkt,625,giessen-hessen-625,giessen-hessen,nom exact,False,06531005,"Gießen, Universitätsstadt",06,Hessen,8.674877,50.586195
+mediamarkt,1307,gifhorn-1307,gifhorn,nom exact,False,03151009,"Gifhorn, Stadt",03,Niedersachsen,10.54687,52.484369
+mediamarkt,463,goettingen-463,goettingen,nom exact,False,03159016,"Göttingen, Stadt",03,Niedersachsen,9.935418,51.533337
+mediamarkt,6183,goettingen-kauf-park-6183,goettingen-kauf-park,nom exact,False,03159016,"Göttingen, Stadt",03,Niedersachsen,9.935418,51.533337
+mediamarkt,559,goslar-559,goslar,nom exact,False,03153017,"Goslar, Stadt",03,Niedersachsen,10.429312,51.906508
+mediamarkt,564,greifswald-564,greifswald,nom exact,False,13075039,"Greifswald, Universitäts- und Hansestadt",13,Mecklenburg-Vorpommern,13.379627,54.09581
+mediamarkt,7000,gross-gerau-7000,gross-gerau,nom exact,False,06433006,"Groß-Gerau, Stadt",06,Hessen,8.482423,49.92162
+mediamarkt,582,gruendau-lieblos-582,gruendau-lieblos,nom exact,False,06435012,Gründau,06,Hessen,9.137636,50.209015
+mediamarkt,430,guenthersdorf-430,guenthersdorf,table manuelle,False,15088205,"Leuna, Stadt",15,Sachsen-Anhalt,12.024179,51.323779
+mediamarkt,574,guetersloh-574,guetersloh,nom exact,False,05754008,"Gütersloh, Stadt",05,Nordrhein-Westfalen,8.375587,51.907302
+mediamarkt,61,gummersbach-61,gummersbach,nom exact,True,05374012,"Gummersbach, Stadt",05,Nordrhein-Westfalen,7.568149,51.028326
+mediamarkt,20,hagen-20,hagen,nom exact,False,05914000,"Hagen, Stadt der FernUniversität",05,Nordrhein-Westfalen,7.467406,51.360171
+mediamarkt,382,halberstadt-382,halberstadt,nom exact,False,15085135,"Halberstadt, Stadt",15,Sachsen-Anhalt,11.04731,51.896112
+mediamarkt,449,halle-449,halle,nom exact,False,15002000,"Halle (Saale), Stadt",15,Sachsen-Anhalt,11.970666,51.482478
+mediamarkt,498,halstenbek-498,halstenbek,nom exact,False,01056018,Halstenbek,01,Schleswig-Holstein,9.837557,53.633617
+mediamarkt,260,hamburg-altona-260,hamburg-altona,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,469,hamburg-billstedt-469,hamburg-billstedt,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,797,hamburg-elbe-einkaufszentrum-797,hamburg-elbe-einkaufszentrum,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,594,hamburg-harburg-594,hamburg-harburg,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,545,hamburg-hummelsbuettel-545,hamburg-hummelsbuettel,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,442,hamburg-nedderfeld-442,hamburg-nedderfeld,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,1172,hamburg-oststeinbek-1172,hamburg-oststeinbek,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,208,hamburg-poppenbuettel-208,hamburg-poppenbuettel,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,476,hamburg-wandsbek-476,hamburg-wandsbek,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,6255,hamburg-wandsbeker-quarree-6255,hamburg-wandsbeker-quarree,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,328,hamburg_bergedorf-328,hamburg-bergedorf,nom exact,True,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,491,hameln-491,hameln,nom exact,False,03252006,"Hameln, Stadt",03,Niedersachsen,9.356316,52.104402
+mediamarkt,8,hamm-8,hamm,nom exact,False,05915000,"Hamm, Stadt",05,Nordrhein-Westfalen,7.816947,51.678312
+mediamarkt,82,hanau-82,hanau,nom exact,False,06435014,"Hanau, Brüder-Grimm-Stadt",06,Hessen,8.915189,50.135573
+mediamarkt,1,hannover-ernst-august-platz-1,hannover-ernst-august-platz,nom exact,False,03241001,"Hannover, Landeshauptstadt",03,Niedersachsen,9.738084,52.374551
+mediamarkt,542,hannover-vahrenheide-542,hannover-vahrenheide,nom exact,False,03241001,"Hannover, Landeshauptstadt",03,Niedersachsen,9.738084,52.374551
+mediamarkt,547,hannover-wuelfel-547,hannover-wuelfel,nom exact,False,03241001,"Hannover, Landeshauptstadt",03,Niedersachsen,9.738084,52.374551
+mediamarkt,561,heide-561,heide,nom exact,False,01051044,"Heide, Stadt",01,Schleswig-Holstein,9.091156,54.193962
+mediamarkt,433,heidelberg-433,heidelberg,nom exact,False,08221000,"Heidelberg, Stadt",08,Baden-Württemberg,8.705543,49.410524
+mediamarkt,577,heidelberg-rohrbach-577,heidelberg-rohrbach,nom exact,False,08221000,"Heidelberg, Stadt",08,Baden-Württemberg,8.705543,49.410524
+mediamarkt,254,heidenheim-254,heidenheim,nom exact,False,09577140,"Heidenheim, M",09,Bayern,10.743353,49.017099
+mediamarkt,527,heilbronn-527,heilbronn,nom exact,False,08121000,"Heilbronn, Universitätsstadt",08,Baden-Württemberg,9.217953,49.140428
+mediamarkt,234,henstedt-ulzburg-234,henstedt-ulzburg,nom exact,False,01060039,Henstedt-Ulzburg,01,Schleswig-Holstein,9.980847,53.790485
+mediamarkt,546,heppenheim-546,heppenheim,nom exact,False,06431011,"Heppenheim (Bergstraße), Kreisstadt",06,Hessen,8.644017,49.641185
+mediamarkt,434,herzogenrath-434,herzogenrath,nom exact,False,05334016,"Herzogenrath, Stadt",05,Nordrhein-Westfalen,6.089184,50.865711
+mediamarkt,68,hilden-68,hilden,nom exact,False,05158016,"Hilden, Stadt",05,Nordrhein-Westfalen,6.933705,51.168245
+mediamarkt,462,hildesheim-462,hildesheim,nom exact,False,03254021,"Hildesheim, Stadt",03,Niedersachsen,9.948181,52.150623
+mediamarkt,467,hof-467,hof,nom exact,False,09464000,Hof,09,Bayern,11.913545,50.316521
+mediamarkt,378,holzminden-378,holzminden,nom exact,False,03255023,"Holzminden, Stadt",03,Niedersachsen,9.447159,51.828764
+mediamarkt,549,homburg-549,homburg,nom exact,False,10045114,"Homburg, Kreisstadt",10,Saarland,7.342736,49.323778
+mediamarkt,595,hueckelhoven-595,hueckelhoven,nom exact,False,05370020,"Hückelhoven, Stadt",05,Nordrhein-Westfalen,6.226269,51.05634
+mediamarkt,318,huerth-318,huerth,nom exact,False,05362028,"Hürth, Stadt",05,Nordrhein-Westfalen,6.856696,50.874348
+mediamarkt,593,idar-oberstein-593,idar-oberstein,nom exact,False,07134045,"Idar-Oberstein, Stadt",07,Rheinland-Pfalz,7.312126,49.713356
+mediamarkt,466,ingolstadt-466,ingolstadt,nom exact,False,09161000,Ingolstadt,09,Bayern,11.423387,48.76542
+mediamarkt,44,ingolstadt-westpark-44,ingolstadt-westpark,nom exact,False,09161000,Ingolstadt,09,Bayern,11.423387,48.76542
+mediamarkt,23,iserlohn-23,iserlohn,nom exact,False,05962024,"Iserlohn, Stadt",05,Nordrhein-Westfalen,7.699212,51.374541
+mediamarkt,51,isernhagen-51,isernhagen,nom exact,False,03241008,Isernhagen,03,Niedersachsen,9.846975,52.434232
+mediamarkt,114,itzehoe-114,itzehoe,nom exact,False,01061046,"Itzehoe, Stadt",01,Schleswig-Holstein,9.512178,53.926549
+mediamarkt,543,jena-543,jena,nom exact,False,16053000,"Jena, Stadt",16,Thüringen,11.591842,50.93006
+mediamarkt,1249,jena-city-1249,jena-city,nom exact,False,16053000,"Jena, Stadt",16,Thüringen,11.591842,50.93006
+mediamarkt,420,kaiserslautern-420,kaiserslautern,nom exact,False,07312000,"Kaiserslautern, Stadt",07,Rheinland-Pfalz,7.768864,49.445456
+mediamarkt,207,kaiserslautern_merkurstrasse-207,kaiserslautern-merkurstrasse,nom exact,False,07312000,"Kaiserslautern, Stadt",07,Rheinland-Pfalz,7.768864,49.445456
+mediamarkt,1287,karlsfeld-1287,karlsfeld,nom exact,False,09174126,Karlsfeld,09,Bayern,11.473188,48.222151
+mediamarkt,534,karlsruhe-bulach-534,karlsruhe-bulach,nom exact,False,08212000,"Karlsruhe, Stadt",08,Baden-Württemberg,8.405282,49.009626
+mediamarkt,520,karlsruhe-durlach-520,karlsruhe-durlach,nom exact,False,08212000,"Karlsruhe, Stadt",08,Baden-Württemberg,8.405282,49.009626
+mediamarkt,263,karlsruhe-ettlinger-tor-263,karlsruhe-ettlinger-tor,nom exact,False,08212000,"Karlsruhe, Stadt",08,Baden-Württemberg,8.405282,49.009626
+mediamarkt,485,kassel-485,kassel,nom exact,False,06611000,"Kassel, documenta-Stadt",06,Hessen,9.495199,51.314684
+mediamarkt,64,kassel_konigsplatz-64,kassel-konigsplatz,nom exact,True,06611000,"Kassel, documenta-Stadt",06,Hessen,9.495199,51.314684
+mediamarkt,414,kempten-414,kempten,nom exact,False,09763000,Kempten (Allgäu),09,Bayern,10.317823,47.724016
+mediamarkt,83,kempten_beim_fenepark-83,kempten-beim-fenepark,nom exact,False,09763000,Kempten (Allgäu),09,Bayern,10.317823,47.724016
+mediamarkt,783,kerpen-783,kerpen,nom exact,False,05362032,"Kerpen, Kolpingstadt",05,Nordrhein-Westfalen,6.694948,50.869982
+mediamarkt,441,kiel-441,kiel,nom exact,False,01002000,"Kiel, Landeshauptstadt",01,Schleswig-Holstein,10.13727,54.321775
+mediamarkt,440,kiel-schwentinental-440,kiel-schwentinental,nom exact,False,01002000,"Kiel, Landeshauptstadt",01,Schleswig-Holstein,10.13727,54.321775
+mediamarkt,1250,kiel-sophienhof-1250,kiel-sophienhof,nom exact,False,01002000,"Kiel, Landeshauptstadt",01,Schleswig-Holstein,10.13727,54.321775
+mediamarkt,521,kirchheim-521,kirchheim,nom exact,False,06632011,Kirchheim,06,Hessen,9.57383,50.841316
+mediamarkt,79,kleve-79,kleve,nom exact,True,05154036,"Kleve, Stadt",05,Nordrhein-Westfalen,6.138858,51.787781
+mediamarkt,465,koblenz-465,koblenz,nom exact,False,07111000,"Koblenz, Stadt",07,Rheinland-Pfalz,7.597956,50.359516
+mediamarkt,230,koblenz-bubenheim-230,koblenz-bubenheim,nom exact,False,07111000,"Koblenz, Stadt",07,Rheinland-Pfalz,7.597956,50.359516
+mediamarkt,18,koblenz_forum-18,koblenz-forum,nom exact,True,07111000,"Koblenz, Stadt",07,Rheinland-Pfalz,7.597956,50.359516
+mediamarkt,301,koeln-hansaring-301,koeln-hansaring,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,257,koeln-kalk-257,koeln-kalk,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,474,koeln-marsdorf-474,koeln-marsdorf,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,319,koeln-weiden-319,koeln-weiden,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,502,konstanz-502,konstanz,nom exact,False,08335043,"Konstanz, Universitätsstadt",08,Baden-Württemberg,9.175957,47.662757
+mediamarkt,488,krefeld-488,krefeld,nom exact,False,05114000,"Krefeld, Stadt",05,Nordrhein-Westfalen,6.56089,51.332637
+mediamarkt,1231,kulmbach-1231,kulmbach,nom exact,False,09477128,"Kulmbach, GKSt",09,Bayern,11.455614,50.10807
+mediamarkt,495,lahr-495,lahr,nom exact,False,07232072,Lahr,07,Rheinland-Pfalz,6.29142,49.944081
+mediamarkt,562,landau-562,landau,début du nom officiel,False,07313000,"Landau in der Pfalz, Stadt",07,Rheinland-Pfalz,8.112414,49.196595
+mediamarkt,624,landsberg-am-lech-624,landsberg-am-lech,nom exact,False,09181130,"Landsberg am Lech, GKSt",09,Bayern,10.877828,48.049514
+mediamarkt,471,landshut-471,landshut,nom exact,False,09261000,Landshut,09,Bayern,12.152143,48.536978
+mediamarkt,778,landshut-west-778,landshut-west,nom exact,False,09261000,Landshut,09,Bayern,12.152143,48.536978
+mediamarkt,1964,leer-1964,leer,nom exact,False,03457013,"Leer (Ostfriesland), Stadt",03,Niedersachsen,7.451416,53.22947
+mediamarkt,1397,leinfelden-echterdingen-1397,leinfelden-echterdingen,nom exact,False,08116078,"Leinfelden-Echterdingen, Stadt",08,Baden-Württemberg,9.138976,48.693719
+mediamarkt,17,leipzig-hauptbahnhof-17,leipzig-hauptbahnhof,nom exact,True,14713000,"Leipzig, Stadt",14,Sachsen,12.377931,51.338288
+mediamarkt,1229,leipzig-hoefe-am-bruehl-1229,leipzig-hoefe-am-bruehl,nom exact,False,14713000,"Leipzig, Stadt",14,Sachsen,12.377931,51.338288
+mediamarkt,497,leipzig-paunsdorf-497,leipzig-paunsdorf,nom exact,False,14713000,"Leipzig, Stadt",14,Sachsen,12.377931,51.338288
+mediamarkt,15,leipzig_grünau-15,leipzig-gruenau,nom exact,True,14713000,"Leipzig, Stadt",14,Sachsen,12.377931,51.338288
+mediamarkt,31,leonberg-31,leonberg,nom exact,False,08115028,"Leonberg, Stadt",08,Baden-Württemberg,9.016776,48.800497
+mediamarkt,308,leverkusen-308,leverkusen,nom exact,True,05316000,"Leverkusen, Stadt",05,Nordrhein-Westfalen,6.979767,51.03245
+mediamarkt,571,limburg-571,limburg,début du nom officiel,False,06533009,"Limburg a. d. Lahn, Kreisstadt",06,Hessen,8.064098,50.387254
+mediamarkt,567,lingen-567,lingen,nom exact,False,03454032,"Lingen (Ems), Stadt",03,Niedersachsen,7.316682,52.522295
+mediamarkt,1233,lippstadt-1233,lippstadt,nom exact,False,05974028,"Lippstadt, Stadt",05,Nordrhein-Westfalen,8.346206,51.674054
+mediamarkt,450,ludwigsburg-450,ludwigsburg,nom exact,False,08118048,"Ludwigsburg, Stadt",08,Baden-Württemberg,9.190393,48.896233
+mediamarkt,410,ludwigshafen-410,ludwigshafen,début du nom officiel,False,07314000,"Ludwigshafen am Rhein, Stadt",07,Rheinland-Pfalz,8.447899,49.483235
+mediamarkt,475,luebeck-475,luebeck,nom exact,False,01003000,"Lübeck, Hansestadt",01,Schleswig-Holstein,10.683932,53.866269
+mediamarkt,1331,luebeck-daenischburg-1331,luebeck-daenischburg,nom exact,False,01003000,"Lübeck, Hansestadt",01,Schleswig-Holstein,10.683932,53.866269
+mediamarkt,9,luedenscheid-9,luedenscheid,nom exact,False,05962032,"Lüdenscheid, Stadt",05,Nordrhein-Westfalen,7.63358,51.21582
+mediamarkt,455,lueneburg-455,lueneburg,nom exact,False,03355022,"Lüneburg, Hansestadt",03,Niedersachsen,10.408793,53.249157
+mediamarkt,56,luenen-56,luenen,nom exact,False,05978024,"Lünen, Stadt",05,Nordrhein-Westfalen,7.523533,51.614327
+mediamarkt,24,magdeburg-24,magdeburg,nom exact,False,15003000,"Magdeburg, Landeshauptstadt",15,Sachsen-Anhalt,11.632726,52.126248
+mediamarkt,569,magdeburg-boerdepark-569,magdeburg-boerdepark,nom exact,False,15003000,"Magdeburg, Landeshauptstadt",15,Sachsen-Anhalt,11.632726,52.126248
+mediamarkt,481,magdeburg-pfahlberg-481,magdeburg-pfahlberg,nom exact,False,15003000,"Magdeburg, Landeshauptstadt",15,Sachsen-Anhalt,11.632726,52.126248
+mediamarkt,552,main-taunus-zentrum-552,main-taunus-zentrum,table manuelle,False,06436012,Sulzbach (Taunus),06,Hessen,8.528319,50.13359
+mediamarkt,418,mainz-418,mainz,nom exact,False,07315000,"Mainz, Stadt",07,Rheinland-Pfalz,8.271855,50.001959
+mediamarkt,202,mainz-city-202,mainz-city,nom exact,False,07315000,"Mainz, Stadt",07,Rheinland-Pfalz,8.271855,50.001959
+mediamarkt,65,mannheim-city-65,mannheim-city,nom exact,False,08222000,"Mannheim, Universitätsstadt",08,Baden-Württemberg,8.466275,49.48778
+mediamarkt,432,mannheim-neckarau-432,mannheim-neckarau,nom exact,False,08222000,"Mannheim, Universitätsstadt",08,Baden-Württemberg,8.466275,49.48778
+mediamarkt,591,mannheim-sandhofen-591,mannheim-sandhofen,nom exact,False,08222000,"Mannheim, Universitätsstadt",08,Baden-Württemberg,8.466275,49.48778
+mediamarkt,581,marburg-581,marburg,nom exact,False,06534014,"Marburg, Universitätsstadt",06,Hessen,8.769147,50.809004
+mediamarkt,587,marktredwitz-587,marktredwitz,nom exact,False,09479136,"Marktredwitz, GKSt",09,Bayern,12.086076,50.001792
+mediamarkt,136,marl-136,marl,nom exact,False,05562024,"Marl, Stadt",05,Nordrhein-Westfalen,7.101811,51.658211
+mediamarkt,274,meerane-274,meerane,nom exact,False,14524190,"Meerane, Stadt",14,Sachsen,12.463982,50.849217
+mediamarkt,584,memmingen-584,memmingen,nom exact,False,09764000,Memmingen,09,Bayern,10.181558,47.984959
+mediamarkt,1390,mnchengladbach_minto-1390,mnchengladbach-minto,table manuelle,False,05116000,"Mönchengladbach, Stadt",05,Nordrhein-Westfalen,6.43161,51.194473
+mediamarkt,269,moenchengladbach-269,moenchengladbach,nom exact,False,05116000,"Mönchengladbach, Stadt",05,Nordrhein-Westfalen,6.43161,51.194473
+mediamarkt,73,moers-73,moers,nom exact,False,05170024,"Moers, Stadt",05,Nordrhein-Westfalen,6.628027,51.453559
+mediamarkt,579,muehldorf-am-inn-579,muehldorf-am-inn,nom exact,False,09183128,"Mühldorf a.Inn, St",09,Bayern,12.524963,48.241864
+mediamarkt,405,muelheim-405,muelheim,début du nom officiel,False,05117000,"Mülheim an der Ruhr, Stadt",05,Nordrhein-Westfalen,6.88505,51.428107
+mediamarkt,1824,muellheim-1824,muellheim,début du nom officiel,False,08315074,"Müllheim im Markgräflerland, Stadt",08,Baden-Württemberg,7.630871,47.808248
+mediamarkt,415,muenchen-euroindustriepark-415,muenchen-euroindustriepark,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,496,muenchen-haidhausen-496,muenchen-haidhausen,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,11,muenchen-oez-11,muenchen-oez,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,482,muenchen-pasing-482,muenchen-pasing,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,13,muenchen-pep-13,muenchen-pep,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,461,muenchen-solln-461,muenchen-solln,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,1865,muenchen-unterfoehring-1865,muenchen-unterfoehring,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,507,muenster-507,muenster,nom exact,False,05515000,"Münster, Stadt",05,Nordrhein-Westfalen,7.626804,51.961908
+mediamarkt,223,muenster-in-den-arkaden-223,muenster-in-den-arkaden,nom exact,False,05515000,"Münster, Stadt",05,Nordrhein-Westfalen,7.626804,51.961908
+mediamarkt,55,munchen_stachus-55,munchen-stachus,table manuelle,True,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,35,mülheim_rrz-35,muelheim-rrz,début du nom officiel,False,05117000,"Mülheim an der Ruhr, Stadt",05,Nordrhein-Westfalen,6.88505,51.428107
+mediamarkt,81,münchen_riem-81,muenchen-riem,nom exact,True,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,519,nagold-519,nagold,nom exact,False,08235046,"Nagold, Stadt",08,Baden-Württemberg,8.723706,48.550906
+mediamarkt,222,neckarsulm-222,neckarsulm,nom exact,False,08125065,"Neckarsulm, Stadt",08,Baden-Württemberg,9.223944,49.190147
+mediamarkt,67,neu-isenburg-67,neu-isenburg,nom exact,True,06438009,"Neu-Isenburg, Hugenotten- und Waldenserstadt",06,Hessen,8.6953,50.054636
+mediamarkt,456,neu-ulm-456,neu-ulm,nom exact,False,09775135,"Neu-Ulm, GKSt",09,Bayern,9.998683,48.392999
+mediamarkt,500,neubrandenburg-500,neubrandenburg,nom exact,False,13071107,"Neubrandenburg, Vier-Tore-Stadt",13,Mecklenburg-Vorpommern,13.25996,53.557345
+mediamarkt,1247,neuburg-1247,neuburg,nom exact,False,13074056,Neuburg,13,Mecklenburg-Vorpommern,11.586495,53.94824
+mediamarkt,1392,neumarkt-1392,neumarkt,début du nom officiel,False,09373147,"Neumarkt i.d.OPf., GKSt",09,Bayern,11.45894,49.279417
+mediamarkt,511,neumuenster-511,neumuenster,nom exact,False,01004000,"Neumünster, Stadt",01,Schleswig-Holstein,9.988422,54.069895
+mediamarkt,99,neunkirchen-99,neunkirchen,nom exact,False,10043114,"Neunkirchen, Kreisstadt",10,Saarland,7.178148,49.345482
+mediamarkt,376,neuss-376,neuss,nom exact,False,05162024,"Neuss, Stadt",05,Nordrhein-Westfalen,6.691409,51.198873
+mediamarkt,307,neuss_rheinpark_center-307,neuss-rheinpark-center,nom exact,False,05162024,"Neuss, Stadt",05,Nordrhein-Westfalen,6.691409,51.198873
+mediamarkt,268,neustadt-268,neustadt,nom exact,False,06534016,"Neustadt (Hessen), Stadt",06,Hessen,9.114982,50.852589
+mediamarkt,1173,neutraubling-1173,neutraubling,nom exact,False,09375174,"Neutraubling, St",09,Bayern,12.200936,48.990294
+mediamarkt,540,neuwied-540,neuwied,nom exact,False,07138045,"Neuwied, Stadt",07,Rheinland-Pfalz,7.459692,50.429018
+mediamarkt,590,nienburg-590,nienburg,nom exact,False,03256022,"Nienburg (Weser), Stadt",03,Niedersachsen,9.211648,52.640859
+mediamarkt,1248,noerdlingen-1248,noerdlingen,nom exact,False,09779194,"Nördlingen, GKSt",09,Bayern,10.489272,48.85157
+mediamarkt,1330,norderstedt-1330,norderstedt,nom exact,True,01060063,"Norderstedt, Stadt",01,Schleswig-Holstein,9.996943,53.706115
+mediamarkt,1400,nordhausen-1400,nordhausen,nom exact,False,16062041,"Nordhausen, Stadt",16,Thüringen,10.791619,51.500441
+mediamarkt,516,nordhorn-516,nordhorn,nom exact,False,03456015,"Nordhorn, Stadt",03,Niedersachsen,7.071263,52.435804
+mediamarkt,6,nuernberg-city-6,nuernberg-city,nom exact,False,09564000,Nürnberg,09,Bayern,11.075269,49.450938
+mediamarkt,407,nuernberg-kleinreuth-407,nuernberg-kleinreuth,nom exact,False,09564000,Nürnberg,09,Bayern,11.075269,49.450938
+mediamarkt,493,nuernberg-langwasser-493,nuernberg-langwasser,nom exact,False,09564000,Nürnberg,09,Bayern,11.075269,49.450938
+mediamarkt,575,nuernberg-schoppershof-575,nuernberg-schoppershof,nom exact,False,09564000,Nürnberg,09,Bayern,11.075269,49.450938
+mediamarkt,533,nuertingen-533,nuertingen,nom exact,False,08116049,"Nürtingen, Stadt",08,Baden-Württemberg,9.343281,48.625847
+mediamarkt,95,oberhausen-95,oberhausen,nom exact,False,05119000,"Oberhausen, Stadt",05,Nordrhein-Westfalen,6.852291,51.470317
+mediamarkt,1375,offenbach-ring-center-1375,offenbach-ring-center,début du nom officiel,False,06413000,"Offenbach am Main, Stadt",06,Hessen,8.764442,50.105567
+mediamarkt,494,offenburg-494,offenburg,nom exact,False,08317096,"Offenburg, Stadt",08,Baden-Württemberg,7.944214,48.469474
+mediamarkt,536,oldenburg-536,oldenburg,nom exact,False,03403000,"Oldenburg (Oldb), Stadt",03,Niedersachsen,8.212993,53.140025
+mediamarkt,88,osnabrueck-city-88,osnabrueck-city,nom exact,False,03404000,"Osnabrück, Stadt",03,Niedersachsen,8.04205,52.27692
+mediamarkt,427,paderborn-427,paderborn,nom exact,False,05774032,"Paderborn, Stadt",05,Nordrhein-Westfalen,8.757301,51.719601
+mediamarkt,280,papenburg-280,papenburg,nom exact,False,03454041,"Papenburg, Stadt",03,Niedersachsen,7.393067,53.078104
+mediamarkt,417,passau-417,passau,nom exact,False,09262000,Passau,09,Bayern,13.458449,48.572926
+mediamarkt,261,peine-261,peine,nom exact,False,03157006,"Peine, Stadt",03,Niedersachsen,10.227076,52.321764
+mediamarkt,444,pforzheim-444,pforzheim,nom exact,False,08231000,"Pforzheim, Stadt",08,Baden-Württemberg,8.699166,48.891285
+mediamarkt,22,pforzheim-an-der-karlsruher-straße-22,pforzheim-an-der-karlsruher-strasse,nom exact,False,08231000,"Pforzheim, Stadt",08,Baden-Württemberg,8.699166,48.891285
+mediamarkt,6087,pfungstadt-6087,pfungstadt,nom exact,False,06432018,"Pfungstadt, Stadt",06,Hessen,8.597771,49.801774
+mediamarkt,443,pirmasens-443,pirmasens,nom exact,False,07317000,"Pirmasens, Stadt",07,Rheinland-Pfalz,7.606009,49.19945
+mediamarkt,486,plauen-486,plauen,nom exact,False,14523320,"Plauen, Stadt, Hochschulstadt",14,Sachsen,12.135285,50.496039
+mediamarkt,445,porta-westfalica-445,porta-westfalica,nom exact,False,05770032,"Porta Westfalica, Stadt",05,Nordrhein-Westfalen,8.914539,52.22962
+mediamarkt,470,potsdam-470,potsdam,nom exact,False,12054000,"Potsdam, Stadt",12,Brandenburg,13.05358,52.400355
+mediamarkt,1289,potsdam-city-1289,potsdam-city,nom exact,False,12054000,"Potsdam, Stadt",12,Brandenburg,13.05358,52.400355
+mediamarkt,473,ravensburg-473,ravensburg,nom exact,False,08436064,"Ravensburg, Stadt",08,Baden-Württemberg,9.615089,47.78366
+mediamarkt,453,recklinghausen-453,recklinghausen,nom exact,False,05562032,"Recklinghausen, Stadt",05,Nordrhein-Westfalen,7.197544,51.614576
+mediamarkt,401,regensburg-401,regensburg,nom exact,False,09362000,Regensburg,09,Bayern,12.101745,49.015249
+mediamarkt,78,regensburg_im_donaueinkaufszentru-78,regensburg-im-donaueinkaufszentru,nom exact,False,09362000,Regensburg,09,Bayern,12.101745,49.015249
+mediamarkt,16,remscheid-16,remscheid,nom exact,False,05120000,"Remscheid, Stadt",05,Nordrhein-Westfalen,7.194356,51.179878
+mediamarkt,1253,rendsburg-1253,rendsburg,nom exact,False,01058135,"Rendsburg, Stadt",01,Schleswig-Holstein,9.663206,54.306495
+mediamarkt,422,reutlingen-422,reutlingen,nom exact,False,08415061,"Reutlingen, Stadt",08,Baden-Württemberg,9.212006,48.49208
+mediamarkt,29,reutlingen-betzingen-29,reutlingen-betzingen,nom exact,True,08415061,"Reutlingen, Stadt",08,Baden-Württemberg,9.212006,48.49208
+mediamarkt,560,rheine-560,rheine,nom exact,False,05566076,"Rheine, Stadt",05,Nordrhein-Westfalen,7.438651,52.279214
+mediamarkt,1189,riesa-1189,riesa,nom exact,False,14627230,"Riesa, Stadt",14,Sachsen,13.304633,51.30251
+mediamarkt,436,rosenheim-436,rosenheim,nom exact,False,09163000,Rosenheim,09,Bayern,12.128932,47.856358
+mediamarkt,565,rostock-brinckmansdorf-565,rostock-brinckmansdorf,nom exact,False,13003000,"Rostock, Hanse- und Universitätsstadt",13,Mecklenburg-Vorpommern,12.135993,54.088548
+mediamarkt,72,rostock-city-72,rostock-city,nom exact,False,13003000,"Rostock, Hanse- und Universitätsstadt",13,Mecklenburg-Vorpommern,12.135993,54.088548
+mediamarkt,429,rostock-sievershagen-429,rostock-sievershagen,nom exact,False,13003000,"Rostock, Hanse- und Universitätsstadt",13,Mecklenburg-Vorpommern,12.135993,54.088548
+mediamarkt,573,saarbruecken-auf-den-saarterrassen-573,saarbruecken-auf-den-saarterrassen,nom exact,False,10041100,"Saarbrücken, Landeshauptstadt",10,Saarland,6.995542,49.236608
+mediamarkt,458,saarbruecken-saarbasar-458,saarbruecken-saarbasar,nom exact,False,10041100,"Saarbrücken, Landeshauptstadt",10,Saarland,6.995542,49.236608
+mediamarkt,253,saarlouis-253,saarlouis,nom exact,False,10044115,"Saarlouis, Kreisstadt",10,Saarland,6.75122,49.31506
+mediamarkt,1443,salzgitter-1443,salzgitter,nom exact,False,03102000,"Salzgitter, Stadt",03,Niedersachsen,10.329208,52.153574
+mediamarkt,302,sankt-augustin-302,sankt-augustin,nom exact,False,05382056,"Sankt Augustin, Stadt",05,Nordrhein-Westfalen,7.185259,50.77333
+mediamarkt,522,schorndorf-522,schorndorf,nom exact,False,08119067,"Schorndorf, Stadt",08,Baden-Württemberg,9.528152,48.805051
+mediamarkt,1201,schwabach-1201,schwabach,nom exact,False,09565000,Schwabach,09,Bayern,11.024451,49.328888
+mediamarkt,517,schwaebisch-gmuend-517,schwaebisch-gmuend,nom exact,False,08136065,"Schwäbisch Gmünd, Stadt",08,Baden-Württemberg,9.796508,48.802384
+mediamarkt,523,schwaebisch_hall-523,schwaebisch-hall,nom exact,False,08127076,"Schwäbisch Hall, Stadt",08,Baden-Württemberg,9.735145,49.112856
+mediamarkt,478,schwedt-478,schwedt,début du nom officiel,False,12073532,"Schwedt/Oder, Stadt",12,Brandenburg,14.287861,53.055494
+mediamarkt,487,schweinfurt-487,schweinfurt,nom exact,False,09662000,Schweinfurt,09,Bayern,10.230301,50.045505
+mediamarkt,1787,schweinfurt-city-1787,schweinfurt-city,nom exact,False,09662000,Schweinfurt,09,Bayern,10.230301,50.045505
+mediamarkt,501,schwerin-501,schwerin,nom exact,False,13004000,"Schwerin, Landeshauptstadt",13,Mecklenburg-Vorpommern,11.414434,53.628545
+mediamarkt,623,senden-623,senden,nom exact,False,09775152,"Senden, St",09,Bayern,10.04419,48.323834
+mediamarkt,312,siegen_city_galerie-312,siegen-city-galerie,nom exact,False,05970040,"Siegen, Universitätsstadt",05,Nordrhein-Westfalen,8.024625,50.874559
+mediamarkt,479,sindelfingen-479,sindelfingen,nom exact,False,08115045,"Sindelfingen, Stadt",08,Baden-Württemberg,9.002211,48.709831
+mediamarkt,566,singen-566,singen,nom exact,False,08335075,"Singen (Hohentwiel), Stadt",08,Baden-Württemberg,8.835117,47.759711
+mediamarkt,531,sinsheim-531,sinsheim,nom exact,False,08226085,"Sinsheim, Stadt",08,Baden-Württemberg,8.878701,49.252996
+mediamarkt,6220,smart-hamburg-6220,hamburg,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,6217,smart-koeln-ehrenstrasse-6217,koeln-ehrenstrasse,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,209,smart-saarbruecken-europa-galerie-209,saarbruecken-europa-galerie,nom exact,False,10041100,"Saarbrücken, Landeshauptstadt",10,Saarland,6.995542,49.236608
+mediamarkt,6221,smart_heidelberg_hauptstrasse-6221,heidelberg-hauptstrasse,nom exact,False,08221000,"Heidelberg, Stadt",08,Baden-Württemberg,8.705543,49.410524
+mediamarkt,6219,smart_leipzig_mitte-6219,leipzig-mitte,nom exact,False,14713000,"Leipzig, Stadt",14,Sachsen,12.377931,51.338288
+mediamarkt,6218,smart_muenchen_tal-6218,muenchen-tal,nom exact,False,09162000,"München, Landeshauptstadt",09,Bayern,11.575997,48.137683
+mediamarkt,42,solingen-42,solingen,nom exact,False,05122000,"Solingen, Klingenstadt",05,Nordrhein-Westfalen,7.085665,51.171718
+mediamarkt,580,speyer-580,speyer,nom exact,False,07318000,"Speyer, Stadt",07,Rheinland-Pfalz,8.436572,49.316172
+mediamarkt,189,stade-189,stade,nom exact,False,03359038,"Stade, Hansestadt",03,Niedersachsen,9.475977,53.601302
+mediamarkt,383,stadtgalerie-passau-383,passau,nom exact,False,09262000,Passau,09,Bayern,13.458449,48.572926
+mediamarkt,1212,stadthagen-1212,stadthagen,nom exact,False,03257035,"Stadthagen, Stadt",03,Niedersachsen,9.205815,52.323705
+mediamarkt,490,stralsund-490,stralsund,nom exact,False,13073088,"Stralsund, Hansestadt",13,Mecklenburg-Vorpommern,13.089973,54.313975
+mediamarkt,437,straubing-437,straubing,nom exact,False,09263000,Straubing,09,Bayern,12.56951,48.881802
+mediamarkt,537,stuhr-537,stuhr,nom exact,False,03251037,Stuhr,03,Niedersachsen,8.750247,53.028414
+mediamarkt,402,stuttgart-feuerbach-402,stuttgart-feuerbach,nom exact,False,08111000,"Stuttgart, Landeshauptstadt",08,Baden-Württemberg,9.177734,48.775817
+mediamarkt,214,stuttgart-konigstrasse-214,stuttgart-konigstrasse,nom exact,False,08111000,"Stuttgart, Landeshauptstadt",08,Baden-Württemberg,9.177734,48.775817
+mediamarkt,1350,stuttgart-milaneo-1350,stuttgart-milaneo,nom exact,False,08111000,"Stuttgart, Landeshauptstadt",08,Baden-Württemberg,9.177734,48.775817
+mediamarkt,40,tech-village-hamburg-40,hamburg,nom exact,False,02000000,"Hamburg, Freie und Hansestadt",02,Hamburg,9.99697,53.550678
+mediamarkt,310,tech_village_köln-310,koeln,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107
+mediamarkt,265,traunreut-265,traunreut,nom exact,False,09189154,"Traunreut, St",09,Bayern,12.593399,47.961596
+mediamarkt,586,traunstein-586,traunstein,nom exact,False,09189155,"Traunstein, GKSt",09,Bayern,12.647604,47.868787
+mediamarkt,554,trier-554,trier,nom exact,False,07211000,"Trier, Stadt",07,Rheinland-Pfalz,6.638021,49.757603
+mediamarkt,75,tuebingen-75,tuebingen,nom exact,False,08416041,"Tübingen, Universitätsstadt",08,Baden-Württemberg,9.054572,48.520863
+mediamarkt,572,ulm-572,ulm,nom exact,False,08421000,"Ulm, Universitätsstadt",08,Baden-Württemberg,9.990402,48.398454
+mediamarkt,550,velbert-550,velbert,nom exact,False,05158032,"Velbert, Stadt",05,Nordrhein-Westfalen,7.041629,51.340048
+mediamarkt,538,viernheim-538,viernheim,nom exact,False,06431020,"Viernheim, Stadt",06,Hessen,8.581954,49.537068
+mediamarkt,588,weiden-588,weiden,nom exact,False,07134091,Weiden,07,Rheinland-Pfalz,7.300302,49.807135
+mediamarkt,6243,weil-am-rhein-6243,weil-am-rhein,nom exact,False,08336091,"Weil am Rhein, Stadt",08,Baden-Württemberg,7.629579,47.594284
+mediamarkt,583,weilheim-583,weilheim,nom exact,False,08337118,Weilheim,08,Baden-Württemberg,8.24114,47.658072
+mediamarkt,212,weimar-212,weimar,nom exact,True,16055000,"Weimar, Stadt",16,Thüringen,11.329741,50.980761
+mediamarkt,1776,weinheim-1776,weinheim,nom exact,False,08226096,"Weinheim, Stadt",08,Baden-Württemberg,8.670732,49.550558
+mediamarkt,563,weiterstadt-563,weiterstadt,nom exact,False,06432023,"Weiterstadt, Stadt",06,Hessen,8.588464,49.905719
+mediamarkt,256,wetzlar-256,wetzlar,nom exact,False,06532023,"Wetzlar, Stadt",06,Hessen,8.501069,50.554439
+mediamarkt,798,wiesbaden-aeppelallee-798,wiesbaden-aeppelallee,nom exact,False,06414000,"Wiesbaden, Landeshauptstadt",06,Hessen,8.239138,50.081698
+mediamarkt,576,wiesbaden-hasengarten-576,wiesbaden-hasengarten,nom exact,False,06414000,"Wiesbaden, Landeshauptstadt",06,Hessen,8.239138,50.081698
+mediamarkt,6187,wildau-6187,wildau,nom exact,False,12061540,"Wildau, Stadt",12,Brandenburg,13.636571,52.321356
+mediamarkt,1184,wilhelmshaven-1184,wilhelmshaven,nom exact,False,03405000,"Wilhelmshaven, Stadt",03,Niedersachsen,8.111156,53.520302
+mediamarkt,411,wolfsburg-411,wolfsburg,nom exact,False,03103000,"Wolfsburg, Stadt",03,Niedersachsen,10.784975,52.421938
+mediamarkt,66,wolfsburg-city-66,wolfsburg-city,nom exact,False,03103000,"Wolfsburg, Stadt",03,Niedersachsen,10.784975,52.421938
+mediamarkt,477,worms-477,worms,nom exact,False,07319000,"Worms, Stadt",07,Rheinland-Pfalz,8.361704,49.629828
+mediamarkt,439,wuerzburg-439,wuerzburg,nom exact,False,09663000,Würzburg,09,Bayern,9.93725,49.79393
+mediamarkt,515,wuerzburg-city-515,wuerzburg-city,nom exact,False,09663000,Würzburg,09,Bayern,9.93725,49.79393
+mediamarkt,273,wuerzburg-duerrbachau-273,wuerzburg-duerrbachau,nom exact,False,09663000,Würzburg,09,Bayern,9.93725,49.79393
+mediamarkt,568,wuppertal-568,wuppertal,nom exact,False,05124000,"Wuppertal, Stadt",05,Nordrhein-Westfalen,7.195874,51.271288
+mediamarkt,203,wuppertal-city-203,wuppertal-city,nom exact,False,05124000,"Wuppertal, Stadt",05,Nordrhein-Westfalen,7.195874,51.271288
+mediamarkt,553,zella-mehlis-553,zella-mehlis,nom exact,False,16066092,"Zella-Mehlis, Stadt",16,Thüringen,10.658023,50.663357
+mediamarkt,423,zwickau-423,zwickau,nom exact,False,14524330,"Zwickau, Stadt, Hochschulstadt",14,Sachsen,12.495641,50.718556
+mediamarkt,87,zwickaucenter-87,zwickaucenter,table manuelle,False,14524330,"Zwickau, Stadt, Hochschulstadt",14,Sachsen,12.495641,50.718556
+saturn,12,berlin-alexanderplatz-12,berlin-alexanderplatz,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+saturn,217,berlin-reinickendorf-217,berlin-reinickendorf,nom exact,False,11000000,"Berlin, Stadt",11,Berlin,13.405538,52.51767
+saturn,5,bremen-5,bremen,nom exact,False,04011000,"Bremen, Stadt",04,Bremen,8.809338,53.075606
+saturn,317,duesseldorf-sevens-317,duesseldorf-sevens,nom exact,False,05111000,"Düsseldorf, Stadt",05,Nordrhein-Westfalen,6.780068,51.22422
+saturn,384,esslingen-384,esslingen,nom exact,False,07232034,Eßlingen,07,Rheinland-Pfalz,6.527107,49.914744
+saturn,58,karlsruhe-58,karlsruhe,nom exact,False,08212000,"Karlsruhe, Stadt",08,Baden-Württemberg,8.405282,49.009626
+saturn,323,koeln-porz-323,koeln-porz,nom exact,False,05315000,"Köln, Stadt",05,Nordrhein-Westfalen,6.957068,50.938107

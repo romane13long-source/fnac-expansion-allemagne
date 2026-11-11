@@ -1,0 +1,23 @@
+indicateur,pays,valeur,unite,periode,source,page,url
+fnac_magasins_total,,317,magasins,2025-12-31,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_magasins_rattaches_france,FR,219,magasins,2025-12-31,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_magasins_rattaches_france_a_l_etranger,FR,14,magasins,2025-12-31,Fnac Darty - Document d'enregistrement universel 2025 (note 1),39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_ouvertures_france,FR,1,magasins,2025,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_fermetures_france,FR,15,magasins,2025,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_taux_marge_brute,,28.0,%,2025,Fnac Darty - Document d'enregistrement universel 2025,33,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+ceconomy_ventes_allemagne,DE,9567,M EUR,2024/25,CECONOMY - Annual Report 2024/25,109,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_ventes_allemagne_n1,DE,9547,M EUR,2023/24,CECONOMY - Annual Report 2024/25,109,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+mediamarkt_magasins_allemagne,DE,344,magasins,2025-09-30,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+saturn_magasins_allemagne,DE,59,magasins,2025-09-30,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_part_ventes_it_mobile,,46,%,2024/25,CECONOMY - Annual Report 2024/25 (groupe),63,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_participation_fnac_darty,,22,%,2024/25,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+tva_taux_normal,DE,19,%,consulté 2026-11-11,Commission européenne - Your Europe,,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+tva_taux_normal,FR,20,%,consulté 2026-11-11,Commission européenne - Your Europe,,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+tva_taux_reduit,DE,7,%,consulté 2026-11-11,Commission européenne - Your Europe,,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+tva_taux_reduit_le_plus_bas,FR,5.5,%,consulté 2026-11-11,"Commission européenne - Your Europe (hors taux super-réduit 2,1 %)",,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+fnacdarty_ca_france,FR,6068.9,M EUR,2025,Fnac Darty - Document d'enregistrement universel 2025,32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_produits_techniques,,49.0,%,2025,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_produits_editoriaux,,13.3,%,2025,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_electromenager,,24.3,%,2025,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+droits_douane_intra_ue,DE,0,%,consulté 2026-11-11,EUR-Lex - Traité sur le fonctionnement de l'UE (art. 28 et 30),,https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM:customs_union
+loyer_reference_centre_ville,DE,115,"EUR/m2 de surface de vente par mois (unité de temps déduite, non écrite)",2024,"IHK Region Stuttgart - Mietpreisumfrage Einzelhandel 2024 (Bestandsmieten, City)",,https://www.ihk.de/stuttgart/branchen/handel/zahlen-und-fakten/mietpreisumfrage-einzelhandel-2024-6201604
