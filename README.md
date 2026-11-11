@@ -48,14 +48,20 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 *À venir : une source fiable par sujet, avec la justification de chacune.*
 
 ```
-data/manual/   Chiffres relevés à la main dans des documents officiels (source + page), versionnés
-data/raw/      Bronze : données téléchargées par les scripts, jamais modifiées (non versionné)
-data/silver/   Silver : données nettoyées, un fichier par source (non versionné)
-data/gold/     Gold   : modèle en étoile + KPI (non versionné)
+data/manual/   Chiffres relevés à la main dans des documents officiels (source + page)
+data/raw/      Bronze : données téléchargées par les scripts, jamais modifiées
+data/silver/   Silver : données nettoyées, un fichier par source
+data/gold/     Gold   : modèle en étoile + KPI
 src/collect/   Un script de téléchargement par source
 src/clean/     Un script de nettoyage par source
 docs/          Livrables : dashboard, slides, images
 ```
+
+Les données Bronze et Silver sont versionnées : le dépôt garde une copie figée de ce qui a été téléchargé, même si la source est mise à jour ensuite. Eurostat a, par exemple, publié une révision le 10/11/2026. Pour tout régénérer : `python run_pipeline.py`.
+
+**Licences des données réutilisées**
+- Eurostat : © Union européenne, 1995-2026, licence [CC BY 4.0](https://ec.europa.eu/eurostat/help/copyright-notice). Données transformées par l'équipe : dépliage du format JSON-stat et sélection DE / FR.
+- Statistisches Bundesamt (Destatis), *Gemeindeverzeichnis 31.12.2025*, licence [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0). Données transformées par l'équipe : sélection des communes, conversion des coordonnées, retrait des zones sans habitants.
 
 ## 4. Plan d'organisation & roadmap
 

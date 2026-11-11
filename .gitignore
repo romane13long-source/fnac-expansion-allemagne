@@ -1,7 +1,3 @@
 .venv/
 __pycache__/
 .DS_Store
-# Données téléchargées ou générées : on les recrée avec les scripts
-data/raw/
-data/silver/
-data/gold/
