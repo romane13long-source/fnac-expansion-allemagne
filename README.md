@@ -190,7 +190,48 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 
 ## 3. Architecture & choix des sources
 
-*À venir : une source fiable par sujet, avec la justification de chacune.*
+### 3.1 Architecture
+
+Le pipeline suit les couches vues en cours : on ne modifie jamais la donnée brute, chaque étape produit une nouvelle table.
+
+```
+ SOURCES                 BRONZE (data/raw)          SILVER (data/silver)        GOLD (data/gold)
+ API Eurostat     ──►  JSON bruts         ──►  marche, prix, population  ──┐
+ Destatis (xlsx)  ──►  fichier communes   ──►  communes                    ├──►  4 tables de faits
+ Plans de site    ──►  sitemaps XML       ──►  magasins_concurrents        │    + 6 dimensions
+ Rapports (PDF)   ──►  data/manual (CSV)  ──►  sources_officielles        ──┘    → KPI → dashboard + IA
+             src/collect/*.py          src/clean/*.py (contrôles)
+```
+
+Chaque script de nettoyage **s'arrête** si une règle est violée : doublon de clé, valeur négative, coordonnée hors d'Allemagne, chiffre sans source.
+
+### 3.2 Une source par sujet
+
+Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres différents pour la même chose.
+
+| Sujet | Source retenue | Type | Pourquoi elle est fiable et pertinente | Limite connue |
+|---|---|---|---|---|
+| Marché | Eurostat `nama_10_cp18` (dépenses des ménages, COICOP 2018) | API open data | Office statistique de l'UE : même définition pour DE et FR, séries jusqu'en 2025 | Valeurs récentes « provisoires » |
+| Prix | Eurostat `prc_ppp_ind_1` (indices de niveau des prix) | API open data | Même nomenclature que le marché : les chiffres se comparent directement | Pas d'indice pour les livres seuls |
+| Population | Eurostat `demo_pjan` | API open data | Même producteur que le marché | Valeurs récentes « provisoires » |
+| Communes allemandes | Destatis, *Gemeindeverzeichnis* 31.12.2025 | Fichier open data | Office statistique allemand : code officiel, population, coordonnées | Coordonnées du centre de la commune |
+| Magasins du concurrent | Plans de site mediamarkt.de et saturn.de | Scraper (fichiers publiés pour les robots, robots.txt respecté) | Seule liste publique complète. Recoupée avec le rapport annuel : 394 magasins trouvés contre 403 publiés | 2 % d'écart ; conditions d'utilisation des sites non lues |
+| Chiffres du concurrent | CECONOMY, *Annual Report 2024/25* | Rapport officiel | Comptes publiés d'une société cotée | Ventes Allemagne avec l'électroménager ; exercice clos au 30/09 |
+| Chiffres de la Fnac | Fnac Darty, *Document d'enregistrement universel 2025* (déposé à l'AMF) | Rapport officiel | Document réglementaire d'une société cotée | La Fnac seule n'est pas publiée : chiffres du groupe |
+| TVA | Commission européenne, *Your Europe* | Page officielle | Taux publiés par la Commission | Page possiblement pas à jour |
+| Droits de douane | EUR-Lex, TFUE art. 28 et 30 | Texte de loi | Interdiction des droits de douane entre pays de l'UE | — |
+| Réglementation du livre | *Buchpreisbindungsgesetz*, § 3 (gesetze-im-internet.de) | Texte de loi | Prix du livre fixé par la loi | — |
+| Loyer commercial | IHK Region Stuttgart, enquête 2024 | Enquête d'une chambre de commerce | Seule donnée publique accessible | **Hypothèse** : une seule ville, unité de temps (mois) déduite |
+| Hub logistique | Communiqué Fnac Darty (Chilly-Mazarin) + API Découpage administratif (geo.api.gouv.fr) | Officiel | Seul site logistique confirmé publiquement | Les 7 autres plateformes ne sont pas publiées |
+| Part du catalogue éligible | — | **Base interne simulée** | Aucune donnée publique | Simulée et signalée comme telle |
+
+**Sources écartées, et pourquoi**
+- OpenStreetMap : ses serveurs n'ont pas répondu (5 essais, 2 serveurs).
+- Chiffres GfK (marché français par rayon, cités par Fnac Darty) : ils auraient contredit Eurostat, la source déjà choisie pour le marché.
+- Baromètre national des loyers de l'IVD : payant.
+- Thalia (livres) et comparaison des 27 pays de l'UE : hors du guide des KPI, qui parle d'« un concurrent » et de « pays cible vs France ».
+
+### 3.3 Organisation des fichiers
 
 ```
 data/manual/   Chiffres relevés à la main dans des documents officiels (source + page)
@@ -210,11 +251,54 @@ Les données Bronze et Silver sont versionnées : le dépôt garde une copie fig
 
 ## 4. Plan d'organisation & roadmap
 
-*À venir.*
+### Répartition des rôles
+
+Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte, et d'une partie transverse.
+
+| Membre | KPI | Partie transverse |
+|---|---|---|
+| Romane LONG | Prix & marges ; délai de retour sur investissement (synthèse Go / No-Go) | Modèle de données (Gold), README, intégration Git |
+| Samantha ASDRUBAL | Marché & potentiel : croissance, part de marché en France, pénétration | Pipeline de collecte, brique IA, stack technique |
+| Arquam EL MEZOUARI EL GLAOUI | Concurrence ; réseau & implantation ; logistique & taxes | Recherche documentaire, choix des sources |
+| Elena KERVENNIC | Assortiment (% du catalogue éligible) | Dashboard, slides de l'oral |
+
+### Méthodologie
+
+- **Les 5 étapes du cours** : compréhension métier (question du Comex, KPI) → compréhension des données (sources, fiabilité) → préparation (Bronze → Silver) → modélisation (Gold, étoile / flocon) → dataviz & déploiement.
+- **Git** : une branche `feature/*` par chantier, fusionnée dans `develop` pour tester le pipeline complet, puis dans `main` une fois validée.
+- **Règles d'équipe** : une source par sujet ; tout chiffre a sa source et sa page ; toute hypothèse est écrite comme telle.
+
+### Roadmap
+
+| Quand | Étapes | État |
+|---|---|---|
+| Mer. 11/11 | Cadrage, choix du pays, KPI, sources, collecte, nettoyage, modèle de données, dictionnaire | ✅ |
+| Jeu. 12/11, après-midi | Gold, calcul des KPI, dashboard, brique IA, fin du README | ⬜ |
+| Ven. 13/11 | Slides, répétition de l'oral, rendu à 15h | ⬜ |
+
+### Next Steps (recommandations post-étude)
+
+*À compléter après la décision Go / No-Go.*
 
 ## 5. Stack technique
 
-*À venir.*
+| Étape | Outil |
+|---|---|
+| Langage | Python 3.15 |
+| Collecte | `urllib` (bibliothèque standard), en HTTPS avec vérification des certificats (`certifi`) |
+| Nettoyage et modélisation | `pandas` 3.1.1 ; `openpyxl` 3.1.5 pour lire le fichier Excel de Destatis |
+| Schémas | `matplotlib` 3.11.2 |
+| Versionnement et collaboration | Git et GitHub (branches `feature/*` → `develop` → `main`) |
+| Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main) |
+| Restitution et brique IA | *à compléter* |
+
+Installation et lancement :
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python run_pipeline.py      # collecte + nettoyage
+.venv/bin/python src/make_schemas.py  # schémas du README
+```
 
 ---
 
