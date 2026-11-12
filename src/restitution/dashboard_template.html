@@ -121,6 +121,8 @@
 
 <script>
 const D = /*__DATA__*/null;
+// Commentaires rédigés par Claude (claude -p) pour chaque onglet × combinaison de filtres, chiffres contrôlés
+const AI_PRE = /*__AI_PRE__*/{};
 const L = D.last;
 const CAT = { TECH: "produits techniques", LIVRES: "livres, presse, papeterie" };
 const nf = (v, d = 1) => new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(v);
@@ -476,7 +478,7 @@ function pageDefinitions() {
 function pageMethode() {
   return { phrase: "Les données sont publiques et collectées par script ; l'IA ne calcule rien : elle commente, en direct, les chiffres déjà calculés, et chaque nombre qu'elle écrit est vérifié.", tiles: [],
     body: `<div class="grid2">${card("Comment l'IA est utilisée", "Brique « Commentaires & synthèse IA » (slide 5 du sujet).",
-      `<ol><li>Chaque onglet calcule ses chiffres en direct (selon les filtres).</li><li>Il envoie à Claude <b>uniquement ces chiffres</b> + une consigne courte (2 à 3 phrases pour un décideur, aucun nouveau chiffre).</li><li>Claude rédige 2 à 3 phrases pour un décideur, en direct : rien n'est écrit à l'avance.</li><li>La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.</li><li>Sur ce lien public, Claude n'est pas appelé (pas de clé d'API payante) : la page affiche un texte calculé sans IA, signalé comme tel. Ouverte dans claude.ai, la même page appelle Claude en direct.</li></ol>
+      `<ol><li>Chaque onglet calcule ses chiffres en direct (selon les filtres).</li><li>Il envoie à Claude <b>uniquement ces chiffres</b> + une consigne courte (2 à 3 phrases pour un décideur, aucun nouveau chiffre).</li><li>Claude rédige 2 à 3 phrases pour un décideur, en direct : rien n'est écrit à l'avance.</li><li>La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.</li><li>Pour chaque onglet et chaque combinaison de filtres (109 au total), Claude a rédigé le commentaire à partir de ces chiffres ; changer un filtre affiche le commentaire correspondant.</li></ol>
       <p class="note">Pourquoi ce choix : l'IA est bonne pour rédiger, pas pour calculer. Les calculs restent dans le code (traçables), l'IA les explique.</p>`, "page claude.ai, capacité « sample » (Claude appelé depuis la page)")}
       ${card("Comment les données ont été collectées", "Pipeline Bronze → Silver → Gold (run_pipeline.py), relançable.",
       `<ul><li><b>API Eurostat</b> : dépenses des ménages, prix, population (téléchargement automatique).</li><li><b>Destatis</b> : fichier officiel des 10 753 communes allemandes.</li><li><b>Scraping MediaMarkt / Saturn</b> : nous avons lu les <i>plans de site</i> (fichiers XML publiés exprès pour les robots, robots.txt respecté), qui listent l'adresse de chaque magasin ; chaque magasin a été rattaché à sa commune (394 trouvés contre 403 publiés). 5 rattachements ambigus (villes homonymes) corrigés à la main.</li><li><b>Rapports officiels</b> (Fnac Darty, CECONOMY) : chiffres relevés à la main avec la page.</li></ul>`, "README § 3 du repo")}</div>`,
@@ -513,7 +515,13 @@ async function renderAI(page, built, force = false) {
   txt.textContent = "Claude rédige le commentaire…"; meta.textContent = "";
   const sample = await getSample();
   if (myCtl !== aiController) return;
-  if (!sample) { document.getElementById("ai-regen").hidden = true; txt.textContent = built.phrase; meta.textContent = "Sur ce lien public, Claude n'est pas appelé (il faudrait une clé d'API payante) : ce texte est calculé sans IA, à partir des mêmes chiffres que ceux envoyés à Claude."; return; }
+  if (!sample) {
+    document.getElementById("ai-regen").hidden = true;
+    const pre = AI_PRE[state.tab + "|" + page.f.map(f => state[f]).join("|")];
+    if (pre) { const chk = checkNumbers(pre, built.facts); txt.innerHTML = chk.html; meta.textContent = ""; }
+    else { txt.textContent = built.phrase; meta.textContent = ""; }
+    return;
+  }
   try {
     const res = await sample(prompt, { signal: myCtl.signal, modelTier: "quick", cache: !force, onText: ({ text }) => { if (myCtl === aiController) txt.textContent = text; } });
     if (myCtl !== aiController) return;

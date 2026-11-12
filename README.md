@@ -403,6 +403,8 @@ Réponses préparées aux questions du jury : `docs/questions_jury.md`.
 4. La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.
 5. Hors de claude.ai (fichier ouvert en local), ou si l'accès à Claude est refusé, un texte calculé sans IA s'affiche, signalé comme tel.
 
+**Sur le lien public** (pas de clé d'API), `src/ai/commentaires_par_filtre.py` fait rédiger à l'avance par Claude (`claude -p`) un commentaire pour chaque onglet × combinaison de filtres (109), à partir des chiffres exacts de la page ; chaque nombre est contrôlé, et le commentaire affiché change avec les filtres.
+
 Pour les slides (fichier statique), `src/ai/synthese.py` et `src/ai/commentaires_dashboard.py` appellent `claude -p` au moment de générer le PowerPoint ; leurs textes sont produits localement et ne sont pas versionnés.
 
 ### 5.3 Installation et lancement

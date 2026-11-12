@@ -15,6 +15,7 @@
   .slide { position: absolute; inset: 0; background: var(--bg); padding: 56px 72px 48px; display: none; flex-direction: column; overflow: hidden; }
   .slide.on { display: flex; }
   .slide.center { justify-content: center; }
+  .slide.mid > .rule + * { margin-top: auto; } .slide.mid .src { margin-top: auto; }
   .kicker { font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   h1 { font-size: 44px; line-height: 1.12; font-weight: 800; margin-top: 10px; max-width: 1350px; }
   h1 + .rule { width: 90px; height: 6px; background: var(--de); border-radius: 3px; margin: 16px 0 26px; }
@@ -88,7 +89,7 @@ const nf = (v, d = 1) => new Intl.NumberFormat("fr-FR", { maximumFractionDigits:
 const sg = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + nf(Math.abs(v), d);
 const PDV = Object.fromEntries(D.concurrents.map(k => [k.enseigne, k.pdv]));
 let step = 0;
-const IN = () => `data-in style="animation-delay:${(step++) * 140}ms"`;
+const IN = () => `data-in data-d="${(step++) * 140}"`;  // le délai est posé en JS : les styles en ligne restent intacts
 const tile = (v, l, cls = "") => `<div class="tile ${cls}" ${IN()}><div class="v">${v}</div><div class="l">${l}</div></div>`;
 const ia = key => IA[key] ? `<div class="ia" ${IN()}><b>✦ LECTURE IA · rédigée par Claude à partir de nos KPI, chiffres vérifiés</b>${IA[key]}</div>` : "";
 const foot = () => `<div class="foot"><span>Fnac → Allemagne · Comex 2027-2029</span><span class="pg"></span></div>`;
@@ -132,12 +133,12 @@ const SLIDES = [
     <div class="team" ${IN()}>Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL</div>
     <div class="school" ${IN()}>Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne de la Fnac</div>`, "cover",
    "0:00 → 0:15 · Romane — Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? On a construit toute la chaîne de données pour y répondre ; notre décision arrive à la fin."],
-  [() => head("1 · L'entreprise et le pays cible", "Une Fnac qui rétrécit en France,<br>un marché allemand qui grandit") +
-    `<div class="row c3">${tile(D.x_magasins_fr, "magasins Fnac en France fin 2025 · 1 ouverture, 15 fermetures dans l'année")}
+  [() => head("1 · L'entreprise et le pays cible", "La Fnac recule en France,<br>le marché allemand grandit") +
+    `<div class="row c3" style="flex:none">${tile(D.x_magasins_fr, "magasins Fnac en France fin 2025 · 1 ouverture, 15 fermetures dans l'année")}
       ${tile(sg(T.croissance_moy.DE) + " %/an", `croissance des dépenses tech en Allemagne 2015-${L} · France : ${sg(T.croissance_moy.FR)} %/an`, "good")}
       ${tile("0", "magasin Fnac en Allemagne, 1er marché d'Europe (83,6 M d'habitants)")}</div>
     <div class="card" ${IN()} style="margin-top:22px;font-size:21px;line-height:1.55"><b>Pourquoi l'Allemagne :</b> le plus grand marché d'Europe, aucun magasin Fnac, et son leader MediaMarkt / Saturn est déjà notre concurrent direct.</div>
-    <div class="src">Source : Document d'enregistrement universel 2025, p. 39 ; Eurostat (dépenses des ménages, population)</div>`, "",
+    <div class="src">Source : Document d'enregistrement universel 2025, p. 39 ; Eurostat (dépenses des ménages, population)</div>`, "mid",
    "0:15 → 1:00 · Romane — La Fnac compte 205 magasins en France fin 2025, après 15 fermetures. Les dépenses tech des ménages allemands progressent de 2,7 % par an depuis 2015, quand elles reculent en France. L'Allemagne est le premier marché d'Europe et la Fnac n'y a aucun magasin."],
   [() => head("2 · Base de données et cadrage · modélisation 20 pts + sources 15 pts", "Un pipeline simple, des sources officielles,<br>des chiffres traçables") +
     `<div class="row c3">
@@ -166,9 +167,8 @@ const SLIDES = [
    "4:30 → 5:15 · Elena — Premier constat : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais la place est prise : CECONOMY tient entre 17 et 38 % du marché, et deux coopératives, Expert et Euronics, ont des centaines de magasins."],
   [() => head("4 · L'analyse · prix et marges", "La France est plus chère :<br>vendre au prix allemand écrase la marge") +
     `<div class="row c2e"><div class="chart" ${IN()}><h3>Niveau des prix tech ${L}</h3><div class="sub">Moyenne de l'UE = 100</div>
-      ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "UE = 100", labelW: 190, H: 190 })}
-      <h3 style="margin-top:14px">Marge brute si l'on achète en France</h3><div class="sub">Le groupe fait 28 % (pointillé)</div>
-      ${hbars(Object.keys(T.marge).sort().map(y => ({ n: y, v: T.marge[y], c: "#d03b3b", lab: nf(T.marge[y]) + " %" })), { ref: 28, refLabel: "28 %", labelW: 110, max: 32 })}</div>
+      ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "UE = 100", labelW: 190, H: 260 })}
+      <div class="sub" style="margin-top:18px;font-size:18px;line-height:1.5">Hors taxes, un produit tech coûte <b>18 % de moins</b> en Allemagne : la Fnac doit s'aligner sur ces prix.</div></div>
       <div class="col">${tile(sg(T.indice_ht[L] - 100, 0) + " %", "prix tech allemands par rapport aux français, hors taxes : la Fnac devra vendre moins cher", "bad")}
       ${tile(nf(T.marge[L]) + " %", "de marge si on achète au prix français, contre 28 % pour le groupe · 1 − 0,72 ÷ 0,82", "bad")}
       ${tile("0 %", "de droits de douane : union douanière de l'UE ; seule la TVA change (19 % contre 20 %)", "good")}</div></div>
@@ -192,12 +192,13 @@ const SLIDES = [
     <div class="src">Source : Document d'enregistrement universel 2025 p. 30, 32, 33, 40 ; IHK Stuttgart 2024 (hypothèse) ; investissement 1 500 €/m² (hypothèse)</div>`, "",
    "6:45 → 7:30 · Romane — Trois scénarios sur quatre perdent de l'argent. Seul le scénario achats allemands et loyer maîtrisé gagne 0,45 M€ par an, soit un retour en 7,9 ans. L'encadré violet est écrit par notre brique IA : elle ne calcule rien, elle commente nos KPI, et un script vérifie chaque chiffre."],
   [() => head("4 · L'analyse · capacité financière", "Le groupe peut financer un pilote, pas un réseau") +
-    `<div class="row c2"><div class="chart" ${IN()}><h3>Les moyens du groupe face au pilote (M€)</h3><div class="sub">Chiffres publiés pour l'ensemble du groupe</div>
-      ${hbars([{ n: "Investissements prévus / an", v: F.capex_moyen_plan, c: "#a3a29c" }, { n: "Investissements 2025", v: F.investissements_operationnels, c: "#a3a29c" }, { n: "Cash-flow libre 2025", v: F.cash_flow_libre_operationnel, c: "#2a78d6" }, { n: "Résultat net 2025", v: F.resultat_net_part_groupe, c: "#d03b3b" }, { n: "Pilote (1 magasin)", v: 3.6, c: "#0c9a0c", bold: true }], { labelW: 330, fmt: v => nf(v, 1) })}</div>
-      <div class="col">${tile(nf(F.cash_flow_libre_operationnel, 0) + " M€", "de cash-flow libre en 2025 (210 M€ en 2024) : l'argent disponible après investissements")}
-      ${tile(nf(3.6 / F.cash_flow_libre_operationnel * 100, 1) + " %", "du cash-flow libre : le coût du pilote, supportable", "good")}
-      ${tile(sg(F.resultat_net_part_groupe, 1) + " M€", "de résultat net en 2025 : pas le moment d'ouvrir un réseau entier", "bad")}</div></div>
-    <div class="src">Source : Document d'enregistrement universel 2025, p. 8, 21, 30, 31, 34 ; investissement du pilote : hypothèse</div>`, "",
+    `<div class="row c2e" style="flex:none">
+      ${tile(nf(F.cash_flow_libre_operationnel, 0) + " M€", "de cash-flow libre en 2025 (210 M€ en 2024) : l'argent disponible après les investissements")}
+      ${tile(nf(3.6 / F.cash_flow_libre_operationnel * 100, 1) + " %", "du cash-flow libre : c'est ce que coûte le pilote (3,6 M€, hypothèse), supportable", "good")}
+      ${tile(nf(F.investissements_operationnels, 0) + " M€", "investis en 2025 (plan : 200 M€ par an) : le pilote en représente moins de 2 %")}
+      ${tile(sg(F.resultat_net_part_groupe, 1) + " M€", "de résultat net en 2025 : pas le moment d'ouvrir un réseau entier", "bad")}</div>
+    <div class="card" ${IN()} style="margin-top:22px;font-size:21px">Chiffres publiés pour l'ensemble du groupe (la Fnac seule n'est pas publiée).</div>
+    <div class="src">Source : Document d'enregistrement universel 2025, p. 8, 21, 30, 31, 34 ; investissement du pilote : hypothèse</div>`, "mid",
    "7:30 → 8:00 · Elena — Le groupe a dégagé 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net est négatif : on peut financer un test, pas un déploiement national."],
   [() => `<div class="flagline" style="background:var(--good)"></div><div class="kicker" ${IN()}>5 · Décision et recommandation · défense des arbitrages 15 pts</div>
     <div class="go" ${IN()} style="margin-top:24px">GO SOUS CONDITIONS</div>
@@ -219,7 +220,7 @@ const SLIDES = [
 
 /* moteur : affichage, navigation, mise à l'échelle */
 const deck = document.getElementById("deck");
-SLIDES.forEach(([f, cls], i) => { step = 0; const el = document.createElement("section"); el.className = "slide " + cls; el.innerHTML = f() + foot(); el.querySelector(".pg").textContent = String(i + 1).padStart(2, "0"); deck.appendChild(el); });
+SLIDES.forEach(([f, cls], i) => { step = 0; const el = document.createElement("section"); el.className = "slide " + cls; el.innerHTML = f() + foot(); el.querySelector(".pg").textContent = String(i + 1).padStart(2, "0"); el.querySelectorAll("[data-d]").forEach(n => { n.style.animationDelay = n.dataset.d + "ms"; }); deck.appendChild(el); });
 let cur = 0;
 const fromHash = parseInt(location.hash.slice(1), 10); if (fromHash >= 1 && fromHash <= SLIDES.length) cur = fromHash - 1;
 function show(i) {

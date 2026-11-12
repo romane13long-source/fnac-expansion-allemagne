@@ -15,7 +15,9 @@ from paths import ROOT  # noqa: E402
 HERE = Path(__file__).resolve().parent
 data = donnees.donnees()
 html = (HERE / "dashboard_template.html").read_text(encoding="utf-8")
-html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False))
+pre_path = ROOT / "data" / "gold" / "commentaires_par_filtre.json"  # produit par src/ai/commentaires_par_filtre.py
+pre = json.loads(pre_path.read_text(encoding="utf-8")) if pre_path.exists() else {}
+html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)).replace("/*__AI_PRE__*/{}", json.dumps(pre, ensure_ascii=False))
 assert "__DATA__" not in html
 (ROOT / "docs").mkdir(exist_ok=True)
 (ROOT / "docs" / "dashboard.html").write_text(html, encoding="utf-8")
