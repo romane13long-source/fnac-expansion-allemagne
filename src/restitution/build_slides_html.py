@@ -39,3 +39,13 @@ html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)).re
 assert "__DATA__" not in html and "__IA__" not in html
 (ROOT / "docs" / "slides.html").write_text(html, encoding="utf-8")
 print(f"docs/slides.html : {len(html) / 1024:.0f} Ko, {html.count(chr(10) + "  [() =>")} slides")
+
+# PDF à envoyer (une slide par page), produit par Chrome sans fenêtre à partir de la page web
+import subprocess  # noqa: E402
+
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+if Path(CHROME).exists():
+    pdf = ROOT / "docs" / "Comex_Fnac_Allemagne.pdf"
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--virtual-time-budget=5000",
+                    f"--print-to-pdf={pdf}", (ROOT / "docs" / "slides.html").as_uri()], capture_output=True, timeout=120)
+    print(f"{pdf.name} : {pdf.stat().st_size / 1024:.0f} Ko")

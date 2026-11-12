@@ -73,6 +73,15 @@
   #notes { position: fixed; left: 0; right: 0; bottom: 5px; max-height: 32vh; overflow: auto; background: rgba(15,15,14,.94); color: #f0efec; font-size: 18px; line-height: 1.5; padding: 16px 24px; display: none; z-index: 4; }
   #notes.on { display: block; } #notes b { color: #9fc4f5; }
   #help { position: fixed; right: 14px; top: 10px; color: #898781; font-size: 13px; z-index: 5; }
+  /* impression / PDF : toutes les slides l'une après l'autre, une par page, sans animation */
+  @page { size: 1600px 900px; margin: 0; }
+  @media print {
+    html, body { overflow: visible; height: auto; background: #fff; }
+    #deck { position: static; transform: none !important; width: 1600px; height: auto; }
+    .slide { display: flex !important; position: relative; width: 1600px; height: 900px; break-after: page; }
+    .slide [data-in], .slide .bar, .slide .draw { animation: none !important; opacity: 1 !important; transform: none !important; stroke-dasharray: none !important; }
+    #prog, #notes, #help { display: none !important; }
+  }
   @media (prefers-reduced-motion: reduce) { .slide.on [data-in], .slide.on .bar, .slide.on .draw { animation: none; } }
 </style>
 </head>

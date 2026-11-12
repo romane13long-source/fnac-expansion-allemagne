@@ -6,7 +6,7 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 
 **Livrables**
 - 📊 **Dashboard interactif (lien public)** : https://romane13long-source.github.io/fnac-allemagne-dashboard/
-- 🖥️ **Présentation de l'oral (page web animée)** : [`docs/slides.html`](docs/slides.html) — flèches pour naviguer, N pour les notes de l'oral, F pour le plein écran · version PowerPoint : [`docs/Comex_Fnac_Allemagne.pptx`](docs/Comex_Fnac_Allemagne.pptx) · texte de l'oral : [`docs/script_oral.md`](docs/script_oral.md)
+- 🖥️ **Présentation de l'oral** : [`docs/Comex_Fnac_Allemagne.pdf`](docs/Comex_Fnac_Allemagne.pdf) (PDF à envoyer) · version animée : [`docs/slides.html`](docs/slides.html) (flèches pour naviguer, N pour les notes, F pour le plein écran) · texte de l'oral : [`docs/script_oral.md`](docs/script_oral.md)
 - ❓ **Réponses préparées aux questions du jury** : [`docs/questions_jury.md`](docs/questions_jury.md)
 
 ---
