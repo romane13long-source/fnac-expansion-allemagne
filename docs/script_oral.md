@@ -11,7 +11,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv` et sources citées sur c
 | 3. Démarche analytique | 2 min | 4 | Romane |
 | 4. Analyse et brique IA | 3 min | 5-9 | Elena / Romane en alternance |
 | 5. Décision et recommandation | 1 min 30 | 10-11 | Romane |
-| Questions | — | annexes A-B | les deux |
+| Questions | — | annexe (slide 12) | les deux |
 
 ---
 
@@ -91,11 +91,11 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv` et sources citées sur c
 
 ---
 
-## Pour les questions (annexes et `docs/questions_jury.md`)
+## Pour les questions (annexe et `docs/questions_jury.md`)
 
-**Annexe A · Le groupe peut-il financer ?** 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net 2025 est de −145,6 millions : on peut financer un test, pas un réseau. Ces chiffres sont publiés pour l'ensemble du groupe, la Fnac seule ne l'est pas.
+**Le groupe peut-il financer ? (réponse orale, pas de slide)** 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net 2025 est de −145,6 millions : on peut financer un test, pas un réseau. Ces chiffres sont publiés pour l'ensemble du groupe, la Fnac seule ne l'est pas.
 
-**Annexe B · Nos limites.**
+**Annexe · Nos limites (slide 12).**
 - La rentabilité est un ordre de grandeur : ratios du groupe, sans montée en charge ni impôts. Selon les ventes et l'investissement, le retour va de 4,4 à 13,2 ans ; la conclusion ne change pas : il faut acheter en Allemagne et maîtriser le loyer.
 - L'investissement de 1 500 € par m² et le loyer de 115 € sont des hypothèses.
 - La part du catalogue vendable est simulée : le catalogue de la Fnac n'est pas public.
