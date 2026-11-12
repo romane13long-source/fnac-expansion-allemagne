@@ -32,4 +32,4 @@ html = (HERE / "slides_template.html").read_text(encoding="utf-8")
 html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)).replace("/*__IA__*/null", json.dumps(lectures, ensure_ascii=False))
 assert "__DATA__" not in html and "__IA__" not in html
 (ROOT / "docs" / "slides.html").write_text(html, encoding="utf-8")
-print(f"docs/slides.html : {len(html) / 1024:.0f} Ko, 12 slides")
+print(f"docs/slides.html : {len(html) / 1024:.0f} Ko, 12 slides (9 + 3 annexes)")
