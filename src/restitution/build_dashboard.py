@@ -17,6 +17,7 @@ data = donnees.donnees()
 html = (HERE / "dashboard_template.html").read_text(encoding="utf-8")
 pre_path = ROOT / "data" / "gold" / "commentaires_par_filtre.json"  # produit par src/ai/commentaires_par_filtre.py
 pre = json.loads(pre_path.read_text(encoding="utf-8")) if pre_path.exists() else {}
+pre = {k: v.replace("Köln", "Cologne") for k, v in pre.items()}  # nom français dans les commentaires affichés
 html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)).replace("/*__AI_PRE__*/{}", json.dumps(pre, ensure_ascii=False))
 assert "__DATA__" not in html
 (ROOT / "docs").mkdir(exist_ok=True)

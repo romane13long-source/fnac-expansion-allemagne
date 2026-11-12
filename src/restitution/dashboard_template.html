@@ -130,6 +130,7 @@ const sgn = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + nf(Math.abs(v), d
 const tag = t => `<span class="tag">${t}</span>`;
 const state = { tab: "accueil", ville: "Köln", cat: "TECH", achats: "locaux", loyer: "france", sim: null };
 const V = () => D.villes.find(v => v.ville === state.ville);
+const NOM = v => v === "Köln" ? "Cologne (Köln)" : v;  // nom français affiché, identifiant allemand conservé
 const scen = () => (state.achats === "france" ? (state.loyer === "ihk" ? "A" : "B") : (state.loyer === "ihk" ? "C" : "D"));
 const loyerFrance = () => D.simu.loyers_pct / 100 * D.simu.ca_magasin / D.simu.surface / 12;
 const SVGNS = "http://www.w3.org/2000/svg";
@@ -220,8 +221,8 @@ function map(svg) {
     const c = C.villes.find(x => x.nom === v.ville); if (!c) continue;
     const g = el("g", { class: "row", tabindex: 0 }, svg), sel = v.ville === state.ville;
     el("circle", { cx: px(c.lon), cy: py(c.lat), r: sel ? 14 : 9, fill: "transparent", stroke: sel ? "var(--good)" : "var(--text-primary)", "stroke-width": sel ? 3 : 1.5 }, g);
-    text(g, px(c.lon) + 16, py(c.lat) + 4, v.ville, { style: `fill:var(--text-primary);font-weight:${sel ? 700 : 500}` });
-    g.onmousemove = e => showTip(e, `<b>${v.ville}</b> (${v.land})<br>${nf(v.pop / 1e6, 2)} M hab. · ${v.magasins} magasins CECONOMY<br>${nf(v.km_hub, 0)} km du hub de Chilly-Mazarin<br>Cliquer pour choisir cette ville`);
+    text(g, px(c.lon) + 16, py(c.lat) + 4, NOM(v.ville), { style: `fill:var(--text-primary);font-weight:${sel ? 700 : 500}` });
+    g.onmousemove = e => showTip(e, `<b>${NOM(v.ville)}</b> (${v.land})<br>${nf(v.pop / 1e6, 2)} M hab. · ${v.magasins} magasins CECONOMY<br>${nf(v.km_hub, 0)} km du hub de Chilly-Mazarin<br>Cliquer pour choisir cette ville`);
     g.onmouseleave = hideTip; g.onclick = () => { state.ville = v.ville; render(); };
   }
   svg.setAttribute("role", "img"); svg.setAttribute("aria-label", `Carte : ${C.magasins.length} magasins CECONOMY ; ville sélectionnée ${state.ville}`);
@@ -245,12 +246,12 @@ function pageAccueil() {
     tiles: [tile("Marché tech allemand " + L, nf(c.depenses.DE[L] / 1000) + " Md€", `France : ${nf(c.depenses.FR[L] / 1000)} Md€`, "Ce que les ménages dépensent en informatique, téléphonie, TV, son sur un an.", "", "mesuré"),
             tile("Prix tech en Allemagne", sgn(c.indice_ht[L] - 100, 0) + " %", "par rapport à la France, hors taxes", "Un même panier de produits coûte 18 % de moins en Allemagne : la Fnac devra vendre moins cher.", "bad", "mesuré"),
             tile("Résultat d'un magasin (filtres)", sgn(m.res / 1e6, 2) + " M€/an", m.delai ? `investissement remboursé en ${nf(m.delai)} ans` : "investissement jamais remboursé", "Ce qu'il reste par an après marge, salaires et frais, et loyer (scénario choisi par les filtres Achats et Loyer).", m.res > 0 ? "ok" : "bad", "estimation"),
-            tile(`Marché de ${v.ville}`, nf(v.marche_tech) + " M€", `${nf(v.pop / 1e6, 2)} M habitants`, "Population de la ville × dépense tech moyenne d'un Allemand.", "", "estimation")],
+            tile(`Marché de ${NOM(v.ville)}`, nf(v.marche_tech) + " M€", `${nf(v.pop / 1e6, 2)} M habitants`, "Population de la ville × dépense tech moyenne d'un Allemand.", "", "estimation")],
     body: card("Comment lire ce dashboard", "Chaque onglet répond à une question du Comex, dans l'ordre du raisonnement.",
       `<table>${PAGES.slice(1, 10).map(p => `<tr class="click" data-go="${p.id}"><td><b>${p.label}</b></td><td>${p.q}</td></tr>`).join("")}</table>`, "guide des KPI du sujet (slide 7)"),
     facts: [`Marché tech ${L} : Allemagne ${nf(c.depenses.DE[L], 0)} M€, France ${nf(c.depenses.FR[L], 0)} M€`, `Indice de prix tech hors taxes Allemagne/France ${nf(c.indice_ht[L])} (France = 100)`,
             `Scénario ${scen()} (achats ${state.achats === "locaux" ? "en Allemagne" : "en France"}, loyer ${state.loyer === "ihk" ? "de référence IHK" : "au niveau français"}) : résultat ${sgn(m.res / 1e6, 2)} M€ par an, ${m.delai ? "retour en " + nf(m.delai) + " ans" : "jamais rentable"}`,
-            `Ville candidate ${v.ville} : ${nf(v.pop / 1e6, 2)} M habitants, marché tech ${nf(v.marche_tech, 0)} M€ (estimation), ${v.magasins} magasins CECONOMY, ${nf(v.km_hub, 0)} km du hub`],
+            `Ville candidate ${NOM(v.ville)} : ${nf(v.pop / 1e6, 2)} M habitants, marché tech ${nf(v.marche_tech, 0)} M€ (estimation), ${v.magasins} magasins CECONOMY, ${nf(v.km_hub, 0)} km du hub`],
   };
 }
 function pageMarche() {
@@ -261,7 +262,7 @@ function pageMarche() {
     phrase: `En ${CAT[state.cat]}, un Allemand dépense ${nf(ratio, 1)} fois plus qu'un Français (${nf(ph.DE[L], 0)} € contre ${nf(ph.FR[L], 0)} € par an), et le marché allemand grandit de ${sgn(c.croissance_moy.DE)} % par an.`,
     tiles: [tile("Croissance du marché allemand", sgn(c.croissance_moy.DE) + " %/an", `France : ${sgn(c.croissance_moy.FR)} %/an`, `Moyenne annuelle 2015-${L} des dépenses des ménages : l'Allemagne grandit, la France recule.`, c.croissance_moy.DE > 0 ? "ok" : "bad", "mesuré"),
             tile("Dépense par habitant " + L, nf(ph.DE[L], 0) + " €", `France : ${nf(ph.FR[L], 0)} € → ×${nf(ratio, 1)}`, `Dépenses du pays ÷ nombre d'habitants. Exemple : ${state.cat === "TECH" ? "un Allemand achète pour " + nf(ratio, 1) + " fois plus de tech qu'un Français" : "un Allemand dépense " + nf(ratio, 1) + " fois plus en livres, presse et papeterie"}.`, "", "mesuré"),
-            tile(`Marché de ${v.ville}`, nf(mk) + " M€", `${nf(v.part_pop, 1)} % de la population allemande`, "Population de la ville × dépense moyenne par habitant : on suppose qu'un habitant de la ville dépense comme la moyenne allemande.", "", "estimation"),
+            tile(`Marché de ${NOM(v.ville)}`, nf(mk) + " M€", `${nf(v.part_pop, 1)} % de la population allemande`, "Population de la ville × dépense moyenne par habitant : on suppose qu'un habitant de la ville dépense comme la moyenne allemande.", "", "estimation"),
             tile("Part de marché de CECONOMY", `${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, `version haute : ${nf(p24, 1)} % en 2024 → ${nf(p25, 1)} % en 2025`, "Ventes du concurrent ÷ marché tech hors TVA. Fourchette : basse = ses seules ventes tech, haute = toutes ses ventes. Elle baisse légèrement : le leader ne progresse pas.", "", "estimation")],
     body: `<div class="grid2">${card(`Dépense par habitant · ${CAT[state.cat]} (€ par an)`, "Survoler une année : valeurs et écart Allemagne / France.",
       `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`, "Eurostat nama_10_cp18 (dépenses des ménages, euros courants) ÷ Eurostat demo_pjan (population au 1er janvier)")}
@@ -272,7 +273,7 @@ function pageMarche() {
         { name: "Fnac Darty France 2025", value: D.parts.fnac_fr, label: nf(D.parts.fnac_fr, 1) + " %", color: "var(--fr)" }], { labelW: 190 });
     },
     facts: [`Catégorie ${CAT[state.cat]}`, `Dépense par habitant ${L} : Allemagne ${nf(ph.DE[L], 0)} €, France ${nf(ph.FR[L], 0)} € (×${nf(ratio, 1)})`, `Croissance annuelle moyenne 2015-${L} : Allemagne ${sgn(c.croissance_moy.DE)} %, France ${sgn(c.croissance_moy.FR)} %`,
-            `Marché estimé de ${v.ville} : ${nf(mk, 0)} M€ (${nf(v.pop / 1e6, 2)} M habitants)`, `Part de marché CECONOMY tech (haute) : ${nf(p24, 1)} % en 2024, ${nf(p25, 1)} % en 2025 ; fourchette ${nf(D.parts.cec_bas, 1)} à ${nf(D.parts.cec_haut, 1)} % (estimation)`],
+            `Marché estimé de ${NOM(v.ville)} : ${nf(mk, 0)} M€ (${nf(v.pop / 1e6, 2)} M habitants)`, `Part de marché CECONOMY tech (haute) : ${nf(p24, 1)} % en 2024, ${nf(p25, 1)} % en 2025 ; fourchette ${nf(D.parts.cec_bas, 1)} à ${nf(D.parts.cec_haut, 1)} % (estimation)`],
   };
 }
 function pagePrix() {
@@ -298,20 +299,20 @@ const pdv = name => D.concurrents.find(k => k.enseigne === name).pdv;
 function pageConcurrence() {
   const v = V();
   return {
-    phrase: `Trois réseaux de magasins sont déjà là : CECONOMY (MediaMarkt + Saturn, le leader, sources : son rapport annuel et ses sites), Expert et Euronics (chiffres de leurs sites officiels), plus Otto en ligne. À ${v.ville}, CECONOMY a ${v.magasins} magasins, soit ${nf(v.magasins_par_100k, 1)} pour 100 000 habitants.`,
+    phrase: `Trois réseaux de magasins sont déjà là : CECONOMY (MediaMarkt + Saturn, le leader, sources : son rapport annuel et ses sites), Expert et Euronics (chiffres de leurs sites officiels), plus Otto en ligne. À ${NOM(v.ville)}, CECONOMY a ${v.magasins} magasins, soit ${nf(v.magasins_par_100k, 1)} pour 100 000 habitants.`,
     tiles: [tile("CECONOMY (MediaMarkt + Saturn)", "394 magasins", `9,6 Md€ de ventes en Allemagne · ${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} % du marché tech`, "Le leader, concurrent direct de la Fnac sur la tech. Magasins comptés un par un (plans des sites).", "", "mesuré"),
             tile("Expert", "> " + nf(pdv("Expert"), 0) + " points de vente", "coopérative de magasins de proximité", "Chiffre du site officiel d'Expert (« plus de 400 sites en Allemagne »). Magasins plus petits : on ne les additionne pas à CECONOMY.", "", "mesuré"),
             tile("Euronics", "> " + nf(pdv("Euronics"), 0) + " points de vente", "coopérative, petits et moyens magasins", "Chiffre du site officiel d'Euronics Deutschland (« plus de 1 100 sites »). Le plus grand réseau en nombre, mais de petites surfaces.", "", "mesuré"),
-            tile(`CECONOMY à ${v.ville}`, `${v.magasins} magasins`, `${nf(v.magasins_par_100k, 1)} pour 100 000 hab. · ${v.land} : ${nf(v.densite_land, 1)} par million`, "Nombre de magasins du leader dans la ville, rapporté à sa population : plus c'est bas, plus il reste de la place.", "", "mesuré")],
+            tile(`CECONOMY à ${NOM(v.ville)}`, `${v.magasins} magasins`, `${nf(v.magasins_par_100k, 1)} pour 100 000 hab. · ${v.land} : ${nf(v.densite_land, 1)} par million`, "Nombre de magasins du leader dans la ville, rapporté à sa population : plus c'est bas, plus il reste de la place.", "", "mesuré")],
     body: `<div class="grid2">${card("Carte : les 394 magasins CECONOMY (points bleus) et les 7 villes candidates", "Cliquer une ville pour la choisir. Le Land de la ville choisie est foncé.", `<svg id="g1"></svg>`, "plans des sites mediamarkt.de et saturn.de (fichiers publiés pour les robots, robots.txt respecté) ; Destatis Gemeindeverzeichnis 31.12.2025")}
       ${card("Magasins CECONOMY pour 100 000 habitants, par ville candidate", "Plus la barre est courte, moins le leader est présent. Cliquer pour choisir la ville.", `<svg id="g2"></svg>`, "magasins rattachés aux communes par l'équipe ; population Destatis")}</div>`,
     draw() {
       map(document.getElementById("g1"));
-      hbar(document.getElementById("g2"), [...D.villes].sort((a, b) => a.magasins_par_100k - b.magasins_par_100k).map(x => ({ name: x.ville, value: x.magasins_par_100k, sel: x.ville === state.ville,
+      hbar(document.getElementById("g2"), [...D.villes].sort((a, b) => a.magasins_par_100k - b.magasins_par_100k).map(x => ({ name: NOM(x.ville), value: x.magasins_par_100k, sel: x.ville === state.ville,
         color: x.ville === state.ville ? "var(--de)" : "var(--neutral)", label: `${nf(x.magasins_par_100k, 2)} (${x.magasins} mag.)`, onclick: () => { state.ville = x.ville; render(); } })), { labelW: 150 });
     },
     facts: [`Concurrents en magasin : CECONOMY ${pdv("MediaMarkt + Saturn")} magasins, Expert plus de ${pdv("Expert")}, Euronics plus de ${nf(pdv("Euronics"), 0)} ; en ligne : Otto`, `Part de marché CECONOMY tech ${nf(D.parts.cec_bas, 1)} à ${nf(D.parts.cec_haut, 1)} % (estimation)`,
-            `Ville ${v.ville} : ${v.magasins} magasins CECONOMY, ${nf(v.magasins_par_100k, 2)} pour 100 000 habitants ; densité de son Land ${nf(v.densite_land, 1)} par million (moyenne nationale ${nf(D.densite_de, 1)})`],
+            `Ville ${NOM(v.ville)} : ${v.magasins} magasins CECONOMY, ${nf(v.magasins_par_100k, 2)} pour 100 000 habitants ; densité de son Land ${nf(v.densite_land, 1)} par million (moyenne nationale ${nf(D.densite_de, 1)})`],
   };
 }
 function raisonsVille(v) {
@@ -323,17 +324,17 @@ function pageVilles() {
   const v = V(), key = state.cat === "TECH" ? "marche_tech" : "marche_livres";
   const score = x => (x.km_hub <= 450) + (x.magasins_par_100k <= 0.7) + (x.pop >= 1e6);
   return {
-    phrase: `Nous comparons seulement les 7 plus grandes villes : ce sont celles qui peuvent faire vivre un magasin de 2 400 m². ${v.ville} : ${raisonsVille(v).join(", ")}.`,
-    tiles: [tile(`Population · ${v.ville}`, nf(v.pop / 1e6, 2) + " M", `${nf(v.part_pop, 1)} % du pays · Land : ${v.land}`, "Nombre d'habitants de la commune au 31/12/2025.", "", "mesuré"),
+    phrase: `Nous comparons seulement les 7 plus grandes villes : ce sont celles qui peuvent faire vivre un magasin de 2 400 m². ${NOM(v.ville)} : ${raisonsVille(v).join(", ")}.`,
+    tiles: [tile(`Population · ${NOM(v.ville)}`, nf(v.pop / 1e6, 2) + " M", `${nf(v.part_pop, 1)} % du pays · Land : ${v.land}`, "Nombre d'habitants de la commune au 31/12/2025.", "", "mesuré"),
             tile(`Marché ${state.cat === "TECH" ? "tech" : "livres"} de la ville`, nf(v[key]) + " M€", "par an", "Population × dépense moyenne d'un Allemand dans la catégorie.", "", "estimation"),
             tile("Concurrence locale", `${v.magasins} magasins CECONOMY`, `${nf(v.magasins_par_100k, 2)} pour 100 000 hab.`, "Magasins MediaMarkt + Saturn dans la commune.", v.magasins_par_100k <= 0.7 ? "ok" : "bad", "mesuré"),
             tile("Distance au hub français", nf(v.km_hub, 0) + " km", "à vol d'oiseau depuis Chilly-Mazarin", "Plus c'est court, moins la livraison coûte.", v.km_hub <= 450 ? "ok" : "bad", "mesuré")],
     body: card("Les 7 villes candidates : pourquoi s'y implanter (ou pas) ?", "Trois critères simples, chacun vaut 1 point : proche du hub (≤ 450 km), concurrence faible (≤ 0,7 magasin CECONOMY pour 100 000 hab.), grand bassin (≥ 1 million d'habitants). Cliquer une ligne pour choisir la ville.",
       `<div class="tw"><table><tr><th>Ville</th><th>Habitants</th><th>Marché ${state.cat === "TECH" ? "tech" : "livres"}</th><th>CECONOMY / 100 000 hab.</th><th>Distance hub</th><th>Score</th><th>Pourquoi</th></tr>` +
-      [...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(x => `<tr class="click ${x.ville === state.ville ? "sel" : ""}" data-ville="${x.ville}"><td>${x.ville}</td><td>${nf(x.pop / 1e6, 2)} M</td><td>${nf(x[key], 0)} M€</td><td>${nf(x.magasins_par_100k, 2)}</td><td>${nf(x.km_hub, 0)} km</td><td><b>${score(x)} / 3</b></td><td>${raisonsVille(x).join(" ; ")}</td></tr>`).join("") + `</table></div>`,
+      [...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(x => `<tr class="click ${x.ville === state.ville ? "sel" : ""}" data-ville="${NOM(x.ville)}"><td>${NOM(x.ville)}</td><td>${nf(x.pop / 1e6, 2)} M</td><td>${nf(x[key], 0)} M€</td><td>${nf(x.magasins_par_100k, 2)}</td><td>${nf(x.km_hub, 0)} km</td><td><b>${score(x)} / 3</b></td><td>${raisonsVille(x).join(" ; ")}</td></tr>`).join("") + `</table></div>`,
       "Destatis (population, coordonnées) ; magasins CECONOMY (plans des sites) ; Eurostat (dépense par habitant) ; calcul de l'équipe"),
-    facts: [`Critères : distance au hub de Chilly-Mazarin, magasins CECONOMY pour 100 000 habitants, population`, ...D.villes.map(x => `${x.ville} (${x.land}) : ${nf(x.pop / 1e6, 2)} M habitants, ${x.magasins} magasins CECONOMY (${nf(x.magasins_par_100k, 2)} pour 100 000), ${nf(x.km_hub, 0)} km du hub, marché ${state.cat === "TECH" ? "tech" : "livres"} ${nf(x[key], 0)} M€ (estimation)`),
-            `Ville sélectionnée : ${v.ville}`],
+    facts: [`Critères : distance au hub de Chilly-Mazarin, magasins CECONOMY pour 100 000 habitants, population`, ...D.villes.map(x => `${NOM(x.ville)} (${x.land}) : ${nf(x.pop / 1e6, 2)} M habitants, ${x.magasins} magasins CECONOMY (${nf(x.magasins_par_100k, 2)} pour 100 000), ${nf(x.km_hub, 0)} km du hub, marché ${state.cat === "TECH" ? "tech" : "livres"} ${nf(x[key], 0)} M€ (estimation)`),
+            `Ville sélectionnée : ${NOM(v.ville)}`],
   };
 }
 function pageLogistique() {
@@ -342,7 +343,7 @@ function pageLogistique() {
     phrase: `Livrer Cologne chaque semaine depuis la France coûterait ${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€ par an et repousserait le retour sur investissement de ${nf(D.scenarios.D.delai, 1)} à ${nf(D.transport.bas.delai, 1)}-${nf(D.transport.haut.delai, 1)} ans : la tech doit être achetée et livrée en Allemagne. Un entrepôt allemand (ex. Cologne) diviserait par ${nf(D.distance_moy / D.distance_depuis_koln, 1)} la distance moyenne aux grandes villes : à étudier si on déploie.`,
     tiles: [tile("Coût des livraisons depuis la France", `${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€/an`, `un camion par semaine ; ${nf(D.transport.bas.trajet, 0)} à ${nf(D.transport.haut.trajet, 0)} € l'aller-retour`, "Aller-retour Chilly-Mazarin → Cologne par la route (vol d'oiseau × 1,2) × coût au km d'un camion 40 t (1,45 à 1,67 €/km hors péages, calculateur privé citant le CNR : source non officielle) × 52 semaines.", "bad", "hypothèse"),
             tile("Retour sur investissement avec ce transport", `${nf(D.transport.bas.delai, 1)} à ${nf(D.transport.haut.delai, 1)} ans`, `au lieu de ${nf(D.scenarios.D.delai, 1)} ans sans camion depuis la France`, "Au-delà de notre critère d'arrêt de 8 ans. Borne haute : les coûts du groupe utilisés dans le calcul comprennent déjà une partie de la logistique.", "bad", "estimation"),
-            tile(`Distance hub → ${v.ville}`, nf(v.km_hub, 0) + " km", `depuis Cologne : ${nf(v.km_koln, 0)} km`, "À vol d'oiseau, depuis la plateforme Fnac Darty de Chilly-Mazarin (Essonne).", "", "mesuré"),
+            tile(`Distance hub → ${NOM(v.ville)}`, nf(v.km_hub, 0) + " km", `depuis Cologne : ${nf(v.km_koln, 0)} km`, "À vol d'oiseau, depuis la plateforme Fnac Darty de Chilly-Mazarin (Essonne).", "", "mesuré"),
             tile("Distance moyenne aux grandes villes", nf(D.distance_moy, 0) + " km", `avec un entrepôt à Cologne : ${nf(D.distance_depuis_koln, 0)} km (−${nf(gain, 0)} %)`, "Moyenne des distances vers les 79 villes de plus de 100 000 habitants, pondérée par leur population.", "", "mesuré"),
 ],
     body: card("Livrer depuis la France ou depuis un entrepôt allemand ?", "Distance de chaque ville candidate : depuis le hub français (bleu) et depuis un entrepôt hypothétique à Cologne (gris). Cliquer pour choisir la ville.", `<svg id="g1"></svg>`,
@@ -350,7 +351,7 @@ function pageLogistique() {
     draw() {
       const rows = [];
       for (const x of [...D.villes].sort((a, b) => a.km_hub - b.km_hub)) {
-        rows.push({ name: `${x.ville} · depuis la France`, value: x.km_hub, label: nf(x.km_hub, 0) + " km", sel: x.ville === state.ville, color: "var(--de)", onclick: () => { state.ville = x.ville; render(); } });
+        rows.push({ name: `${NOM(x.ville)} · depuis la France`, value: x.km_hub, label: nf(x.km_hub, 0) + " km", sel: x.ville === state.ville, color: "var(--de)", onclick: () => { state.ville = x.ville; render(); } });
         rows.push({ name: "depuis Cologne", value: x.km_koln, label: nf(x.km_koln, 0) + " km", sel: x.ville === state.ville, color: "var(--neutral)", onclick: () => { state.ville = x.ville; render(); } });
       }
       hbar(document.getElementById("g1"), rows, { W: 1100, labelW: 260, rowH: 22 });
@@ -358,7 +359,7 @@ function pageLogistique() {
     facts: [`Coût d'un aller-retour en camion Chilly-Mazarin - Cologne : ${nf(D.transport.bas.trajet, 0)} à ${nf(D.transport.haut.trajet, 0)} € (hypothèse, source non officielle)`, `Un camion par semaine depuis la France : ${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€ par an (hypothèse)`,
             `Retour sur investissement du magasin pilote : ${nf(D.scenarios.D.delai, 1)} ans sans ce transport, ${nf(D.transport.bas.delai, 1)} à ${nf(D.transport.haut.delai, 1)} ans avec (estimation) ; critère d'arrêt : 8 ans`,
             `Distance moyenne pondérée aux 79 villes de plus de 100 000 habitants : ${nf(D.distance_moy, 0)} km depuis le hub français, ${nf(D.distance_depuis_koln, 0)} km depuis Cologne`,
-            `${v.ville} : ${nf(v.km_hub, 0)} km du hub français, ${nf(v.km_koln, 0)} km de Cologne`, `Le pilote porte sur un seul magasin`],
+            `${NOM(v.ville)} : ${nf(v.km_hub, 0)} km du hub français, ${nf(v.km_koln, 0)} km de Cologne`, `Le pilote porte sur un seul magasin`],
   };
 }
 function pageAssortiment() {
@@ -387,7 +388,7 @@ function pageRentabilite() {
     tiles: [tile("Résultat annuel d'un magasin", sgn(m.res / 1e6, 2) + " M€", `scénario ${scen()}`, "Ce qu'il reste chaque année : marge brute − salaires et frais − loyer (avant amortissement et impôts).", m.res > 0 ? "ok" : "bad", "estimation"),
             tile("Délai de retour", m.delai ? nf(m.delai) + " ans" : "jamais", `investissement ${nf(m.inv / 1e6, 1)} M€`, "Investissement d'ouverture ÷ résultat annuel. Critère du pilote : 8 ans maximum.", m.delai && m.delai <= 8 ? "ok" : "bad", "estimation"),
             tile("Loyer maximal", nf(m.seuil) + " €/m²/mois", `loyer de référence IHK : ${nf(D.loyer_m2_mois, 0)} €`, "Loyer au-delà duquel le magasin perd de l'argent. IHK = chambre de commerce allemande, qui publie les loyers des commerces (ici Stuttgart, petites boutiques de centre-ville).", "", "estimation"),
-            tile(`Part de marché à prendre à ${v.ville}`, nf(part, 1) + " %", "du marché tech + livres de la ville", `Le magasin doit vendre ${nf(D.simu.ca_magasin / 1e6, 1)} M€ par an, soit cette part de ce que dépensent les habitants. Fnac Darty fait ${nf(D.parts.fnac_fr, 0)} % en France.`, part <= D.parts.fnac_fr ? "ok" : "bad", "estimation")],
+            tile(`Part de marché à prendre à ${NOM(v.ville)}`, nf(part, 1) + " %", "du marché tech + livres de la ville", `Le magasin doit vendre ${nf(D.simu.ca_magasin / 1e6, 1)} M€ par an, soit cette part de ce que dépensent les habitants. Fnac Darty fait ${nf(D.parts.fnac_fr, 0)} % en France.`, part <= D.parts.fnac_fr ? "ok" : "bad", "estimation")],
     body: card("Comment on calcule le résultat d'un magasin (étape par étape)", `Magasin type de 2 400 m² (format Fnac de centre-ville). Les filtres Achats et Loyer changent la marge et le loyer.`,
       `<div class="steps">${step("1. Ventes par an", nf(m.ca / 1e6, 1) + " M€", "6 085 € par m², comme en France")}${step("2. Marge brute", "+" + nf(m.margeEur / 1e6, 2) + " M€", `${nf(m.marge, 1)} % des ventes`)}${step("3. Salaires et frais", "−" + nf(m.couts / 1e6, 2) + " M€", `${nf(D.simu.couts_hors_loyer_pct, 1)} % des ventes (groupe)`)}${step("4. Loyer", "−" + nf(m.loyer / 1e6, 2) + " M€", state.loyer === "ihk" ? "loyer de référence IHK" : "même poids qu'en France")}${step("5. Résultat", sgn(m.res / 1e6, 2) + " M€", m.res > 0 ? "positif" : "négatif")}</div>
       <div style="height:14px"></div><h3 class="t">Simulateur : et si… ?</h3><p class="note">Bougez les curseurs : le délai se recalcule avec les mêmes formules.</p>
@@ -417,7 +418,7 @@ function pageRentabilite() {
     facts: [`Scénario ${scen()} : achats ${state.achats === "locaux" ? "en Allemagne (marge 28 %)" : "en France (marge " + nf(D.simu.marge_achats_france, 1) + " %)"}, loyer ${state.loyer === "ihk" ? "IHK " + nf(D.loyer_m2_mois, 0) + " €/m²/mois" : "au niveau français"}`,
             `Ventes ${nf(m.ca / 1e6, 1)} M€ ; marge brute ${nf(m.margeEur / 1e6, 2)} M€ ; salaires et frais ${nf(m.couts / 1e6, 2)} M€ ; loyer ${nf(m.loyer / 1e6, 2)} M€ ; résultat ${sgn(m.res / 1e6, 2)} M€ par an`,
             `Investissement ${nf(m.inv / 1e6, 1)} M€ (hypothèse) ; délai de retour ${m.delai ? nf(m.delai, 1) + " ans" : "jamais"} ; loyer maximal ${nf(m.seuil, 1)} €/m²/mois`,
-            `À ${v.ville}, le magasin doit capter ${nf(part, 1)} % du marché tech + livres de la ville ; Fnac Darty a ${nf(D.parts.fnac_fr, 1)} % en France`],
+            `À ${NOM(v.ville)}, le magasin doit capter ${nf(part, 1)} % du marché tech + livres de la ville ; Fnac Darty a ${nf(D.parts.fnac_fr, 1)} % en France`],
   };
 }
 function pageFinances() {
@@ -545,7 +546,7 @@ function build() {
   const tabs = document.getElementById("tabs");
   for (const p of PAGES) { const b = document.createElement("button"); b.textContent = p.label; b.dataset.t = p.id; b.setAttribute("role", "tab"); b.onclick = () => { state.tab = p.id; render(); scrollTo({ top: 0 }); }; tabs.appendChild(b); }
   const sel = document.getElementById("f-ville");
-  for (const v of D.villes) { const o = document.createElement("option"); o.value = v.ville; o.textContent = `${v.ville} (${v.land})`; sel.appendChild(o); }
+  for (const v of D.villes) { const o = document.createElement("option"); o.value = v.ville; o.textContent = `${NOM(v.ville)} (${v.land})`; sel.appendChild(o); }
   sel.onchange = () => { state.ville = sel.value; render(); };
   seg("f-cat", [["TECH", "Produits techniques"], ["LIVRES", "Livres"]], "cat");
   seg("f-achats", [["france", "En France"], ["locaux", "En Allemagne"]], "achats");

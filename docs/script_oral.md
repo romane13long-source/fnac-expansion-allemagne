@@ -53,7 +53,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 ## Slide 5 · Un marché attractif : 1,8 fois plus de dépenses tech par habitant — 4:30 → 5:00 · Elena
 
 > Premier constat : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204 : 1,8 fois plus, et l'écart se creuse depuis 2015.
-> Mais la place est prise : le leader tient entre 17 et 38 % du marché, et deux réseaux, Expert et Euronics, ont des centaines de magasins. Il faudra se différencier.
+> Mais la place est prise : le leader, MediaMarkt-Saturn, tient entre 17 et 38 % du marché, et deux réseaux, Expert et Euronics, ont des centaines de magasins. Pour comparer : la Fnac tient 17 % de son marché en France ; en Allemagne, elle partirait de zéro. Il faudra se différencier.
 
 ## Slide 6 · Des prix 18 % plus bas : il faut acheter en Allemagne — 5:00 → 5:35 · Romane
 
@@ -70,7 +70,8 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 ## Slide 8 · Cologne, la ville la plus adaptée pour un magasin pilote — 6:15 → 6:50 · Romane
 
 > Où ouvrir ? On a comparé les sept plus grandes villes allemandes sur trois critères : plus d'un million d'habitants, peu de magasins du leader pour leur taille, et moins de 450 kilomètres de notre entrepôt.
-> Cologne est la seule à cocher les trois. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne.
+> Sur la carte, chaque point bleu est un des 394 magasins MediaMarkt-Saturn qu'on a récupérés par scraping, et le chiffre à côté de chaque ville, c'est le nombre de magasins du leader pour 100 000 habitants.
+> Cologne est la seule à cocher les trois critères. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne.
 > Mais livrer depuis la France a un coût : un camion par semaine, c'est 0,08 à 0,09 million d'euros par an, et le retour sur investissement passerait de 7,9 à près de 10 ans. C'est une hypothèse prudente, mais elle suffit à trancher : la tech doit être livrée par des fournisseurs allemands. L'entrepôt en Allemagne sera étudié si on déploie.
 
 ## Slide 9 · L'IA commente nos chiffres, elle ne les calcule pas — 6:50 → 7:30 · Elena

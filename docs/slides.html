@@ -135,6 +135,24 @@ function lines(series, years, { W = 900, H = 430 } = {}) {
 /* les slides : [contenu, notes de l'oral] */
 const ph = D.par_hab_annees.TECH, yrs = Object.keys(ph.DE).map(Number).sort(), pu = D.prix_ue.TECH;
 const score = v => (v.km_hub <= 450) + (v.magasins_par_100k <= 0.7) + (v.pop >= 1e6);
+// Carte de la concurrence : communes (fond gris), 394 magasins MediaMarkt-Saturn (bleu), 7 villes candidates (Cologne en vert)
+function carte({ W = 520, H = 560 } = {}) {
+  const C = D.carte, pad = 10, k = Math.cos(51 * Math.PI / 180);
+  const lons = C.fond.map(p => p[0]), lats = C.fond.map(p => p[1]);
+  const [x0, x1, y0, y1] = [Math.min(...lons), Math.max(...lons), Math.min(...lats), Math.max(...lats)];
+  const sc = Math.min((W - 2 * pad) / ((x1 - x0) * k), (H - 2 * pad) / (y1 - y0));
+  const px = lon => (pad + (lon - x0) * k * sc).toFixed(1), py = lat => (H - pad - (lat - y0) * sc).toFixed(1);
+  let o = C.fond.map(([lon, lat]) => `<circle cx="${px(lon)}" cy="${py(lat)}" r="1.3" fill="#d9d8d2"/>`).join("");
+  o += C.magasins.map(([lon, lat]) => `<circle cx="${px(lon)}" cy="${py(lat)}" r="3" fill="var(--de)" opacity=".8"/>`).join("");
+  for (const v of D.villes) {
+    const c = C.villes.find(x => x.nom === v.ville); if (!c) continue;
+    const kol = v.ville === "Köln", nom = kol ? "Cologne" : v.ville.replace(" am Main", "");
+    const left = ["Köln", "Düsseldorf"].includes(v.ville);
+    o += `<circle cx="${px(c.lon)}" cy="${py(c.lat)}" r="${kol ? 15 : 9}" fill="none" stroke="${kol ? "var(--good)" : "var(--ink)"}" stroke-width="${kol ? 5 : 2.5}"/>`;
+    o += `<text x="${(+px(c.lon) + (left ? -20 : 16)).toFixed(1)}" y="${(+py(c.lat) + 8).toFixed(1)}" text-anchor="${left ? "end" : "start"}" style="font-size:22px;font-weight:${kol ? 800 : 600};fill:${kol ? "var(--good)" : "var(--ink)"};paint-order:stroke;stroke:#fff;stroke-width:5px">${nom} ${nf(v.magasins_par_100k, 2)}</text>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:${H}px">${o}</svg>`;
+}
 const SLIDES = [
   // ===== 1. Présentation de l'entreprise & pays cible · 1 min · Contexte
   [() => `<div class="flagline"></div><div class="kicker" ${IN()}>Comex Fnac · Stratégie 2027-2029</div>
@@ -177,6 +195,7 @@ const SLIDES = [
       <div class="src" style="margin-top:6px">Source : Eurostat (dépenses des ménages, population), chiffres officiels</div></div>
       <div class="col">${tile(sg(T.croissance_moy.DE) + " %/an", `de croissance en Allemagne depuis 2015, contre ${sg(T.croissance_moy.FR)} %/an en France`, "good")}
       ${tile(`${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, `mais le leader CECONOMY (MediaMarkt + Saturn) tient déjà ce morceau du marché ; Expert et Euronics ont aussi des centaines de magasins`, "bad")}
+      ${tile(nf(D.parts.fnac_fr, 0) + " %", "c'est la part de marché de la Fnac en France : en Allemagne, il faudrait repartir de zéro face au leader (estimation)", "fr")}
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> il y a de la demande, mais il faudra se différencier du leader.</div></div></div>`, "",
    "4:30 → 5:00 · Elena — Premier insight : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais le leader, MediaMarkt-Saturn, tient déjà entre 17 et 38 % du marché : il faudra se différencier."],
   [() => head("4 · L'analyse · insight 2 sur 4", "Des prix 18 % plus bas :<br>il faut acheter en Allemagne") +
@@ -198,9 +217,9 @@ const SLIDES = [
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> acheter en Allemagne et éviter les rues les plus chères.</div></div></div>`, "",
    "5:35 → 6:15 · Elena — Troisième insight : on a calculé ce que gagne un magasin de 2 400 mètres carrés selon deux choix, acheter en France ou en Allemagne, et un loyer de centre-ville ou modéré. Trois façons sur quatre perdent de l'argent. Seule la combinaison achats en Allemagne et loyer modéré gagne 0,45 million par an, et rembourse l'ouverture en 7,9 ans. Au-delà de 33 euros le mètre carré, on perd de l'argent."],
   [() => head("4 · L'analyse · insight 4 sur 4", "Cologne, la ville la plus adaptée<br>pour un magasin pilote") +
-    `<div class="row c2"><div ${IN()}><table><tr><th>Ville</th><th>Habitants</th><th>Magasins du leader / 100 000 hab.</th><th>Distance à l'entrepôt</th><th>Critères</th></tr>
-      ${[...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(v => `<tr class="${v.ville === "Köln" ? "hl" : ""}"><td>${v.ville === "Köln" ? "Cologne" : v.ville}</td><td>${nf(v.pop / 1e6, 2)} M</td><td>${nf(v.magasins_par_100k, 2)}</td><td>${nf(v.km_hub, 0)} km</td><td class="score">${score(v)} / 3</td></tr>`).join("")}</table>
-      <div class="src" style="font-size:15px">Les 7 plus grandes villes. Critères : plus d'1 million d'habitants · peu de magasins du leader (au plus 0,7 pour 100 000) · moins de 450 km de l'entrepôt. Sources : Destatis, magasins relevés sur les sites de MediaMarkt et Saturn.</div></div>
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Les ${D.carte.magasins.length} magasins MediaMarkt-Saturn (points bleus)</h3><div class="sub">Chiffre à côté de chaque ville = magasins du leader pour 100 000 habitants</div>
+      ${carte()}
+      <div class="src" style="margin-top:auto">Cologne : la seule à cocher les 3 critères : plus d'1 million d'habitants · au plus 0,7 magasin pour 100 000 · moins de 450 km de l'entrepôt. Sources : sites mediamarkt.de et saturn.de (scraping), Destatis.</div></div>
       <div class="col">${tile("Cologne", "seule grande ville qui coche les 3 critères : 1 million d'habitants, peu de magasins du leader, la plus proche de notre entrepôt", "good")}
       ${tile(nf(K.km_hub, 0) + " km", "de notre entrepôt de Chilly-Mazarin (Essonne), à vol d'oiseau")}
       ${tile(nf(D.transport.bas.an, 2) + " à " + nf(D.transport.haut.an, 2) + " M€/an", `pour un camion par semaine depuis la France (${nf(D.transport.bas.trajet / 1000, 2)} à ${nf(D.transport.haut.trajet / 1000, 2)} k€ l'aller-retour, hypothèse) : le retour passerait de 7,9 à ${nf(D.transport.bas.delai, 1)}-${nf(D.transport.haut.delai, 1)} ans. Donc la tech est livrée par les fournisseurs allemands`, "bad")}</div></div>`, "",
