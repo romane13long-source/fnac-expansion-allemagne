@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comex Fnac Allemagne</title>
+<style>
+  :root {
+    --bg: #ffffff; --ink: #0b0b0b; --muted: #52514e; --soft: #898781; --tile: #f4f4f1; --line: #e1e0d9;
+    --de: #2a78d6; --fr: #eb6834; --good: #0c9a0c; --bad: #d03b3b; --ai: #6250d6; --ai-bg: #f1effc; --stage: #1a1a19;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: var(--stage); font-family: "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; color: var(--ink); overflow: hidden; }
+  #deck { position: absolute; width: 1600px; height: 900px; left: 50%; top: 50%; transform-origin: center; }
+  .slide { position: absolute; inset: 0; background: var(--bg); padding: 56px 72px 48px; display: none; flex-direction: column; overflow: hidden; }
+  .slide.on { display: flex; }
+  .slide.center { justify-content: center; }
+  .kicker { font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 44px; line-height: 1.12; font-weight: 800; margin-top: 10px; max-width: 1350px; }
+  h1 + .rule { width: 90px; height: 6px; background: var(--de); border-radius: 3px; margin: 16px 0 26px; }
+  .row { display: grid; gap: 22px; flex: 1; min-height: 0; }
+  .c2 { grid-template-columns: 1.55fr 1fr; } .c3 { grid-template-columns: repeat(3, 1fr); } .c2e { grid-template-columns: 1fr 1fr; }
+  .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .tile { background: var(--tile); border-radius: 14px; padding: 20px 24px; border-left: 7px solid var(--de); }
+  .tile .v { font-size: 50px; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .tile .l { font-size: 18px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+  .tile.good { border-color: var(--good); } .tile.good .v { color: var(--good); }
+  .tile.bad { border-color: var(--bad); } .tile.bad .v { color: var(--bad); }
+  .tile.fr { border-color: var(--fr); }
+  .card { background: var(--tile); border-radius: 14px; padding: 22px 26px; }
+  .card h3 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .card h4 { font-size: 26px; margin-bottom: 14px; }
+  .card ul { padding-left: 22px; font-size: 20px; line-height: 1.5; }
+  .chart { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; min-height: 0; }
+  .chart h3 { font-size: 21px; margin-bottom: 4px; }
+  .chart .sub { font-size: 15px; color: var(--soft); margin-bottom: 8px; }
+  .chart svg { width: 100%; flex: 1; min-height: 0; }
+  svg text { font-family: inherit; fill: var(--muted); }
+  .legend { display: flex; gap: 22px; font-size: 16px; color: var(--muted); }
+  .legend i { display: inline-block; width: 22px; height: 5px; border-radius: 3px; vertical-align: middle; margin-right: 8px; }
+  .ia { background: var(--ai-bg); border-radius: 14px; padding: 16px 22px; border-left: 7px solid var(--ai); font-size: 18px; line-height: 1.45; }
+  .ia b { color: var(--ai); letter-spacing: .06em; font-size: 14px; display: block; margin-bottom: 4px; }
+  .src { font-size: 13px; color: var(--soft); margin-top: auto; padding-top: 14px; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 18px; display: flex; justify-content: space-between; font-size: 13px; color: var(--soft); }
+  table { width: 100%; border-collapse: collapse; font-size: 20px; }
+  th { text-align: left; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; color: #fff; background: var(--ink); padding: 12px 14px; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line); }
+  tr.hl td { background: #e9f6e9; font-weight: 700; }
+  .score { font-weight: 800; }
+  /* couverture */
+  .cover { justify-content: center; background: linear-gradient(120deg, #ffffff 55%, #eaf2fc); }
+  .cover .big { font-size: 110px; font-weight: 850; letter-spacing: -.02em; line-height: 1; }
+  .cover .big span { color: var(--de); }
+  .cover .q { font-size: 36px; color: var(--muted); margin-top: 26px; max-width: 1100px; line-height: 1.3; }
+  .cover .team { font-size: 21px; margin-top: 56px; }
+  .cover .school { font-size: 17px; color: var(--soft); margin-top: 8px; }
+  .flagline { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: linear-gradient(var(--de), var(--fr)); }
+  .go { font-size: 96px; font-weight: 850; color: var(--good); line-height: 1; }
+  .ask { display: flex; gap: 26px; align-items: flex-start; margin-bottom: 36px; }
+  .ask .n { flex: none; width: 58px; height: 58px; border-radius: 50%; background: var(--de); color: #fff; font-size: 26px; font-weight: 800; display: grid; place-items: center; }
+  .ask h4 { font-size: 34px; } .ask p { font-size: 21px; color: var(--muted); margin-top: 6px; }
+  /* apparitions : chaque élément [data-in] entre l'un après l'autre */
+  .slide.on [data-in] { animation: up .7s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  .bar { transform-box: fill-box; transform-origin: left; }
+  .slide.on .bar { animation: grow 1s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .slide.on .draw { stroke-dasharray: 2000; animation: draw 1.6s ease-out both; }
+  @keyframes draw { from { stroke-dashoffset: 2000; } to { stroke-dashoffset: 0; } }
+  /* barre de progression, notes */
+  #prog { position: fixed; left: 0; bottom: 0; height: 5px; background: var(--de); transition: width .4s; z-index: 5; }
+  #notes { position: fixed; left: 0; right: 0; bottom: 5px; max-height: 32vh; overflow: auto; background: rgba(15,15,14,.94); color: #f0efec; font-size: 18px; line-height: 1.5; padding: 16px 24px; display: none; z-index: 4; }
+  #notes.on { display: block; } #notes b { color: #9fc4f5; }
+  #help { position: fixed; right: 14px; top: 10px; color: #898781; font-size: 13px; z-index: 5; }
+  @media (prefers-reduced-motion: reduce) { .slide.on [data-in], .slide.on .bar, .slide.on .draw { animation: none; } }
+</style>
+</head>
+<body>
+<div id="deck"></div>
+<div id="prog"></div>
+<div id="notes"></div>
+<div id="help">← → ou clic : naviguer · N : notes de l'oral · F : plein écran</div>
+<script>
+const D = /*__DATA__*/null;
+const IA = /*__IA__*/null;
+const L = D.last, T = D.categories.TECH, F = D.finances, SD = D.scenarios.D, K = D.villes.find(v => v.ville === "Köln");
+const nf = (v, d = 1) => new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(v);
+const sg = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + nf(Math.abs(v), d);
+const PDV = Object.fromEntries(D.concurrents.map(k => [k.enseigne, k.pdv]));
+let step = 0;
+const IN = () => `data-in style="animation-delay:${(step++) * 140}ms"`;
+const tile = (v, l, cls = "") => `<div class="tile ${cls}" ${IN()}><div class="v">${v}</div><div class="l">${l}</div></div>`;
+const ia = key => IA[key] ? `<div class="ia" ${IN()}><b>✦ LECTURE IA · rédigée par Claude à partir de nos KPI, chiffres vérifiés</b>${IA[key]}</div>` : "";
+const foot = () => `<div class="foot"><span>Fnac → Allemagne · Comex 2027-2029</span><span class="pg"></span></div>`;
+const head = (k, t) => `<div class="kicker" ${IN()}>${k}</div><h1 ${IN()}>${t}</h1><div class="rule" ${IN()}></div>`;
+
+/* graphiques SVG (mêmes couleurs que le dashboard) */
+function hbars(rows, { W = 900, H = null, labelW = 300, ref = null, refLabel = "", fmt = v => nf(v, 1), max = null } = {}) {
+  const rh = 62, h = H || rows.length * rh + 40, lo = Math.min(0, ...rows.map(r => r.v)), hi = max ?? Math.max(...rows.map(r => r.v), ref ?? 0) * 1.12;
+  const x = v => labelW + (v - lo) / (hi - lo) * (W - labelW - 130);
+  let s = `<svg viewBox="0 0 ${W} ${h}" role="img">`;
+  rows.forEach((r, i) => {
+    const y = 10 + i * rh, x0 = x(0), x1 = x(r.v);
+    s += `<text x="${labelW - 14}" y="${y + 36}" text-anchor="end" style="font-size:22px;fill:#0b0b0b;font-weight:${r.bold ? 800 : 500}">${r.n}</text>`;
+    s += `<rect class="bar" style="animation-delay:${400 + i * 150}ms" x="${Math.min(x0, x1)}" y="${y + 10}" width="${Math.max(Math.abs(x1 - x0), 2)}" height="40" rx="6" fill="${r.c}"/>`;
+    s += `<text x="${Math.max(x0, x1) + 12}" y="${y + 38}" style="font-size:22px;fill:#0b0b0b;font-weight:700">${r.lab ?? fmt(r.v)}</text>`;
+  });
+  s += `<line x1="${x(0)}" x2="${x(0)}" y1="6" y2="${h - 26}" stroke="#c3c2b7" stroke-width="2"/>`;
+  if (ref !== null) s += `<line x1="${x(ref)}" x2="${x(ref)}" y1="6" y2="${h - 26}" stroke="#52514e" stroke-width="2" stroke-dasharray="6 5"/><text x="${x(ref)}" y="${h - 4}" text-anchor="middle" style="font-size:17px">${refLabel}</text>`;
+  return s + `</svg>`;
+}
+function lines(series, years, { W = 900, H = 430 } = {}) {
+  const Lm = 60, R = 120, Tm = 14, B = 40, max = Math.ceil(Math.max(...series.flatMap(s => s.v)) * 1.1 / 100) * 100;
+  const x = i => Lm + i / (years.length - 1) * (W - Lm - R), y = v => Tm + (1 - v / max) * (H - Tm - B);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for (let v = 0; v <= max; v += 100) { const i = v; s += `<line x1="${Lm}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${i ? "#eeede8" : "#c3c2b7"}"/><text x="${Lm - 10}" y="${y(v) + 6}" text-anchor="end" style="font-size:17px">${nf(v, 0)}</text>`; }
+  years.forEach((yr, i) => { if (i % 2 === 0 || i === years.length - 1) s += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" style="font-size:17px">${yr}</text>`; });
+  for (const se of series) {
+    s += `<path class="draw" d="${se.v.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join("")}" fill="none" stroke="${se.c}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s += `<circle cx="${x(years.length - 1)}" cy="${y(se.v.at(-1))}" r="8" fill="${se.c}"/><text x="${x(years.length - 1) + 14}" y="${y(se.v.at(-1)) + 7}" style="font-size:22px;font-weight:800;fill:${se.c}">${nf(se.v.at(-1), 0)} €</text>`;
+  }
+  return s + `</svg>`;
+}
+
+/* les slides : [contenu, notes de l'oral] */
+const ph = D.par_hab_annees.TECH, yrs = Object.keys(ph.DE).map(Number).sort(), pu = D.prix_ue.TECH;
+const score = v => (v.km_hub <= 450) + (v.magasins_par_100k <= 0.7) + (v.pop >= 1e6);
+const SLIDES = [
+  [() => `<div class="flagline"></div><div class="kicker" ${IN()}>Comex Fnac · Stratégie 2027-2029</div>
+    <div class="big" ${IN()}>Fnac <span>→</span> Allemagne</div>
+    <div class="q" ${IN()}>L'implantation dans le pays ciblé est-elle réalisable et rentable ?</div>
+    <div class="team" ${IN()}>Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL</div>
+    <div class="school" ${IN()}>Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne de la Fnac</div>`, "cover",
+   "0:00 → 0:15 · Romane — Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? On a construit toute la chaîne de données pour y répondre ; notre décision arrive à la fin."],
+  [() => head("1 · L'entreprise et le pays cible", "Une Fnac qui rétrécit en France,<br>un marché allemand qui grandit") +
+    `<div class="row c3">${tile(D.x_magasins_fr, "magasins Fnac en France fin 2025 · 1 ouverture, 15 fermetures dans l'année")}
+      ${tile(sg(T.croissance_moy.DE) + " %/an", `croissance des dépenses tech en Allemagne 2015-${L} · France : ${sg(T.croissance_moy.FR)} %/an`, "good")}
+      ${tile("0", "magasin Fnac en Allemagne, 1er marché d'Europe (83,6 M d'habitants)")}</div>
+    <div class="card" ${IN()} style="margin-top:22px;font-size:21px;line-height:1.55"><b>Pourquoi l'Allemagne :</b> le plus grand marché d'Europe, aucun magasin Fnac, et son leader MediaMarkt / Saturn est déjà notre concurrent direct.</div>
+    <div class="src">Source : Document d'enregistrement universel 2025, p. 39 ; Eurostat (dépenses des ménages, population)</div>`, "",
+   "0:15 → 1:00 · Romane — La Fnac compte 205 magasins en France fin 2025, après 15 fermetures. Les dépenses tech des ménages allemands progressent de 2,7 % par an depuis 2015, quand elles reculent en France. L'Allemagne est le premier marché d'Europe et la Fnac n'y a aucun magasin."],
+  [() => head("2 · Base de données et cadrage · modélisation 20 pts + sources 15 pts", "Un pipeline simple, des sources officielles,<br>des chiffres traçables") +
+    `<div class="row c3">
+      <div class="card" ${IN()}><h3>Pipeline reproductible</h3><h4>Bronze → Silver → Gold</h4><ul><li>Un script enchaîne collecte, nettoyage, modèle et KPI</li><li>Relancé deux fois : résultat identique</li><li>Modèle de données détaillé dans le README</li></ul></div>
+      <div class="card" ${IN()}><h3>Comment on a collecté</h3><h4>Une source par sujet</h4><ul><li><b>API Eurostat</b> (office statistique de l'UE) : marché, prix, population</li><li><b>Destatis</b> : 10 753 communes</li><li><b>Scraping</b> des plans de site MediaMarkt / Saturn : 394 magasins</li><li>Rapports annuels, textes de loi</li></ul></div>
+      <div class="card" ${IN()}><h3>Chaque chiffre est étiqueté</h3><h4>D'où vient-il ?</h4><ul><li><b style="color:var(--good)">mesuré</b> : chiffre officiel</li><li><b style="color:var(--de)">estimation</b> : notre calcul</li><li><b style="color:var(--fr)">hypothèse</b> : non sourcé</li><li><b style="color:var(--soft)">simulé</b> : données fictives</li></ul></div></div>
+    <div class="src">Source : README § 2 (dictionnaire, règles de gestion) et § 3 (sources)</div>`, "",
+   "1:00 → 2:30 · Elena — Aucune donnée n'était fournie : tout vient de sources publiques. API d'Eurostat, l'office statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel des communes allemandes ; et du scraping pour localiser les magasins MediaMarkt et Saturn. Le pipeline suit les trois couches du cours, et chaque chiffre porte son étiquette."],
+  [() => head("3 · La démarche analytique · choix des KPI 30 pts", "Un KPI par question du Comex,<br>un KPI de synthèse pour trancher") +
+    `<table ${IN()}><tr><th>Axe du guide</th><th>KPI retenus</th><th>Décision éclairée</th></tr>
+      <tr><td><b>Marché & potentiel</b></td><td>Croissance · dépense par habitant · parts de marché</td><td>Quel plafond de CA ?</td></tr>
+      <tr><td><b>Prix & marges</b></td><td>Niveau de prix DE / FR · marge brute post-taxe</td><td>Notre prix tient-il ?</td></tr>
+      <tr><td><b>Réseau & implantation</b></td><td>Densité concurrentielle · coût au m² · 7 villes candidates</td><td>Où ouvrir, à quel coût ?</td></tr>
+      <tr><td><b>Opérations & logistique</b></td><td>Distance à l'entrepôt · douane et TVA</td><td>Livrer depuis la France ?</td></tr>
+      <tr><td><b>Assortiment</b></td><td>Pénétration · % du catalogue éligible</td><td>Tout le catalogue ou ciblé ?</td></tr>
+      <tr class="hl"><td>★ Synthèse</td><td>Délai de retour d'un magasin · cash-flow du groupe</td><td>Go ou No-Go ?</td></tr></table>
+    <div class="src">Définitions et formules : dashboard, onglet « Définitions des KPI » ; README § 2.1</div>`, "",
+   "2:30 → 4:30 · Romane — On a suivi le guide des KPI du Comex axe par axe, en se demandant pour chacun quelle décision il éclaire. Aucun ne répond seul à « rentable ? » : on a ajouté le délai de retour d'un magasin, et le cash-flow du groupe pour savoir s'il peut financer le projet."],
+  [() => head("4 · L'analyse · marché", `Un Allemand dépense ${nf(ph.DE[L] / ph.FR[L], 1)} fois plus en tech qu'un Français`) +
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Dépense tech par habitant (€ par an)</h3><div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div>
+      ${lines([{ c: "#2a78d6", v: yrs.map(y => ph.DE[y]) }, { c: "#eb6834", v: yrs.map(y => ph.FR[y]) }], yrs)}</div>
+      <div class="col">${tile(`${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, "du marché tech déjà tenu par CECONOMY (MediaMarkt + Saturn), estimation", "bad")}
+      ${tile("3 réseaux", `CECONOMY ${PDV["MediaMarkt + Saturn"]} magasins · Expert > ${PDV.Expert} · Euronics > ${nf(PDV.Euronics, 0)} points de vente`)}
+      ${ia("K1")}</div></div>
+    <div class="src">Source : Eurostat (dépenses des ménages ÷ population) ; CECONOMY Annual Report 2024/25 ; sites d'Expert et d'Euronics</div>`, "",
+   "4:30 → 5:15 · Elena — Premier constat : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais la place est prise : CECONOMY tient entre 17 et 38 % du marché, et deux coopératives, Expert et Euronics, ont des centaines de magasins."],
+  [() => head("4 · L'analyse · prix et marges", "La France est plus chère :<br>vendre au prix allemand écrase la marge") +
+    `<div class="row c2e"><div class="chart" ${IN()}><h3>Niveau des prix tech ${L}</h3><div class="sub">Moyenne de l'UE = 100</div>
+      ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "UE = 100", labelW: 190, H: 190 })}
+      <h3 style="margin-top:14px">Marge brute si l'on achète en France</h3><div class="sub">Le groupe fait 28 % (pointillé)</div>
+      ${hbars(Object.keys(T.marge).sort().map(y => ({ n: y, v: T.marge[y], c: "#d03b3b", lab: nf(T.marge[y]) + " %" })), { ref: 28, refLabel: "28 %", labelW: 110, max: 32 })}</div>
+      <div class="col">${tile(sg(T.indice_ht[L] - 100, 0) + " %", "prix tech allemands par rapport aux français, hors taxes : la Fnac devra vendre moins cher", "bad")}
+      ${tile(nf(T.marge[L]) + " %", "de marge si on achète au prix français, contre 28 % pour le groupe · 1 − 0,72 ÷ 0,82", "bad")}
+      ${tile("0 %", "de droits de douane : union douanière de l'UE ; seule la TVA change (19 % contre 20 %)", "good")}</div></div>
+    <div class="src">Source : Eurostat (indices de niveau des prix) ; Document d'enregistrement universel 2025 p. 30 ; EUR-Lex (TFUE art. 28 et 30). La marge de 28 % avec achats locaux est une hypothèse.</div>`, "",
+   "5:15 → 6:00 · Romane — Non, la France n'est pas moins chère : 116,5 contre 94,7 sur une base 100 européenne. Si la Fnac achète au prix français et vend au prix allemand, sa marge tombe à 12 %, contre 28 %. Aucun droit de douane entre les deux pays : la difficulté est économique, pas réglementaire."],
+  [() => head("4 · L'analyse · où ouvrir", "Sur les 7 plus grandes villes,<br>Cologne coche les 3 critères") +
+    `<div class="row c2"><div ${IN()}><table><tr><th>Ville</th><th>Habitants</th><th>CECONOMY / 100 000 hab.</th><th>Distance</th><th>Score</th></tr>
+      ${[...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(v => `<tr class="${v.ville === "Köln" ? "hl" : ""}"><td>${v.ville}</td><td>${nf(v.pop / 1e6, 2)} M</td><td>${nf(v.magasins_par_100k, 2)}</td><td>${nf(v.km_hub, 0)} km</td><td class="score">${score(v)} / 3</td></tr>`).join("")}</table>
+      <div class="src" style="font-size:15px">Critères : à moins de 450 km de l'entrepôt · au plus 0,7 magasin CECONOMY pour 100 000 hab. · au moins 1 million d'habitants</div></div>
+      <div class="col">${tile(nf(K.km_hub, 0) + " km", "de Cologne à l'entrepôt de Chilly-Mazarin : la plus proche des grandes villes", "good")}
+      ${tile(`${nf(D.distance_moy, 0)} → ${nf(D.distance_depuis_koln, 0)} km`, "distance moyenne aux 79 grandes villes, depuis la France puis depuis un entrepôt à Cologne")}
+      ${ia("Köln")}</div></div>
+    <div class="src">Source : Destatis (population, coordonnées) ; magasins CECONOMY rattachés aux communes ; calcul de l'équipe</div>`, "",
+   "6:00 → 6:45 · Elena — On ne regarde que les 7 plus grandes villes, celles qui peuvent faire vivre un grand magasin, notées sur trois critères. Cologne est la seule à cocher les trois. Un entrepôt en Allemagne diviserait les distances par deux, mais pour un seul magasin, livrer depuis la France suffit."],
+  [() => head("4 · L'analyse · rentabilité + brique IA", "Un magasin n'est rentable qu'avec des achats<br>en Allemagne et un loyer maîtrisé") +
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Résultat annuel d'un magasin de 2 400 m² (M€)</h3><div class="sub">4 scénarios : achats en France ou en Allemagne × loyer de centre-ville (IHK) ou au niveau français</div>
+      ${hbars(Object.entries(D.scenarios).map(([k, x]) => ({ n: { A: "Achats France, loyer IHK", B: "Achats France, loyer France", C: "Achats locaux, loyer IHK", D: "Achats locaux, loyer France" }[k], v: x.resultat, c: x.resultat > 0 ? "#0c9a0c" : "#d03b3b", lab: sg(x.resultat, 2), bold: k === "D" })), { labelW: 360 })}</div>
+      <div class="col">${tile(nf(SD.delai) + " ans", "pour rembourser l'investissement (3,6 M€, hypothèse) dans le seul scénario rentable", "good")}
+      ${tile(`< ${nf(D.seuil_loyer, 0)} €`, `loyer maximal par m² et par mois · la référence IHK (chambre de commerce allemande) est de ${nf(D.loyer_m2_mois, 0)} €`)}
+      ${ia("K12")}</div></div>
+    <div class="src">Source : Document d'enregistrement universel 2025 p. 30, 32, 33, 40 ; IHK Stuttgart 2024 (hypothèse) ; investissement 1 500 €/m² (hypothèse)</div>`, "",
+   "6:45 → 7:30 · Romane — Trois scénarios sur quatre perdent de l'argent. Seul le scénario achats allemands et loyer maîtrisé gagne 0,45 M€ par an, soit un retour en 7,9 ans. L'encadré violet est écrit par notre brique IA : elle ne calcule rien, elle commente nos KPI, et un script vérifie chaque chiffre."],
+  [() => head("4 · L'analyse · capacité financière", "Le groupe peut financer un pilote, pas un réseau") +
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Les moyens du groupe face au pilote (M€)</h3><div class="sub">Chiffres publiés pour l'ensemble du groupe</div>
+      ${hbars([{ n: "Investissements prévus / an", v: F.capex_moyen_plan, c: "#a3a29c" }, { n: "Investissements 2025", v: F.investissements_operationnels, c: "#a3a29c" }, { n: "Cash-flow libre 2025", v: F.cash_flow_libre_operationnel, c: "#2a78d6" }, { n: "Résultat net 2025", v: F.resultat_net_part_groupe, c: "#d03b3b" }, { n: "Pilote (1 magasin)", v: 3.6, c: "#0c9a0c", bold: true }], { labelW: 330, fmt: v => nf(v, 1) })}</div>
+      <div class="col">${tile(nf(F.cash_flow_libre_operationnel, 0) + " M€", "de cash-flow libre en 2025 (210 M€ en 2024) : l'argent disponible après investissements")}
+      ${tile(nf(3.6 / F.cash_flow_libre_operationnel * 100, 1) + " %", "du cash-flow libre : le coût du pilote, supportable", "good")}
+      ${tile(sg(F.resultat_net_part_groupe, 1) + " M€", "de résultat net en 2025 : pas le moment d'ouvrir un réseau entier", "bad")}</div></div>
+    <div class="src">Source : Document d'enregistrement universel 2025, p. 8, 21, 30, 31, 34 ; investissement du pilote : hypothèse</div>`, "",
+   "7:30 → 8:00 · Elena — Le groupe a dégagé 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net est négatif : on peut financer un test, pas un déploiement national."],
+  [() => `<div class="flagline" style="background:var(--good)"></div><div class="kicker" ${IN()}>5 · Décision et recommandation · défense des arbitrages 15 pts</div>
+    <div class="go" ${IN()} style="margin-top:24px">GO SOUS CONDITIONS</div>
+    <div style="font-size:34px;margin:16px 0 40px" ${IN()}>Un seul magasin pilote, à Cologne.</div>
+    <div class="row c3" style="flex:none">${tile("Acheter en Allemagne", "pour garder 28 % de marge", "good")}${tile(`Loyer < ${nf(D.seuil_loyer, 0)} €/m²`, "par mois, hors rue prime", "good")}${tile("Tech + jeux vidéo", "90 % du catalogue vendable", "good")}</div>
+    <div style="font-size:24px;font-weight:700;margin-top:40px" ${IN()}>Décision de déploiement dans 3 ans, sur résultat réel.</div>`, "center",
+   "8:00 → 9:30 · Romane — Notre décision : Go sous conditions, pour un seul magasin pilote à Cologne. Trois conditions : acheter en Allemagne, un loyer sous 33 euros le mètre carré, un assortiment tech et jeux vidéo. Décision de déploiement dans trois ans, sur résultat réel."],
+  [() => `<div class="flagline"></div>` + head("5 · Décision et recommandation", "Ce que nous demandons au Comex") +
+    [["Valider le pilote de Cologne", "Un magasin de 2 400 m², pas un déploiement national."], ["Valider les 3 conditions", `Achats en Allemagne · loyer < ${nf(D.seuil_loyer, 0)} €/m²/mois · assortiment tech + jeux vidéo.`], ["Fixer la décision à 3 ans", "Résultat annuel positif et retour sur investissement en 8 ans au plus ; sinon, arrêt."]]
+      .map(([a, b], i) => `<div class="ask" ${IN()}><div class="n">${i + 1}</div><div><h4>${a}</h4><p>${b}</p></div></div>`).join("") +
+    `<div style="font-size:22px;color:var(--muted);margin-top:auto" ${IN()}>Merci, nous sommes prêts pour vos questions.</div>`, "",
+   "9:30 → 10:00 · Romane — Nous demandons au Comex trois décisions : valider le pilote, valider nos trois conditions, et fixer le rendez-vous de décision à trois ans avec un critère d'arrêt. Merci, nous sommes prêts pour vos questions."],
+  [() => head("Annexe · pour les questions", "Comment on a utilisé l'IA, et nos limites") +
+    `<div class="row c2e"><div class="card" ${IN()}><h3>La brique IA (Claude)</h3><ul><li>Chaque onglet du dashboard calcule ses chiffres selon les filtres</li><li>Il envoie à Claude uniquement ces chiffres et une consigne courte</li><li>Claude rédige le commentaire ; la page vérifie chaque nombre</li><li><b>L'IA rédige, elle ne calcule rien</b> : les calculs restent dans le code</li></ul></div>
+      <div class="card" ${IN()}><h3>Nos limites</h3><ul><li>Rentabilité = ordre de grandeur (ratios du groupe ; sensibilité 4,4 à 13,2 ans)</li><li>Investissement 1 500 €/m² et loyer IHK : hypothèses</li><li>Catalogue éligible : simulé</li><li>394 magasins trouvés contre 403 publiés</li></ul></div></div>
+    <div class="src">Dashboard public : romane13long-source.github.io/fnac-allemagne-dashboard · README du repo</div>`, "",
+   "Réserve — Si on nous demande comment on a utilisé l'IA : elle ne calcule rien ; elle reçoit nos chiffres et les commente, et la page vérifie chaque nombre. Si le jury attaque la rentabilité : c'est un ordre de grandeur, et la conclusion tient dans tous les cas : achats locaux et loyer maîtrisé."],
+];
+
+/* moteur : affichage, navigation, mise à l'échelle */
+const deck = document.getElementById("deck");
+SLIDES.forEach(([f, cls], i) => { step = 0; const el = document.createElement("section"); el.className = "slide " + cls; el.innerHTML = f() + foot(); el.querySelector(".pg").textContent = String(i + 1).padStart(2, "0"); deck.appendChild(el); });
+let cur = 0;
+const fromHash = parseInt(location.hash.slice(1), 10); if (fromHash >= 1 && fromHash <= SLIDES.length) cur = fromHash - 1;
+function show(i) {
+  cur = Math.max(0, Math.min(SLIDES.length - 1, i));
+  [...deck.children].forEach((s, k) => { s.classList.remove("on"); if (k === cur) { void s.offsetWidth; s.classList.add("on"); } });
+  document.getElementById("prog").style.width = ((cur + 1) / SLIDES.length * 100) + "%";
+  document.getElementById("notes").innerHTML = `<b>Slide ${cur + 1} · notes de l'oral</b><br>${SLIDES[cur][2]}`;
+  history.replaceState(null, "", "#" + (cur + 1));
+}
+function fit() { const k = Math.min(innerWidth / 1600, innerHeight / 900); deck.style.transform = `translate(-50%,-50%) scale(${k})`; }
+addEventListener("resize", fit);
+addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  else if (e.key === "Home") show(0); else if (e.key === "End") show(SLIDES.length - 1);
+  else if (e.key.toLowerCase() === "n") document.getElementById("notes").classList.toggle("on");
+  else if (e.key.toLowerCase() === "f") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+});
+deck.addEventListener("click", e => show(cur + (e.clientX > innerWidth / 3 ? 1 : -1)));
+fit(); show(cur);
+</script>
+</body>
+</html>
