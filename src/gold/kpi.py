@@ -48,18 +48,24 @@ for (pays, cat), serie in marche.groupby(["pays_id", "categorie_id"]):
     add("K1b", "Marché & Potentiel", f"Croissance annuelle moyenne {first}-{last}", cagr, "%", "mesuré",
         "(dépenses fin / dépenses début)^(1/nb années) - 1", pays, cat, annee=int(last))
 
-marche_fr = dep[("FR", "TECH", LAST)] + dep[("FR", "LIVRES", LAST)]
-part_fnac = (v("fnacdarty_part_ca_produits_techniques", "GROUPE") + v("fnacdarty_part_ca_produits_editoriaux", "GROUPE")) / 100
-add("K2", "Marché & Potentiel", "Part de marché de Fnac Darty en France", v("fnacdarty_ca_france", "FR") * part_fnac / marche_fr * 100,
-    "%", "estimation", "CA France × (part techniques + part éditoriaux du groupe) / dépenses FR (TECH + LIVRES)", "FR", annee=LAST)
+# Parts de marché HT / HT (règle de gestion n° 9) : le CA est publié HT, les dépenses des ménages sont TTC
+def ht(pays, cat):
+    taux = v("tva_taux_normal", pays) if cat == "TECH" else v("tva_taux_reduit" if pays == "DE" else "tva_taux_reduit_le_plus_bas", pays)
+    return dep[(pays, cat, LAST)] / (1 + taux / 100)
 
-marche_de_tech = dep[("DE", "TECH", LAST)]
+
+marche_fr_ht = ht("FR", "TECH") + ht("FR", "LIVRES")
+part_fnac = (v("fnacdarty_part_ca_produits_techniques", "GROUPE") + v("fnacdarty_part_ca_produits_editoriaux", "GROUPE")) / 100
+add("K2", "Marché & Potentiel", "Part de marché de Fnac Darty en France (HT / HT)", v("fnacdarty_ca_france", "FR") * part_fnac / marche_fr_ht * 100,
+    "%", "estimation", "CA France HT × (part techniques + part éditoriaux du groupe) / dépenses FR (TECH + LIVRES) ramenées HT", "FR", annee=LAST)
+
+marche_de_tech_ht = ht("DE", "TECH")
 ventes_cec = v("ceconomy_ventes_allemagne", "DE")
-add("K3_bas", "Marché & Potentiel", "Part de marché du concurrent CECONOMY en Allemagne (bas)",
-    ventes_cec * v("ceconomy_part_ventes_it_mobile", "GROUPE") / 100 / marche_de_tech * 100, "%", "estimation",
-    "ventes DE × part « IT et mobile » / dépenses DE TECH", "DE", "TECH", annee=LAST)
-add("K3_haut", "Marché & Potentiel", "Part de marché du concurrent CECONOMY en Allemagne (haut)",
-    ventes_cec / marche_de_tech * 100, "%", "estimation", "ventes DE / dépenses DE TECH", "DE", "TECH", annee=LAST)
+add("K3_bas", "Marché & Potentiel", "Part de marché du concurrent CECONOMY en Allemagne, HT / HT (bas)",
+    ventes_cec * v("ceconomy_part_ventes_it_mobile", "GROUPE") / 100 / marche_de_tech_ht * 100, "%", "estimation",
+    "ventes DE HT × part « IT et mobile » / dépenses DE TECH ramenées HT", "DE", "TECH", annee=LAST)
+add("K3_haut", "Marché & Potentiel", "Part de marché du concurrent CECONOMY en Allemagne, HT / HT (haut)",
+    ventes_cec / marche_de_tech_ht * 100, "%", "estimation", "ventes DE HT / dépenses DE TECH ramenées HT", "DE", "TECH", annee=LAST)
 
 # --- Prix & Marges ------------------------------------------------------------------------
 # TVA : taux normal pour TECH ; taux réduit pour LIVRES (hypothèse : l'indice LIVRES = loisirs-culture, règle n° 8)

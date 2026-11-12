@@ -43,9 +43,9 @@ K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2023,-4.85
 K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2024,-2.52,%,mesuré,dépenses N / dépenses N-1 - 1
 K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2025,-1.33,%,mesuré,dépenses N / dépenses N-1 - 1
 K1b,Marché & Potentiel,Croissance annuelle moyenne 2015-2025,FR,TECH,,2025,-0.8,%,mesuré,(dépenses fin / dépenses début)^(1/nb années) - 1
-K2,Marché & Potentiel,Part de marché de Fnac Darty en France,FR,,,2025,15.28,%,estimation,CA France × (part techniques + part éditoriaux du groupe) / dépenses FR (TECH + LIVRES)
-K3_bas,Marché & Potentiel,Part de marché du concurrent CECONOMY en Allemagne (bas),DE,TECH,,2025,14.51,%,estimation,ventes DE × part « IT et mobile » / dépenses DE TECH
-K3_haut,Marché & Potentiel,Part de marché du concurrent CECONOMY en Allemagne (haut),DE,TECH,,2025,31.54,%,estimation,ventes DE / dépenses DE TECH
+K2,Marché & Potentiel,Part de marché de Fnac Darty en France (HT / HT),FR,,,2025,17.31,%,estimation,CA France HT × (part techniques + part éditoriaux du groupe) / dépenses FR (TECH + LIVRES) ramenées HT
+K3_bas,Marché & Potentiel,"Part de marché du concurrent CECONOMY en Allemagne, HT / HT (bas)",DE,TECH,,2025,17.26,%,estimation,ventes DE HT × part « IT et mobile » / dépenses DE TECH ramenées HT
+K3_haut,Marché & Potentiel,"Part de marché du concurrent CECONOMY en Allemagne, HT / HT (haut)",DE,TECH,,2025,37.53,%,estimation,ventes DE HT / dépenses DE TECH ramenées HT
 K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,TECH,,2022,87.27,indice FR = 100,mesuré,indice DE / indice FR × 100
 K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,TECH,,2022,88.01,indice FR = 100,mesuré,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
 K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,TECH,,2022,18.19,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
