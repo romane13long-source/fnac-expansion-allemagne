@@ -6,8 +6,7 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 
 **Livrables**
 - 📊 **Dashboard interactif (lien public)** : https://romane13long-source.github.io/fnac-allemagne-dashboard/
-- 🖥️ **Présentation de l'oral** : [`docs/Comex_Fnac_Allemagne.pdf`](docs/Comex_Fnac_Allemagne.pdf) (PDF à envoyer) · version animée : [`docs/slides.html`](docs/slides.html) (flèches pour naviguer, N pour les notes, F pour le plein écran) · texte de l'oral : [`docs/script_oral.md`](docs/script_oral.md)
-- ❓ **Réponses préparées aux questions du jury** : [`docs/questions_jury.md`](docs/questions_jury.md)
+- 🖥️ **Présentation de l'oral** : [`docs/Comex_Fnac_Allemagne.pdf`](docs/Comex_Fnac_Allemagne.pdf) (PDF à envoyer) · version animée : [`docs/slides.html`](docs/slides.html) (flèches pour naviguer, F pour le plein écran)
 
 ---
 
@@ -364,7 +363,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 | 4 | Ouvrir le magasin pilote, la tech d'abord | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
 | 5 | Décision de déploiement à **3 ans** (2 ans d'exploitation) ; l'entrepôt allemand est étudié à ce stade | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
 
-**Financement et ouvertures si Go** *(DEU 2025, p. 8, 21, 30, 34)* : cash-flow libre opérationnel **145 M€** en 2025 (210 M€ en 2024), plan d'investissement **200 M€ par an**, résultat net 2025 **−145,6 M€**. Le pilote (3,6 M€, hypothèse) = **2,5 %** du cash-flow libre 2025. Si le pilote réussit : **Düsseldorf** (34 km de Cologne) et **Francfort** (153 km), livrées depuis un entrepôt à Cologne, pour **7,2 M€** (5 % du cash-flow libre 2025 ; coût de l'entrepôt non chiffré). La perte nette 2025 justifie un déploiement par étapes.
+**Financement et ouvertures si Go** *(DEU 2025, p. 8, 21, 30, 34)* : cash-flow libre opérationnel **145 M€** en 2025 (210 M€ en 2024), plan d'investissement **200 M€ par an**, résultat net 2025 **−145,6 M€**. Le pilote (3,6 M€, hypothèse) = **2,5 %** du cash-flow libre 2025. **Rythme et coût du déploiement si le pilote réussit** *(guide des KPI : « déterminer le rythme et le coût de déploiement »)* : ans 3-4, **Düsseldorf** (34 km de Cologne) et **Francfort** (153 km) avec un entrepôt à Cologne (7,2 M€) ; ans 5-6, **Munich, Hambourg, Berlin** (10,8 M€). Total **6 magasins, 21,6 M€**, soit **14,9 %** du cash-flow libre 2025, 2 à 3 ouvertures par an ; coût de l'entrepôt non chiffré ; chaque vague n'est lancée que si la précédente est rentable. La perte nette 2025 justifie un déploiement par étapes.
 
 **Arbitrages**
 - **Pas de déploiement national** avant la preuve du pilote.
@@ -397,7 +396,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 
 Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi à la main) :
 
-**Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 11 slides blanches au template homogène, graphiques natifs modifiables, mêmes chiffres que le dashboard, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse en 5 slides dont la capacité financière, Go / No-Go en conclusion) + une slide de réserve (usage de l'IA et limites). Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
+**Slides générées automatiquement** (`docs/slides.html` et `docs/Comex_Fnac_Allemagne.pdf`, script `src/restitution/build_slides_html.py`) : 13 slides au template homogène, mêmes données que le dashboard (aucun chiffre saisi à la main), calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse et brique IA, Go / No-Go), plus 2 annexes (définitions des KPI, sources et méthode de collecte).
 
 **Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`), public : https://romane13long-source.github.io/fnac-allemagne-dashboard/ (dépôt public dédié, qui ne contient que cette page) :
 - 12 onglets, une question par onglet, dans l'ordre du raisonnement : marché, prix et marges, concurrence, où ouvrir (7 villes candidates), logistique, assortiment, rentabilité, capacité financière de Fnac Darty, décision, définitions des KPI, IA et méthode.
@@ -405,7 +404,6 @@ Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi
 - Chaque chiffre porte une ligne « ℹ » qui dit ce qu'il mesure (moyenne, calcul, exemple), son étiquette (mesuré, estimation, hypothèse, simulé) et la source sous chaque graphique.
 - Simulateur « et si… ? » (loyer, investissement, ventes) et détail du calcul du résultat d'un magasin étape par étape.
 
-Réponses préparées aux questions du jury : `docs/questions_jury.md`.
 
 ### 5.2 Brique IA
 
