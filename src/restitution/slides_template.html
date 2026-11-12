@@ -33,17 +33,17 @@
   .card h4 { font-size: 26px; margin-bottom: 14px; }
   .card ul { padding-left: 22px; font-size: 20px; line-height: 1.5; }
   .chart { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; min-height: 0; }
-  .chart h3 { font-size: 21px; margin-bottom: 4px; }
-  .chart .sub { font-size: 15px; color: var(--soft); margin-bottom: 8px; }
+  .chart h3 { font-size: 30px; margin-bottom: 6px; }
+  .chart .sub { font-size: 21px; color: var(--muted); margin-bottom: 10px; }
   .chart svg { width: 100%; flex: 1; min-height: 0; }
   svg text { font-family: inherit; fill: var(--muted); }
-  .legend { display: flex; gap: 22px; font-size: 16px; color: var(--muted); }
-  .legend i { display: inline-block; width: 22px; height: 5px; border-radius: 3px; vertical-align: middle; margin-right: 8px; }
+  .legend { display: flex; gap: 30px; font-size: 24px; color: var(--ink); font-weight: 600; }
+  .legend i { display: inline-block; width: 34px; height: 8px; border-radius: 3px; vertical-align: middle; margin-right: 8px; }
   .ia { background: var(--ai-bg); border-radius: 14px; padding: 16px 22px; border-left: 7px solid var(--ai); font-size: 18px; line-height: 1.45; }
   .ia b { color: var(--ai); letter-spacing: .06em; font-size: 14px; display: block; margin-bottom: 4px; }
-  .src { font-size: 13px; color: var(--soft); margin-top: auto; padding-top: 14px; }
+  .src { font-size: 16px; color: var(--muted); margin-top: auto; padding-top: 14px; }
   .foot { position: absolute; left: 72px; right: 72px; bottom: 18px; display: flex; justify-content: space-between; font-size: 13px; color: var(--soft); }
-  table { width: 100%; border-collapse: collapse; font-size: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 24px; }
   th { text-align: left; font-size: 15px; letter-spacing: .05em; text-transform: uppercase; color: #fff; background: var(--ink); padding: 12px 14px; }
   td { padding: 11px 14px; border-bottom: 1px solid var(--line); }
   tr.hl td { background: #e9f6e9; font-weight: 700; }
@@ -106,28 +106,28 @@ const head = (k, t) => `<div class="kicker" ${IN()}>${k}</div><h1 ${IN()}>${t}</
 
 /* graphiques SVG (mêmes couleurs que le dashboard) */
 function hbars(rows, { W = 900, H = null, labelW = 300, ref = null, refLabel = "", fmt = v => nf(v, 1), max = null } = {}) {
-  const rh = 62, h = H || rows.length * rh + 40, lo = Math.min(0, ...rows.map(r => r.v)), hi = max ?? Math.max(...rows.map(r => r.v), ref ?? 0) * 1.12;
-  const x = v => labelW + (v - lo) / (hi - lo) * (W - labelW - 130);
+  const rh = 84, h = H || rows.length * rh + 50, lo = Math.min(0, ...rows.map(r => r.v)), hi = max ?? Math.max(...rows.map(r => r.v), ref ?? 0) * 1.12;
+  const x = v => labelW + (v - lo) / (hi - lo) * (W - labelW - 200);
   let s = `<svg viewBox="0 0 ${W} ${h}" role="img">`;
   rows.forEach((r, i) => {
     const y = 10 + i * rh, x0 = x(0), x1 = x(r.v);
-    s += `<text x="${labelW - 14}" y="${y + 36}" text-anchor="end" style="font-size:22px;fill:#0b0b0b;font-weight:${r.bold ? 800 : 500}">${r.n}</text>`;
-    s += `<rect class="bar" style="animation-delay:${400 + i * 150}ms" x="${Math.min(x0, x1)}" y="${y + 10}" width="${Math.max(Math.abs(x1 - x0), 2)}" height="40" rx="6" fill="${r.c}"/>`;
-    s += `<text x="${Math.max(x0, x1) + 12}" y="${y + 38}" style="font-size:22px;fill:#0b0b0b;font-weight:700">${r.lab ?? fmt(r.v)}</text>`;
+    s += `<text x="${labelW - 14}" y="${y + 52}" text-anchor="end" style="font-size:30px;fill:#0b0b0b;font-weight:${r.bold ? 800 : 600}">${r.n}</text>`;
+    s += `<rect class="bar" style="animation-delay:${400 + i * 150}ms" x="${Math.min(x0, x1)}" y="${y + 12}" width="${Math.max(Math.abs(x1 - x0), 2)}" height="60" rx="8" fill="${r.c}"/>`;
+    s += `<text x="${Math.max(x0, x1) + 14}" y="${y + 54}" style="font-size:34px;fill:#0b0b0b;font-weight:800">${r.lab ?? fmt(r.v)}</text>`;
   });
   s += `<line x1="${x(0)}" x2="${x(0)}" y1="6" y2="${h - 26}" stroke="#c3c2b7" stroke-width="2"/>`;
-  if (ref !== null) s += `<line x1="${x(ref)}" x2="${x(ref)}" y1="6" y2="${h - 26}" stroke="#52514e" stroke-width="2" stroke-dasharray="6 5"/><text x="${x(ref)}" y="${h - 4}" text-anchor="middle" style="font-size:17px">${refLabel}</text>`;
+  if (ref !== null) s += `<line x1="${x(ref)}" x2="${x(ref)}" y1="6" y2="${h - 26}" stroke="#52514e" stroke-width="2" stroke-dasharray="6 5"/><text x="${x(ref)}" y="${h - 4}" text-anchor="middle" style="font-size:24px">${refLabel}</text>`;
   return s + `</svg>`;
 }
 function lines(series, years, { W = 900, H = 430 } = {}) {
-  const Lm = 60, R = 120, Tm = 14, B = 40, max = Math.ceil(Math.max(...series.flatMap(s => s.v)) * 1.1 / 100) * 100;
+  const Lm = 80, R = 160, Tm = 20, B = 54, max = Math.ceil(Math.max(...series.flatMap(s => s.v)) * 1.1 / 100) * 100;
   const x = i => Lm + i / (years.length - 1) * (W - Lm - R), y = v => Tm + (1 - v / max) * (H - Tm - B);
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
-  for (let v = 0; v <= max; v += 100) { const i = v; s += `<line x1="${Lm}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${i ? "#eeede8" : "#c3c2b7"}"/><text x="${Lm - 10}" y="${y(v) + 6}" text-anchor="end" style="font-size:17px">${nf(v, 0)}</text>`; }
-  years.forEach((yr, i) => { if (i % 2 === 0 || i === years.length - 1) s += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" style="font-size:17px">${yr}</text>`; });
+  for (let v = 0; v <= max; v += 100) { const i = v; s += `<line x1="${Lm}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${i ? "#eeede8" : "#c3c2b7"}"/><text x="${Lm - 10}" y="${y(v) + 9}" text-anchor="end" style="font-size:25px">${nf(v, 0)}</text>`; }
+  years.forEach((yr, i) => { if (i % 2 === 0 || i === years.length - 1) s += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" style="font-size:25px">${yr}</text>`; });
   for (const se of series) {
-    s += `<path class="draw" d="${se.v.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join("")}" fill="none" stroke="${se.c}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>`;
-    s += `<circle cx="${x(years.length - 1)}" cy="${y(se.v.at(-1))}" r="8" fill="${se.c}"/><text x="${x(years.length - 1) + 14}" y="${y(se.v.at(-1)) + 7}" style="font-size:22px;font-weight:800;fill:${se.c}">${nf(se.v.at(-1), 0)} €</text>`;
+    s += `<path class="draw" d="${se.v.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join("")}" fill="none" stroke="${se.c}" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s += `<circle cx="${x(years.length - 1)}" cy="${y(se.v.at(-1))}" r="12" fill="${se.c}"/><text x="${x(years.length - 1) + 18}" y="${y(se.v.at(-1)) + 12}" style="font-size:36px;font-weight:800;fill:${se.c}">${nf(se.v.at(-1), 0)} €</text>`;
   }
   return s + `</svg>`;
 }
@@ -189,8 +189,8 @@ const SLIDES = [
         <b>Donc :</b> des prix plus bas mais plus d'achats ; il faut acheter en Allemagne pour garder la marge.</div></div></div>`, "",
    "5:00 → 5:35 · Romane — Deuxième insight : non, la France n'est pas moins chère, c'est l'inverse : 116,5 contre 94,7 en base 100 européenne. Une fois la TVA retirée, la tech est 18 % moins chère en Allemagne. Si la Fnac achète au prix français et vend au prix allemand, sa marge passe de 28 à 12 %. Il faut donc acheter en Allemagne."],
   [() => head("4 · L'analyse", "Insight 3 · Sur 4 façons d'ouvrir un magasin,<br>une seule gagne de l'argent") +
-    `<div class="row c2"><div class="chart" ${IN()}><h3>Ce que gagne ou perd un magasin par an (M€)</h3><div class="sub">Magasin de 2 400 m², 14,6 M€ de ventes : ce qui reste après les produits, les salaires et le loyer</div>
-      ${hbars(Object.entries(D.scenarios).map(([k, x]) => ({ n: { A: "Achats en France, loyer centre-ville", B: "Achats en France, loyer modéré", C: "Achats en Allemagne, loyer centre-ville", D: "Achats en Allemagne, loyer modéré" }[k], v: x.resultat, c: x.resultat > 0 ? "#0c9a0c" : "#d03b3b", lab: sg(x.resultat, 2) + " M€", bold: k === "D" })), { labelW: 470, W: 1000 })}
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Ce que gagne ou perd un magasin par an (M€)</h3><div class="sub">Où on achète les produits + quel loyer · magasin de 2 400 m², 14,6 M€ de ventes</div>
+      ${hbars(Object.entries(D.scenarios).map(([k, x]) => ({ n: { A: "France + centre-ville", B: "France + loyer modéré", C: "Allemagne + centre-ville", D: "Allemagne + loyer modéré" }[k], v: x.resultat, c: x.resultat > 0 ? "#0c9a0c" : "#d03b3b", lab: sg(x.resultat, 2) + " M€", bold: k === "D" })), { labelW: 410, W: 920 })}
       <div class="src" style="margin-top:auto">Source : rapport annuel 2025 du groupe (ventes au m², coûts) ; loyer de centre-ville : chambre de commerce allemande (IHK), hypothèse</div></div>
       <div class="col">${tile(nf(SD.delai) + " ans", "pour rembourser l'ouverture (3,6 M€, hypothèse) dans le seul cas rentable", "good")}
       ${tile(`< ${nf(D.seuil_loyer, 0)} €`, `de loyer par m² et par mois, sinon le magasin perd de l'argent ; en centre-ville, c'est ${nf(D.loyer_m2_mois, 0)} €`)}
