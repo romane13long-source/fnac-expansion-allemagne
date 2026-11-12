@@ -1,11 +1,14 @@
-"""Gold -> docs/Comex_Fnac_Allemagne.pptx (9 slides, graphiques natifs) + docs/script_oral.md (ce qu'on dit, minuté).
+"""Gold -> docs/Comex_Fnac_Allemagne.pptx (11 slides, graphiques natifs) + docs/script_oral.md (ce qu'on dit, minuté).
 
 Les slides suivent les 5 sections de l'oral imposées par le sujet (slide 8 du PDF « Data Analytics Project ») :
 1. entreprise & pays (1 min) · 2. base de données & cadrage (1 min 30) · 3. pourquoi ces KPI (2 min)
-· 4. analyse des chiffres + brique IA (3 min) · 5. Go / No-Go (1 min 30). Tous les chiffres sont lus dans le Gold.
+· 4. analyse des chiffres + brique IA (3 min) · 5. Go / No-Go (1 min 30). Même contenu que le dashboard (src/restitution/donnees.py).
+Fond blanc partout ; la décision n'apparaît qu'à la conclusion.
 """
 import json
 import re
+import sys
+from pathlib import Path
 
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
@@ -13,29 +16,26 @@ from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_LEGEND_POSITION, XL_TICK_LABEL_POSITION
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
-from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
-
-import sys
-from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import donnees  # noqa: E402
-from paths import GOLD, ROOT
+from paths import GOLD, ROOT  # noqa: E402
 
 D = donnees.donnees()
-AI = json.loads((GOLD / "commentaires_ia_filtres.json").read_text(encoding="utf-8"))
+ia_path = GOLD / "commentaires_ia_filtres.json"  # généré localement par src/ai/commentaires_dashboard.py (claude -p)
+AI = json.loads(ia_path.read_text(encoding="utf-8")) if ia_path.exists() else None
 L = D["last"]
 T = D["categories"]["TECH"]
-NRW = next(x for x in D["lands"] if x["land"] == "Nordrhein-Westfalen")
 SD = D["scenarios"]["D"]
-# La décision n'apparaît qu'à la conclusion : on retire du commentaire IA de l'analyse les phrases qui l'annoncent
-TEXTE_IA_D = " ".join(p for p in re.split(r"(?<=[.:]) ", AI["scenarios"]["D"]["texte"]) if "Go" not in p and "pilote" not in p)
+F = D["finances"]
+KOLN = next(v for v in D["villes"] if v["ville"] == "Köln")
+PDV = {k["enseigne"]: k["pdv"] for k in D["concurrents"]}
 
-INK, DARK, WHITE = RGBColor(0x0B, 0x0B, 0x0B), RGBColor(0x14, 0x17, 0x22), RGBColor(0xFF, 0xFF, 0xFF)
+INK, WHITE = RGBColor(0x0B, 0x0B, 0x0B), RGBColor(0xFF, 0xFF, 0xFF)
 BLUE, ORANGE, RED, GREEN = RGBColor(0x2A, 0x78, 0xD6), RGBColor(0xEB, 0x68, 0x34), RGBColor(0xD0, 0x3B, 0x3B), RGBColor(0x0C, 0xA3, 0x0C)
-VIOLET, GREY, MUTED, LIGHT = RGBColor(0x62, 0x50, 0xD6), RGBColor(0xA3, 0xA2, 0x9C), RGBColor(0x52, 0x51, 0x4E), RGBColor(0xC3, 0xC2, 0xB7)
-TINT, VTINT = RGBColor(0xF4, 0xF4, 0xF1), RGBColor(0xF1, 0xEF, 0xFC)
+VIOLET, GREY, MUTED = RGBColor(0x62, 0x50, 0xD6), RGBColor(0xA3, 0xA2, 0x9C), RGBColor(0x52, 0x51, 0x4E)
+TINT, VTINT, DARKBAR = RGBColor(0xF4, 0xF4, 0xF1), RGBColor(0xF1, 0xEF, 0xFC), RGBColor(0x14, 0x17, 0x22)
 FONT = "Calibri"
 
 
@@ -57,8 +57,8 @@ SCRIPT = []
 
 
 def tb(slide, x, y, w, h, runs, size=16, color=INK, bold=False, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP):
-    box = slide.shapes.add_textbox(x, y, w, h)
-    tf = box.text_frame
+    box_ = slide.shapes.add_textbox(x, y, w, h)
+    tf = box_.text_frame
     tf.word_wrap, tf.vertical_anchor = True, anchor
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
     paras = [[(runs, {})]] if isinstance(runs, str) else runs
@@ -70,15 +70,15 @@ def tb(slide, x, y, w, h, runs, size=16, color=INK, bold=False, align=PP_ALIGN.L
             r.text = txt
             r.font.name, r.font.size = FONT, Pt(o.get("size", size))
             r.font.bold, r.font.color.rgb = o.get("bold", bold), o.get("color", color)
-    return box
+    return box_
 
 
-def slide(section, title, dark=False):
+def slide(section, title):
     s = prs.slides.add_slide(BLANK)
     s.background.fill.solid()
-    s.background.fill.fore_color.rgb = DARK if dark else WHITE
-    tb(s, M, Inches(0.4), CW, Inches(0.35), section.upper(), size=12, bold=True, color=LIGHT if dark else MUTED)
-    tb(s, M, Inches(0.75), CW, Inches(1.1), title, size=32, bold=True, color=WHITE if dark else INK)
+    s.background.fill.fore_color.rgb = WHITE
+    tb(s, M, Inches(0.4), CW, Inches(0.35), section.upper(), size=12, bold=True, color=MUTED)
+    tb(s, M, Inches(0.75), CW, Inches(1.1), title, size=30, bold=True)
     return s
 
 
@@ -92,33 +92,37 @@ def box(s, x, y, w, h, fill):
     return shp
 
 
-def stat(s, x, y, w, value, label, color=INK, fill=TINT, label_color=MUTED, size=40):
-    box(s, x, y, w, Inches(1.6), fill)
-    tb(s, x + Inches(0.25), y + Inches(0.15), w - Inches(0.5), Inches(0.85), value, size=size, bold=True, color=color)
-    tb(s, x + Inches(0.25), y + Inches(1.0), w - Inches(0.5), Inches(0.55), label, size=13, color=label_color)
+def stat(s, x, y, w, value, label, color=INK, h=Inches(1.55), size=36):
+    """Tuile chiffre : gros nombre + ce qu'il mesure, en clair."""
+    box(s, x, y, w, h, TINT)
+    tb(s, x + Inches(0.22), y + Inches(0.12), w - Inches(0.44), Inches(0.75), value, size=size, bold=True, color=color)
+    tb(s, x + Inches(0.22), y + Inches(0.85), w - Inches(0.44), h - Inches(0.9), label, size=12, color=MUTED)
 
 
-def footer(s, txt, dark=False):
-    tb(s, M, Inches(7.02), CW, Inches(0.3), txt, size=10, color=LIGHT if dark else MUTED)
+def footer(s, txt):
+    tb(s, M, Inches(7.02), CW, Inches(0.3), "Source : " + txt, size=10, color=MUTED)
 
 
 def notes(s, minutage, qui, texte):
-    """Notes de présentation (visibles en mode présentateur) + même texte dans docs/script_oral.md."""
+    """Notes de présentation (mode présentateur) + même texte dans docs/script_oral.md."""
     s.notes_slide.notes_text_frame.text = f"[{minutage} · {qui}]\n{texte}"
-    titre = next(sh.text_frame.text for sh in list(s.shapes)[1:2])
+    titre = list(s.shapes)[1].text_frame.text
     SCRIPT.append((len(prs.slides), titre, minutage, qui, texte))
 
 
 def sans_decision(texte):
-    """La décision n'apparaît qu'à la conclusion : on retire les phrases qui annoncent le Go."""
-    return " ".join(p for p in re.split(r"(?<=[.:]) ", texte) if "Go" not in p and "pilote" not in p)
+    """La décision n'apparaît qu'à la conclusion : on retire les phrases qui l'annoncent."""
+    # on retire la phrase entière (jusqu'au point), jamais un morceau de phrase
+    return " ".join(p for p in re.split(r"(?<=\.) ", texte) if "Go" not in p and "pilote" not in p)
 
 
-def lecture_ia(s, x, y, w, kpi_id):
-    """Encadré « Lecture IA » : commentaire de la brique IA pour ce KPI (chiffres contrôlés)."""
-    box(s, x, y, w, Inches(1.05), VTINT)
-    tb(s, x + Inches(0.2), y + Inches(0.1), w - Inches(0.4), Inches(0.9), [
-        [("✦ Lecture IA · ", {"bold": True, "color": VIOLET, "size": 12}), (sans_decision(AI["kpi"][kpi_id]["texte"]), {"size": 12})]], size=12)
+def lecture_ia(s, x, y, w, groupe, cle, h=Inches(1.0)):
+    """Encadré « Lecture IA » : commentaire rédigé par Claude (claude -p) à partir des KPI, chiffres contrôlés."""
+    if not AI:
+        return
+    box(s, x, y, w, h, VTINT)
+    tb(s, x + Inches(0.2), y + Inches(0.1), w - Inches(0.4), h - Inches(0.15), [
+        [("✦ Lecture IA · ", {"bold": True, "color": VIOLET, "size": 12}), (sans_decision(AI[groupe][cle]["texte"]), {"size": 12})]], size=12)
 
 
 def style(chart, legend=False):
@@ -126,167 +130,192 @@ def style(chart, legend=False):
     chart.has_legend = legend
     if legend:
         chart.legend.position, chart.legend.include_in_layout = XL_LEGEND_POSITION.TOP, False
+    chart.value_axis.has_major_gridlines = False
+    chart.value_axis.tick_labels.font.size = Pt(10)
+
+
+def table(s, x, y, w, rows, widths, size=13, header_fill=DARKBAR, h=None):
+    tbl = s.shapes.add_table(len(rows), len(rows[0]), x, y, w, h or Inches(0.4 * len(rows))).table
+    for j, wd in enumerate(widths):
+        tbl.columns[j].width = wd
+    for i, r in enumerate(rows):
+        for j, v in enumerate(r):
+            c = tbl.cell(i, j)
+            c.text = str(v)
+            c.fill.solid()
+            c.fill.fore_color.rgb = header_fill if i == 0 else (TINT if i % 2 else WHITE)
+            for p in c.text_frame.paragraphs:
+                for run in p.runs:
+                    run.font.name, run.font.size = FONT, Pt(size)
+                    run.font.bold = i == 0
+                    run.font.color.rgb = WHITE if i == 0 else INK
+    return tbl
 
 
 # ============================================================ 1. ENTREPRISE & PAYS (1 min)
 s = slide("Comex Fnac · Stratégie 2027-2029", "")
-tb(s, M, Inches(1.7), CW, Inches(1.2), "Fnac → Allemagne", size=64, bold=True, color=INK)
-box(s, M, Inches(3.05), Inches(0.12), Inches(1.5), BLUE)
-tb(s, M + Inches(0.4), Inches(3.05), CW - Inches(0.4), Inches(1.5),
+tb(s, M, Inches(1.7), CW, Inches(1.2), "Fnac → Allemagne", size=64, bold=True)
+box(s, M, Inches(3.05), Inches(0.12), Inches(1.4), BLUE)
+tb(s, M + Inches(0.4), Inches(3.05), CW - Inches(0.4), Inches(1.4),
    "« L'implantation dans le pays ciblé est-elle réalisable et rentable ? »", size=28, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
-tb(s, M, Inches(5.4), CW, Inches(0.5), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL",
-   size=16, color=INK)
-footer(s, "Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne réelle de la Fnac")
-notes(s, "0:00 → 0:20", "Romane", "Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne "
-      "est-elle réalisable et rentable ? Pour y répondre, on a construit toute la chaîne de données, du téléchargement jusqu'à "
-      "la recommandation. Notre décision arrive à la fin ; voici d'abord le contexte.")
+tb(s, M, Inches(5.4), CW, Inches(0.5), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL", size=16)
+footer(s, "projet final Data Analytics, Eugenia School M2 · données publiques, aucune donnée interne réelle de la Fnac")
+notes(s, "0:00 → 0:15", "Romane", "Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle "
+      "réalisable et rentable ? On a construit toute la chaîne de données pour y répondre ; notre décision arrive à la fin.")
 
 s = slide("1 · L'entreprise et le pays cible", "Une Fnac qui rétrécit en France, un marché allemand qui grandit")
-stat(s, M, Inches(2.1), Inches(3.8), f"{D['x_magasins_fr']}", "magasins Fnac en France fin 2025\n(1 ouverture, 15 fermetures en 2025)", color=INK)
-stat(s, M + Inches(4.05), Inches(2.1), Inches(3.8), sg(T["croissance_moy"]["DE"]) + " %/an",
-     f"dépenses tech en Allemagne 2015-{L}\n(France : {sg(T['croissance_moy']['FR'])} %/an)", color=GREEN)
-stat(s, M + Inches(8.1), Inches(2.1), Inches(4.0), "0", "magasin Fnac Darty en Allemagne\n(1er marché d'Europe : 83,6 M hab.)", color=BLUE)
-tb(s, M, Inches(4.2), CW, Inches(2.4), [
-    [("Périmètre : ", {"bold": True}), ("enseigne Fnac seule (biens culturels, produits techniques, services) ; Darty exclu.", {})],
-    [("Pourquoi l'Allemagne : ", {"bold": True}), ("le plus grand marché d'Europe, absent du réseau Fnac Darty, et son leader MediaMarkt/Saturn est notre concurrent direct.", {})],
-    [("Enjeu 2027-2029 : ", {"bold": True}), ("trouver la croissance hors de France sans détruire de valeur.", {})]], size=18)
-footer(s, "Sources : Fnac Darty DEU 2025 p. 39 ; Eurostat nama_10_cp18 et demo_pjan ; fnacdarty.com « around the world »")
-notes(s, "0:20 → 1:00", "Romane", f"La Fnac compte {D['x_magasins_fr']} magasins en France fin 2025, après 15 fermetures dans l'année. "
-      f"En face, les dépenses des ménages allemands en produits techniques progressent de {n(T['croissance_moy']['DE'])} % par an "
-      f"depuis 2015, quand elles reculent de {n(abs(T['croissance_moy']['FR']))} % en France. L'Allemagne est le premier marché "
-      "d'Europe, le groupe n'y a aucun magasin, et son leader MediaMarkt-Saturn est déjà notre concurrent direct. "
-      "C'est donc le pays le plus logique à tester.")
+w3 = (CW - Inches(0.5)) / 3
+stat(s, M, Inches(2.0), w3, f"{D['x_magasins_fr']}", "magasins Fnac en France fin 2025 (1 ouverture, 15 fermetures dans l'année)")
+stat(s, M + w3 + Inches(0.25), Inches(2.0), w3, sg(T["croissance_moy"]["DE"]) + " %/an",
+     f"croissance des dépenses tech en Allemagne 2015-{L} (France : {sg(T['croissance_moy']['FR'])} %/an)", color=GREEN)
+stat(s, M + 2 * (w3 + Inches(0.25)), Inches(2.0), w3, "0", "magasin Fnac Darty en Allemagne, 1er marché d'Europe (83,6 M habitants)", color=BLUE)
+tb(s, M, Inches(4.0), CW, Inches(2.6), [
+    [("Périmètre : ", {"bold": True}), ("l'enseigne Fnac seule (biens culturels, produits techniques, services) ; Darty exclu.", {})],
+    [("Pourquoi l'Allemagne : ", {"bold": True}), ("le plus grand marché d'Europe, absent du réseau Fnac Darty, et son leader MediaMarkt / Saturn est déjà notre concurrent direct.", {})],
+    [("Enjeu 2027-2029 : ", {"bold": True}), ("trouver de la croissance hors de France sans détruire de valeur.", {})]], size=18)
+footer(s, "Fnac Darty DEU 2025 p. 39 ; Eurostat nama_10_cp18 et demo_pjan ; fnacdarty.com « around the world »")
+notes(s, "0:15 → 1:00", "Romane", f"La Fnac compte {D['x_magasins_fr']} magasins en France fin 2025, après 15 fermetures. Les dépenses "
+      f"des ménages allemands en tech progressent de {n(T['croissance_moy']['DE'])} % par an depuis 2015, quand elles reculent de "
+      f"{n(abs(T['croissance_moy']['FR']))} % en France. L'Allemagne est le premier marché d'Europe et le groupe n'y a aucun magasin.")
 
 # ============================================================ 2. BASE DE DONNÉES & CADRAGE (1 min 30)
 s = slide("2 · Base de données et cadrage · modélisation 20 pts + sources 15 pts", "Un pipeline reproductible, une source officielle par sujet")
-img = ROOT / "docs" / "images" / "02_modele_etoile_flocon.png"
-pic = s.shapes.add_picture(str(img), M, Inches(1.9), height=Inches(4.9))
-x0 = M + pic.width + Inches(0.35)
+pic = s.shapes.add_picture(str(ROOT / "docs" / "images" / "02_modele_etoile_flocon.png"), M, Inches(1.85), height=Inches(4.95))
+x0 = M + pic.width + Inches(0.3)
 w0 = prs.slide_width - x0 - M
-tb(s, x0, Inches(1.95), w0, Inches(4.9), [
-    [("Bronze → Silver → Gold", {"bold": True, "size": 20})],
-    [("Téléchargé, nettoyé, puis modélisé par un script (run_pipeline.py) : relancé deux fois, résultat identique.", {})],
-    [("Modèle en constellation", {"bold": True, "size": 20})],
-    [("4 tables de faits, 6 dimensions, flocon commune → Land.", {})],
-    [("Sources fiables", {"bold": True, "size": 20})],
-    [("Eurostat, Destatis, rapports annuels déposés (Fnac Darty à l'AMF, CECONOMY), Commission européenne, EUR-Lex.", {})],
-    [("Honnêteté", {"bold": True, "size": 20})],
-    [("Chaque chiffre est étiqueté : mesuré, estimation, hypothèse ou simulé.", {})]], size=15)
-footer(s, "Repo GitHub fnac-expansion-allemagne · README § 2 (dictionnaire, 11 règles de gestion) et § 3 (sources)")
-notes(s, "1:00 → 2:30", "Elena", "Aucune donnée n'était fournie : on a tout collecté en données publiques. Le pipeline suit les trois "
-      "couches vues en cours : Bronze, la donnée brute jamais modifiée ; Silver, une table propre par source ; Gold, le modèle "
-      "en étoile. On a quatre tables de faits de grains différents qui partagent leurs dimensions, avec un flocon commune vers Land "
-      "pour la zone de chalandise. Côté sources, une seule source officielle par sujet, pour ne jamais afficher deux chiffres "
-      "différents : Eurostat pour le marché et les prix, Destatis pour les 10 753 communes, les rapports annuels pour les "
-      "entreprises. Et tout ce qui n'est pas officiel est étiqueté hypothèse ou simulé.")
+tb(s, x0, Inches(1.9), w0, Inches(5.0), [
+    [("Bronze → Silver → Gold", {"bold": True, "size": 18})],
+    [("Un script (run_pipeline.py) télécharge, nettoie, modélise : relancé deux fois, résultat identique.", {})],
+    [("Comment on a collecté", {"bold": True, "size": 18})],
+    [("API Eurostat (marché, prix, population) · fichier Destatis (10 753 communes) · scraping des plans de site MediaMarkt / Saturn (394 magasins) · rapports annuels relevés à la main.", {})],
+    [("Sources officielles", {"bold": True, "size": 18})],
+    [("Eurostat = office statistique de l'UE. Fnac Darty (document déposé à l'AMF), CECONOMY, Commission européenne, EUR-Lex.", {})],
+    [("Chaque chiffre est étiqueté", {"bold": True, "size": 18})],
+    [("mesuré, estimation, hypothèse ou simulé.", {})]], size=14)
+footer(s, "repo GitHub fnac-expansion-allemagne · README § 2 (dictionnaire, 11 règles de gestion) et § 3 (sources)")
+notes(s, "1:00 → 2:30", "Elena", "Aucune donnée n'était fournie : tout vient de sources publiques. On a utilisé l'API d'Eurostat, l'office "
+      "statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel allemand des communes ; "
+      "et du scraping pour localiser les magasins MediaMarkt et Saturn, à partir des plans de site publiés pour les robots. "
+      "Le pipeline suit les trois couches du cours : Bronze, Silver, Gold. Le Gold est un modèle en constellation : quatre tables "
+      "de faits qui partagent leurs dimensions, avec un flocon commune vers Land. Chaque chiffre porte son étiquette.")
 
 # ============================================================ 3. POURQUOI CES KPI (2 min)
 s = slide("3 · La démarche analytique · choix des KPI 30 pts", "Un KPI par question du Comex, un KPI de synthèse pour trancher")
-rows = [("Marché & potentiel", "Croissance du secteur · part de marché Fnac France · part du concurrent", "Quel plafond de CA ?"),
-        ("Prix & marges", "Indice de prix DE/FR hors taxes · marge brute post-taxe", "Notre positionnement prix tient-il ?"),
-        ("Réseau & implantation", "Densité concurrentielle par Land · coût au m²", "Où ouvrir, à quel coût ?"),
-        ("Opérations & logistique", "Distance au hub de Chilly-Mazarin · douane et TVA", "Peut-on livrer depuis la France ?"),
-        ("Assortiment", "Pénétration des catégories · % du catalogue éligible", "100 % du catalogue ou ciblé ?"),
-        ("★ Synthèse", "Délai de retour sur investissement d'un magasin", "Go ou No-Go ?")]
-tbl = s.shapes.add_table(len(rows) + 1, 3, M, Inches(1.95), CW, Inches(4.6)).table
-tbl.columns[0].width, tbl.columns[1].width = Inches(3.0), Inches(5.6)
-tbl.columns[2].width = CW - Inches(8.6)
-for j, h in enumerate(["Axe du guide", "KPI retenus", "Décision éclairée"]):
-    tbl.cell(0, j).text = h
-for i, r in enumerate(rows, 1):
-    for j, v in enumerate(r):
-        tbl.cell(i, j).text = v
-for i in range(len(rows) + 1):
-    for j in range(3):
-        c = tbl.cell(i, j)
-        c.fill.solid()
-        c.fill.fore_color.rgb = DARK if i == 0 else (VTINT if i == len(rows) else (TINT if i % 2 else WHITE))
-        for p in c.text_frame.paragraphs:
-            for r in p.runs:
-                r.font.name, r.font.size = FONT, Pt(15)
-                r.font.bold = i == 0 or j == 0
-                r.font.color.rgb = WHITE if i == 0 else INK
-footer(s, "12 KPI du guide du sujet + 1 KPI de synthèse · formules dans le README § 2.1 · calcul dans src/gold/kpi.py")
-notes(s, "2:30 → 4:30", "Romane", "On a suivi le guide des KPI du Comex, axe par axe, et on s'est demandé pour chacun : quelle "
-      "décision il éclaire. Le marché dit quel chiffre d'affaires est accessible. Les prix disent si notre positionnement tient. "
-      "Le réseau dit où ouvrir et à quel coût. La logistique dit si on peut livrer depuis la France. L'assortiment dit si on vend "
-      "tout le catalogue ou une sélection. Mais aucun de ces KPI ne répond seul à « rentable ? ». On a donc ajouté un KPI de "
-      "synthèse : le délai de retour sur investissement d'un magasin, calculé à partir de tous les autres. Deux points de méthode : "
-      "les parts de marché sont comparées hors taxes des deux côtés, et les prix sont comparés hors TVA.")
+rows = [("Axe du guide", "KPI retenus", "Décision éclairée"),
+        ("Marché & potentiel", "Croissance · dépense par habitant · parts de marché Fnac et CECONOMY", "Quel plafond de CA ?"),
+        ("Prix & marges", "Niveau de prix DE / FR · marge brute post-taxe", "Notre prix tient-il ?"),
+        ("Réseau & implantation", "Densité concurrentielle · coût au m² · 7 villes candidates", "Où ouvrir, à quel coût ?"),
+        ("Opérations & logistique", "Distance au hub · douane et TVA", "Livrer depuis la France ?"),
+        ("Assortiment", "Pénétration · % du catalogue éligible", "Tout le catalogue ou ciblé ?"),
+        ("★ Synthèse", "Délai de retour d'un magasin · cash-flow du groupe", "Go ou No-Go ?")]
+table(s, M, Inches(1.95), CW, rows, [Inches(3.0), Inches(5.9), CW - Inches(8.9)], size=15, h=Inches(4.6))
+footer(s, "guide des KPI du sujet (slide 7) · définitions et formules : dashboard, onglet « Définitions des KPI », et README § 2.1")
+notes(s, "2:30 → 4:30", "Romane", "On a suivi le guide des KPI du Comex, axe par axe, en se demandant pour chacun quelle décision il "
+      "éclaire. Aucun ne répond seul à « rentable ? » : on a donc ajouté un KPI de synthèse, le délai de retour d'un magasin, et "
+      "le cash-flow du groupe pour savoir s'il peut financer le projet. Méthode : on compare toujours hors taxes, et chaque KPI "
+      "a sa définition en clair dans le dashboard.")
 
-# ============================================================ 4. ANALYSE (3 min) : 3 slides
-s = slide("4 · L'analyse · impact décisionnel & dataviz 35 pts", "Le marché allemand attire : deux fois plus gros et en croissance")
+# ============================================================ 4. ANALYSE (3 min)
+ph = D["par_hab_annees"]["TECH"]
+yrs = sorted(ph["DE"])
+s = slide("4 · L'analyse · impact décisionnel & dataviz 35 pts", f"Un Allemand dépense {n(ph['DE'][L] / ph['FR'][L], 1)} fois plus en tech qu'un Français")
 cd = CategoryChartData()
-years = sorted(T["depenses"]["DE"])
-cd.categories = [str(y) for y in years]
-cd.add_series("Allemagne", [round(T["depenses"]["DE"][y] / 1000, 1) for y in years])
-cd.add_series("France", [round(T["depenses"]["FR"][y] / 1000, 1) for y in years])
-ch = s.shapes.add_chart(XL_CHART_TYPE.LINE, M, Inches(1.9), Inches(7.6), Inches(3.85), cd).chart
-lecture_ia(s, M, Inches(5.9), Inches(7.6), "K1")
+cd.categories = [str(y) for y in yrs]
+cd.add_series("Allemagne", [round(ph["DE"][y]) for y in yrs])
+cd.add_series("France", [round(ph["FR"][y]) for y in yrs])
+ch = s.shapes.add_chart(XL_CHART_TYPE.LINE, M, Inches(1.85), Inches(7.4), Inches(3.9), cd).chart
 style(ch, legend=True)
 for ser, col in zip(ch.series, (BLUE, ORANGE)):
     ser.format.line.color.rgb, ser.format.line.width, ser.smooth = col, Pt(3), False
-ch.value_axis.has_major_gridlines = True
-ch.value_axis.major_gridlines.format.line.color.rgb = RGBColor(0xE1, 0xE0, 0xD9)
-ch.value_axis.tick_labels.font.size = Pt(11)
 ch.has_title = True
-ch.chart_title.text_frame.text = "Dépenses des ménages en produits techniques (Md€)"
+ch.chart_title.text_frame.text = "Dépense tech par habitant (€ par an)"
 ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(14)
-xs = M + Inches(7.9)
-ws = prs.slide_width - xs - M
-stat(s, xs, Inches(1.9), ws, n(T["par_hab"]["DE"], 0) + " €", f"dépense tech par habitant en Allemagne\n(France : {n(T['par_hab']['FR'], 0)} €)", color=BLUE)
-stat(s, xs, Inches(3.65), ws, "0 %", "droits de douane, TVA quasi identique\n(19 % contre 20 %)", color=GREEN)
-stat(s, xs, Inches(5.4), ws, f"{n(D['parts']['cec_bas'], 0)}–{n(D['parts']['cec_haut'], 0)} %",
-     "du marché tech déjà tenu par CECONOMY\n(MediaMarkt + Saturn, estimation)", color=RED)
-footer(s, "Eurostat nama_10_cp18 (euros courants) ; CECONOMY Annual Report 2024/25 ; KPI K1, K3, K9, K10")
-notes(s, "4:30 → 5:30", "Elena", f"Premier constat : le marché attire. Les ménages allemands dépensent {n(T['par_hab']['DE'], 0)} euros "
-      f"par habitant en produits techniques, contre {n(T['par_hab']['FR'], 0)} en France, et la courbe monte quand la française "
-      "stagne. Aucune barrière réglementaire : zéro droit de douane, une TVA quasi identique. Mais la place est prise : "
-      f"CECONOMY, MediaMarkt et Saturn, tient entre {n(D['parts']['cec_bas'], 0)} et {n(D['parts']['cec_haut'], 0)} % du marché.")
+lecture_ia(s, M, Inches(5.85), Inches(7.4), "kpi", "K1")
+xs, ws = M + Inches(7.7), prs.slide_width - M - (M + Inches(7.7))
+p24 = D["cec_ventes"][2024] / D["marche_tech_ht"][2024] * 100
+p25 = D["cec_ventes"][2025] / D["marche_tech_ht"][2025] * 100
+stat(s, xs, Inches(1.85), ws, f"{n(ph['DE'][L], 0)} €", f"par habitant et par an en Allemagne ({L}), contre {n(ph['FR'][L], 0)} € en France : dépenses du pays ÷ habitants")
+stat(s, xs, Inches(3.55), ws, f"{n(D['parts']['cec_bas'], 0)}–{n(D['parts']['cec_haut'], 0)} %", f"du marché tech tenu par CECONOMY (MediaMarkt + Saturn), stable : {n(p24, 1)} % → {n(p25, 1)} % (estimation)", color=RED)
+stat(s, xs, Inches(5.25), ws, "3 réseaux", f"CECONOMY {PDV['MediaMarkt + Saturn']} magasins · Expert > {PDV['Expert']} · Euronics > {n(PDV['Euronics'], 0)} points de vente (+ Otto en ligne)", size=28)
+footer(s, "Eurostat nama_10_cp18 ÷ demo_pjan ; CECONOMY Annual Report 2024/25 p. 39 et 109 ; sites officiels d'Expert et d'Euronics (consultés le 12/11/2026)")
+notes(s, "4:30 → 5:15", "Elena", f"Premier constat : le marché attire. Un Allemand dépense {n(ph['DE'][L], 0)} euros par an en tech, un "
+      f"Français {n(ph['FR'][L], 0)}, et l'écart se creuse depuis 2015. Mais la place est prise : CECONOMY, c'est-à-dire MediaMarkt "
+      f"et Saturn, tient entre {n(D['parts']['cec_bas'], 0)} et {n(D['parts']['cec_haut'], 0)} % du marché, et deux coopératives, "
+      "Expert et Euronics, ont des centaines de petits magasins.")
 
-s = slide("4 · L'analyse", "Mais les prix allemands écrasent notre marge")
+pu = D["prix_ue"]["TECH"]
+s = slide("4 · L'analyse", "Mais la France est plus chère : vendre au prix allemand écrase la marge")
 cd = CategoryChartData()
-yrs = sorted(T["marge"])
-cd.categories = [str(y) for y in yrs]
-cd.add_series("Marge brute en Allemagne à coût d'achat français (%)", [round(T["marge"][y], 1) for y in yrs])
-ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, M, Inches(1.9), Inches(6.6), Inches(3.85), cd).chart
-lecture_ia(s, M, Inches(5.9), Inches(6.6), "K5")
+cd.categories = ["France", "Allemagne"]
+cd.add_series(f"Niveau des prix tech {L} (moyenne UE = 100)", [pu["FR"][L], pu["DE"][L]])
+ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.85), Inches(6.4), Inches(1.9), cd).chart
+style(ch)
+pl = ch.plots[0]
+pl.gap_width, pl.has_data_labels = 40, True
+pl.data_labels.number_format, pl.data_labels.number_format_is_linked = "0.0", False
+pl.data_labels.font.size = Pt(13)
+for i, col in enumerate((ORANGE, BLUE)):
+    pt = ch.series[0].points[i]
+    pt.format.fill.solid()
+    pt.format.fill.fore_color.rgb = col
+ch.has_title = True
+ch.chart_title.text_frame.text = f"Niveau des prix tech {L} (moyenne UE = 100)"
+ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(13)
+cd = CategoryChartData()
+my = sorted(T["marge"])
+cd.categories = [str(y) for y in my]
+cd.add_series("Marge brute à coût d'achat français (%)", [round(T["marge"][y], 1) for y in my])
+ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, M, Inches(3.85), Inches(6.4), Inches(2.0), cd).chart
 style(ch)
 pl = ch.plots[0]
 pl.gap_width, pl.has_data_labels = 60, True
 pl.data_labels.number_format, pl.data_labels.number_format_is_linked = '0.0" %"', False
-pl.data_labels.position, pl.data_labels.font.size = XL_LABEL_POSITION.OUTSIDE_END, Pt(14)
+pl.data_labels.position, pl.data_labels.font.size = XL_LABEL_POSITION.OUTSIDE_END, Pt(12)
 ch.series[0].format.fill.solid()
 ch.series[0].format.fill.fore_color.rgb = RED
 ch.value_axis.maximum_scale, ch.value_axis.minimum_scale = 30, 0
-ch.value_axis.has_major_gridlines = False
 ch.has_title = True
-ch.chart_title.text_frame.text = "Marge brute estimée, produits techniques (groupe : 28 %)"
-ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(14)
-xs = M + Inches(6.9)
-ws = prs.slide_width - xs - M
-stat(s, xs, Inches(1.9), ws, n(T["indice_ht"][L], 0), f"indice de prix hors taxes {L}, France = 100\n→ produits tech 18 % moins chers", color=RED)
-stat(s, xs, Inches(3.65), ws, f"{n(T['marge'][L])} %", "de marge si on achète en France\ncontre 28 % pour le groupe", color=RED)
-box(s, xs, Inches(5.4), ws, Inches(1.6), VTINT)
-tb(s, xs + Inches(0.25), Inches(5.55), ws - Inches(0.5), Inches(1.4), [[("Condition n° 1", {"bold": True, "color": VIOLET})],
-   [("acheter en Allemagne (centrale d'achat locale) pour retrouver ~28 % de marge", {})]], size=16)
-footer(s, "Eurostat prc_ppp_ind_1 (indices de niveau des prix, TTC → HT) ; Fnac Darty DEU 2025 p. 30 ; KPI K4, K5 (estimations)")
-notes(s, "5:30 → 6:30", "Romane", f"Deuxième constat : les produits techniques sont environ 18 % moins chers en Allemagne, hors taxes. "
-      f"Si la Fnac achète ses produits au prix français et les revend au prix allemand, sa marge brute tombe à {n(T['marge'][L])} %, "
-      "contre 28 % pour le groupe. C'est la première condition : il faut acheter en Allemagne, via une centrale d'achat locale. "
-      "Les livres résistent mieux, mais seuls 10 % de notre catalogue de livres, en français, est vendable là-bas.")
+ch.chart_title.text_frame.text = "Marge brute si l'on achète en France (groupe : 28 %)"
+ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(13)
+lecture_ia(s, M, Inches(5.95), Inches(6.4), "kpi", "K5")
+xs, ws = M + Inches(6.7), prs.slide_width - M - (M + Inches(6.7))
+stat(s, xs, Inches(1.85), ws, f"{sg(T['indice_ht'][L] - 100, 0)} %", "prix tech allemands par rapport aux français, hors taxes : la Fnac devra vendre moins cher", color=RED)
+stat(s, xs, Inches(3.55), ws, f"{n(T['marge'][L])} %", "de marge brute si on achète au prix français et revend au prix allemand, contre 28 % pour le groupe", color=RED)
+stat(s, xs, Inches(5.25), ws, "0 %", "de droits de douane : France et Allemagne sont dans l'union douanière de l'UE ; seule la TVA change (19 % contre 20 %)", color=GREEN)
+footer(s, "Eurostat prc_ppp_ind_1 ; Fnac Darty DEU 2025 p. 30 (marge 28 %) ; EUR-Lex TFUE art. 28 et 30 ; Commission européenne (TVA)")
+notes(s, "5:15 → 6:00", "Romane", f"Deuxième constat, et c'est la réponse à une question qu'on nous pose souvent : non, la France n'est pas "
+      f"moins chère. Les produits tech y coûtent {n(pu['FR'][L], 1)} contre {n(pu['DE'][L], 1)} en Allemagne, sur une base 100 "
+      f"européenne. Si la Fnac achète au prix français et vend au prix allemand, sa marge tombe à {n(T['marge'][L])} %, contre 28 %. "
+      "Il n'y a aucun droit de douane entre les deux pays : la difficulté est économique, pas réglementaire.")
 
-s = slide("4 · L'analyse · + brique IA", "Un seul scénario rentable : achats locaux et loyer maîtrisé")
-cd = CategoryChartData()
+s = slide("4 · L'analyse", "Où ouvrir ? Sur les 7 plus grandes villes, Cologne coche les 3 critères")
+score = lambda v: (v["km_hub"] <= 450) + (v["magasins_par_100k"] <= 0.7) + (v["pop"] >= 1e6)  # noqa: E731
+villes = sorted(D["villes"], key=lambda v: (-score(v), v["km_hub"]))
+rows = [("Ville", "Habitants", "CECONOMY / 100 000 hab.", "Distance au hub", "Score")] + [
+    (v["ville"], f"{n(v['pop'] / 1e6, 2)} M", n(v["magasins_par_100k"], 2), f"{n(v['km_hub'], 0)} km", f"{score(v)} / 3") for v in villes]
+table(s, M, Inches(1.85), Inches(7.6), rows, [Inches(2.0), Inches(1.4), Inches(1.9), Inches(1.4), Inches(0.9)], size=13, h=Inches(3.6))
+tb(s, M, Inches(5.6), Inches(7.6), Inches(1.3), [[("Critères : ", {"bold": True}), ("proche du hub (≤ 450 km), concurrence faible (≤ 0,7 magasin CECONOMY pour 100 000 hab.), grand bassin (≥ 1 million d'habitants). On se limite aux 7 plus grandes villes : ce sont celles qui peuvent faire vivre un magasin de 2 400 m².", {})]], size=13, color=MUTED)
+xs, ws = M + Inches(7.9), prs.slide_width - M - (M + Inches(7.9))
+stat(s, xs, Inches(1.85), ws, f"{n(KOLN['km_hub'], 0)} km", "de Cologne au hub Fnac Darty de Chilly-Mazarin : la plus proche des grandes villes", color=GREEN)
+stat(s, xs, Inches(3.55), ws, f"{n(D['distance_moy'], 0)} → {n(D['distance_depuis_koln'], 0)} km", "distance moyenne aux 79 grandes villes, depuis la France puis depuis un entrepôt à Cologne", size=30)
+lecture_ia(s, xs, Inches(5.25), ws, "villes", "Köln", h=Inches(1.6))
+footer(s, "Destatis (population, coordonnées) ; magasins CECONOMY (plans des sites, rattachés aux communes) ; calcul de l'équipe")
+notes(s, "6:00 → 6:45", "Elena", "Troisième question : où ouvrir. On ne regarde que les 7 plus grandes villes, celles qui peuvent faire "
+      "vivre un grand magasin, et on les note sur trois critères simples. Cologne est la seule à cocher les trois : plus d'un million "
+      f"d'habitants, peu de magasins du concurrent pour sa taille, et {n(KOLN['km_hub'], 0)} km de notre entrepôt. Un entrepôt en "
+      f"Allemagne diviserait les distances par deux, mais pour un seul magasin, livrer depuis la France suffit. [DÉMO 30 s : dashboard, "
+      "onglet « Où ouvrir ? », changer de ville ; le commentaire IA se réécrit en direct]")
+
+s = slide("4 · L'analyse · + brique IA", "Un magasin n'est rentable qu'avec des achats en Allemagne et un loyer maîtrisé")
 sc = list(D["scenarios"].values())
+cd = CategoryChartData()
 cd.categories = [x["nom"] + " · " + sg(x["resultat"], 2) + " M€" for x in sc]
-# Deux séries (perte / gain) superposées : couleur portée par la série, pas de barre négative inversée en blanc
 cd.add_series("Perte", [round(x["resultat"], 2) if x["resultat"] < 0 else 0 for x in sc])
 cd.add_series("Gain", [round(x["resultat"], 2) if x["resultat"] > 0 else 0 for x in sc])
-ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.9), Inches(7.2), Inches(3.3), cd).chart
+ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.85), Inches(7.4), Inches(3.0), cd).chart
 style(ch)
 pl = ch.plots[0]
-pl.gap_width, pl.overlap, pl.has_data_labels = 50, 100, False  # valeurs écrites dans les libellés
+pl.gap_width, pl.overlap, pl.has_data_labels = 50, 100, False
 for ser, col in zip(ch.series, (RED, GREEN)):
     ser.invert_if_negative = False
     ser.format.fill.solid()
@@ -294,68 +323,105 @@ for ser, col in zip(ch.series, (RED, GREEN)):
 ch.category_axis.reverse_order = True
 ch.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
 ch.category_axis.tick_labels.font.size = Pt(12)
-ch.value_axis.has_major_gridlines = False
-ch.value_axis.tick_labels.font.size = Pt(10)
-xs = M + Inches(7.5)
-ws = prs.slide_width - xs - M
-stat(s, xs, Inches(1.9), ws, f"{n(SD['delai'])} ans", "retour sur investissement, scénario D\n(3,6 M€ investis, hypothèse)", color=GREEN)
-stat(s, xs, Inches(3.65), ws, f"< {n(D['seuil_loyer'], 0)} €", f"loyer maximal par m² et par mois\n(référence IHK : {n(D['loyer_m2_mois'], 0)} €)", color=BLUE)
-box(s, M, Inches(5.4), prs.slide_width - 2 * M, Inches(1.5), VTINT)
-tb(s, M + Inches(0.3), Inches(5.5), prs.slide_width - 2 * M - Inches(0.6), Inches(1.35), [
-    [("✦ Synthèse IA (Claude, chiffres contrôlés contre nos KPI)", {"bold": True, "color": VIOLET, "size": 13})],
-    [(TEXTE_IA_D, {"size": 15})]], size=15)
-footer(s, "Hypothèses : surface 2 400 m² (DEU 2025 p. 40), coûts et loyers du groupe (DEU p. 30) ; investissement 1 500 €/m² non sourcé · KPI K12")
-notes(s, "6:30 → 7:30", "Elena", "Troisième constat, le plus important. On a simulé le résultat d'un magasin de 2 400 mètres carrés "
-      "dans quatre scénarios : achats en France ou en Allemagne, loyer de centre-ville ou loyer au niveau français. Trois sur quatre "
-      f"perdent de l'argent. Seul le scénario achats locaux et loyer maîtrisé est rentable, avec un retour en {n(SD['delai'])} ans. "
-      f"D'où la deuxième condition : un loyer sous {n(D['seuil_loyer'], 0)} euros le mètre carré par mois. Le commentaire en violet "
-      "est rédigé par notre brique IA : elle lit uniquement nos KPI, et un script vérifie que chaque chiffre qu'elle écrit existe "
-      "bien dans nos données. [DÉMO, 30 s] Dans le dashboard, onglet Rentabilité : changer le filtre Loyer, le commentaire IA "
-      "change ; bouger le curseur Loyer du simulateur jusqu'à 33 euros, le verdict passe au rouge.")
+ch.has_title = True
+ch.chart_title.text_frame.text = "Résultat annuel d'un magasin de 2 400 m² (M€), 4 scénarios"
+ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(13)
+m = D["simu"]
+ca = m["ca_magasin"] / 1e6
+steps = [("Ventes", f"{n(ca, 1)} M€"), ("Marge 28 %", f"+{n(ca * 0.28, 2)}"), ("Salaires, frais", f"−{n(ca * m['couts_hors_loyer_pct'] / 100, 2)}"),
+         ("Loyer", f"−{n(ca * m['loyers_pct'] / 100, 2)}"), ("Résultat", sg(SD["resultat"], 2))]
+sw = Inches(7.4) / 5
+for i, (lab, val) in enumerate(steps):
+    x = M + i * sw
+    box(s, x + Inches(0.05), Inches(5.0), sw - Inches(0.1), Inches(0.9), TINT)
+    tb(s, x + Inches(0.15), Inches(5.05), sw - Inches(0.3), Inches(0.35), lab, size=11, color=MUTED)
+    tb(s, x + Inches(0.15), Inches(5.38), sw - Inches(0.3), Inches(0.45), val, size=18, bold=True, color=GREEN if i == 4 else INK)
+tb(s, M, Inches(6.0), Inches(7.4), Inches(0.9), "Calcul du scénario D en M€ par an : ventes au m² de la Fnac en France × 2 400 m² ; frais et loyer avec le poids qu'ils ont dans les comptes du groupe.", size=12, color=MUTED)
+xs, ws = M + Inches(7.7), prs.slide_width - M - (M + Inches(7.7))
+stat(s, xs, Inches(1.85), ws, f"{n(SD['delai'])} ans", "pour rembourser l'investissement (3,6 M€, hypothèse) dans le seul scénario rentable ; jamais dans les 3 autres", color=GREEN)
+stat(s, xs, Inches(3.55), ws, f"< {n(D['seuil_loyer'], 0)} €", f"loyer maximal par m² et par mois ; la référence IHK (chambre de commerce allemande) est de {n(D['loyer_m2_mois'], 0)} €", color=BLUE)
+lecture_ia(s, xs, Inches(5.25), ws, "kpi", "K12", h=Inches(1.6))
+footer(s, "Fnac Darty DEU 2025 p. 30, 32, 33, 40 ; IHK Stuttgart 2024 (loyer, hypothèse) ; investissement 1 500 €/m² (hypothèse non sourcée)")
+notes(s, "6:45 → 7:30", "Romane", "Le cœur de l'analyse : on a calculé le résultat d'un magasin de 2 400 m² dans quatre scénarios, achats en "
+      "France ou en Allemagne, loyer de centre-ville ou au niveau français. Trois sur quatre perdent de l'argent. Seul le scénario "
+      f"achats allemands et loyer maîtrisé gagne {n(SD['resultat'], 2)} M€ par an, soit un retour en {n(SD['delai'])} ans. L'encadré "
+      "violet est écrit par notre brique IA : elle ne calcule rien, elle commente nos KPI, et un script vérifie chaque chiffre qu'elle écrit.")
+
+s = slide("4 · L'analyse", "Fnac Darty peut financer un pilote, pas un réseau")
+cd = CategoryChartData()
+lab = ["Investissements prévus / an", "Investissements 2025", "Cash-flow libre 2025", "Résultat net 2025", "Pilote (1 magasin)"]
+val = [F["capex_moyen_plan"], F["investissements_operationnels"], F["cash_flow_libre_operationnel"], F["resultat_net_part_groupe"], 3.6]
+cd.categories = [f"{a} · {sg(b, 1) if b < 0 else n(b, 1)} M€" for a, b in zip(lab, val)]
+cd.add_series("Négatif", [v if v < 0 else 0 for v in val])
+cd.add_series("Positif", [v if v > 0 else 0 for v in val])
+ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.85), Inches(7.4), Inches(4.0), cd).chart
+style(ch)
+pl = ch.plots[0]
+pl.gap_width, pl.overlap = 50, 100
+for ser, col in zip(ch.series, (RED, BLUE)):
+    ser.invert_if_negative = False
+    ser.format.fill.solid()
+    ser.format.fill.fore_color.rgb = col
+ch.category_axis.reverse_order = True
+ch.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
+ch.has_title = True
+ch.chart_title.text_frame.text = "Les moyens du groupe face au pilote (M€)"
+ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(13)
+xs, ws = M + Inches(7.7), prs.slide_width - M - (M + Inches(7.7))
+stat(s, xs, Inches(1.85), ws, f"{n(F['cash_flow_libre_operationnel'], 0)} M€", f"de cash-flow libre en 2025 (210 M€ en 2024) : l'argent disponible après investissements", color=BLUE)
+stat(s, xs, Inches(3.55), ws, f"{n(3.6 / F['cash_flow_libre_operationnel'] * 100, 1)} %", "du cash-flow libre : le coût du pilote, supportable", color=GREEN)
+stat(s, xs, Inches(5.25), ws, f"{sg(F['resultat_net_part_groupe'], 1)} M€", "de résultat net en 2025 (dépréciations) : pas le moment d'ouvrir un réseau entier", color=RED)
+footer(s, "Fnac Darty, Document d'enregistrement universel 2025, p. 8, 21, 30, 31, 34 ; investissement du pilote : hypothèse")
+notes(s, "7:30 → 8:00", "Elena", f"Dernière question : le groupe a-t-il les moyens ? Fnac Darty a dégagé {n(F['cash_flow_libre_operationnel'], 0)} "
+      f"millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit {n(3.6 / F['cash_flow_libre_operationnel'] * 100, 1)} %. "
+      f"Mais le résultat net est négatif, {n(F['resultat_net_part_groupe'], 1)} M€ : on peut financer un test, pas un déploiement national.")
 
 # ============================================================ 5. GO / NO-GO (1 min 30)
 s = slide("5 · Décision et recommandation · défense des arbitrages 15 pts", "GO SOUS CONDITIONS : un magasin pilote à Cologne")
-conds = [("1", "Acheter en Allemagne", "centrale d'achat locale\nmarge brute ≈ 28 %"),
-         ("2", f"Loyer < {n(D['seuil_loyer'], 0)} €/m²/mois", "grande surface hors rue prime\n(IHK : 115 €)"),
-         ("3", "Assortiment ciblé", "tech + jeux vidéo (≈ 90 % éligibles)\npeu de livres en français")]
+conds = [("1", "Acheter en Allemagne", "centrale d'achat locale : marge ≈ 28 % au lieu de 12 %"),
+         ("2", f"Loyer < {n(D['seuil_loyer'], 0)} €/m²/mois", "grande surface hors rue prime (référence IHK : 115 €)"),
+         ("3", "Assortiment ciblé", "tech et jeux vidéo (≈ 90 % éligibles), peu de livres en français (10 %)")]
 cw = (CW - Inches(0.5)) / 3
 for i, (num, t1, t2) in enumerate(conds):
     x = M + i * (cw + Inches(0.25))
     box(s, x, Inches(1.95), cw, Inches(1.9), TINT)
-    tb(s, x + Inches(0.25), Inches(2.05), cw - Inches(0.5), Inches(0.5), f"CONDITION {num}", size=12, bold=True, color=GREEN)
-    tb(s, x + Inches(0.25), Inches(2.45), cw - Inches(0.5), Inches(0.6), t1, size=22, bold=True, color=INK)
-    tb(s, x + Inches(0.25), Inches(3.05), cw - Inches(0.5), Inches(0.8), t2, size=14, color=MUTED)
-tb(s, M, Inches(4.15), CW, Inches(0.4), "POURQUOI COLOGNE", size=12, bold=True, color=MUTED)
-tb(s, M, Inches(4.5), CW, Inches(0.8), f"Rhénanie-du-Nord-Westphalie : {n(NRW['densite'])} magasins concurrents par million d'habitants "
-   f"(moyenne {n(D['densite_de'])}) · Cologne à {n(NRW['ville_km'], 0)} km du hub de Chilly-Mazarin, la plus proche des villes de plus de 500 000 habitants.",
-   size=16, color=INK)
-steps = [("M1–M6", "centrale d'achat + bail"), ("M3–M6", "test logistique"), ("M12", "ouverture du pilote"), ("M36", "Go / No-Go déploiement")]
+    tb(s, x + Inches(0.25), Inches(2.05), cw - Inches(0.5), Inches(0.4), f"CONDITION {num}", size=12, bold=True, color=GREEN)
+    tb(s, x + Inches(0.25), Inches(2.45), cw - Inches(0.5), Inches(0.6), t1, size=22, bold=True)
+    tb(s, x + Inches(0.25), Inches(3.1), cw - Inches(0.5), Inches(0.7), t2, size=14, color=MUTED)
+tb(s, M, Inches(4.15), CW, Inches(0.9), [[("Pourquoi Cologne : ", {"bold": True}), (f"{n(KOLN['pop'] / 1e6, 2)} M habitants, {KOLN['magasins']} magasins CECONOMY ({n(KOLN['magasins_par_100k'], 2)} pour 100 000 habitants), {n(KOLN['km_hub'], 0)} km du hub : seule ville candidate qui coche les 3 critères.", {})]], size=16)
+steps = [("M1–M6", "centrale d'achat + bail"), ("M3–M6", "test logistique"), ("M12", "ouverture du pilote"), ("M36", "décision de déploiement")]
 sw = CW / 4
 for i, (when, what) in enumerate(steps):
     x = M + i * sw
-    tb(s, x, Inches(5.55), sw - Inches(0.2), Inches(0.45), when, size=20, bold=True, color=BLUE)
-    tb(s, x, Inches(6.0), sw - Inches(0.2), Inches(0.5), what, size=14, color=INK)
-footer(s, "Critère d'arrêt à M36 : résultat annuel négatif ou retour > 8 ans → pas de déploiement. Détail : README § 4 Next Steps")
-notes(s, "7:30 → 9:00", "Romane", "Notre décision : Go sous conditions, pour un seul magasin pilote, pas un réseau national. Trois "
-      "conditions. Un : acheter en Allemagne pour retrouver notre marge. Deux : un loyer sous 33 euros le mètre carré, donc une "
-      "grande surface hors des rues commerçantes les plus chères. Trois : un assortiment ciblé sur la tech et les jeux vidéo. "
-      f"Pourquoi Cologne : sa région a l'une des densités concurrentes les plus faibles, {n(NRW['densite'])} magasins par million "
-      f"d'habitants, et c'est la grande ville la plus proche de notre entrepôt, à {n(NRW['ville_km'], 0)} kilomètres. Calendrier : "
-      "centrale d'achat et bail dans les six premiers mois, ouverture à un an, et décision de déploiement après deux ans "
-      "d'exploitation, avec un critère d'arrêt écrit : si le magasin perd de l'argent ou si le retour dépasse 8 ans, on s'arrête.")
+    tb(s, x, Inches(5.3), sw - Inches(0.2), Inches(0.45), when, size=20, bold=True, color=BLUE)
+    tb(s, x, Inches(5.75), sw - Inches(0.2), Inches(0.5), what, size=14)
+tb(s, M, Inches(6.4), CW, Inches(0.5), f"Critère d'arrêt à M36 : résultat annuel négatif ou retour au-delà de 8 ans → pas de déploiement.", size=14, bold=True, color=RED)
+footer(s, "synthèse des onglets du dashboard ; README § 4 Next Steps")
+notes(s, "8:00 → 9:30", "Romane", "Notre décision : Go sous conditions, pour un seul magasin pilote à Cologne, pas un réseau. Trois "
+      "conditions : acheter en Allemagne pour retrouver notre marge ; un loyer sous 33 euros le mètre carré ; un assortiment centré "
+      "sur la tech et les jeux vidéo. Cologne est la seule grande ville qui coche nos trois critères. Calendrier : centrale d'achat et "
+      "bail dans les six premiers mois, ouverture à un an, décision de déploiement à trois ans, avec un critère d'arrêt écrit.")
 
-s = slide("Pour les questions", "Nos limites, dites avant qu'on nous les pose")
-tb(s, M, Inches(1.95), CW, Inches(5), [
-    [("ROI = ordre de grandeur. ", {"bold": True}), ("Ratios du groupe Fnac Darty (la Fnac seule n'est pas publiée) ; ni montée en charge, ni impôts, ni BFR. Sensibilité : 4,4 à 13,2 ans.", {})],
-    [("Investissement 1 500 €/m² : ", {"bold": True}), ("hypothèse non sourcée.", {})],
-    [("Loyer IHK : ", {"bold": True}), ("petites boutiques de Stuttgart ; aucun loyer vérifié à Cologne.", {})],
-    [("Catalogue éligible : ", {"bold": True}), ("simulé (le catalogue Fnac n'est pas public).", {})],
-    [("Livres : ", {"bold": True}), ("Eurostat donne 350 €/hab. en Allemagne contre 155 € en France ; écart inexpliqué, non utilisé comme argument.", {})],
-    [("Magasins concurrents : ", {"bold": True}), ("394 trouvés contre 403 publiés (2 % d'écart).", {})]], size=18)
-footer(s, "Tout est documenté dans le README et dans data/gold/kpi.csv (colonne « nature »)")
-notes(s, "9:00 → 10:00", "Romane + Elena", "Slide de réserve pour les questions. Si le jury attaque le ROI : c'est un ordre de grandeur, "
-      "on l'assume, et la sensibilité montre que la conclusion tient : il faut des achats locaux et un loyer maîtrisé dans tous les cas. "
-      "Si on nous demande pourquoi pas les livres : seuls 10 % du catalogue de livres est vendable, puisqu'il est en français.")
+s = slide("Pour les questions", "Comment on a utilisé l'IA, et nos limites")
+hw = (CW - Inches(0.4)) / 2
+tb(s, M, Inches(1.9), hw, Inches(5.0), [
+    [("La brique IA (Claude)", {"bold": True, "size": 18})],
+    [("1. Chaque onglet du dashboard calcule ses chiffres selon les filtres.", {})],
+    [("2. Il envoie à Claude uniquement ces chiffres + une consigne (visible dans la page).", {})],
+    [("3. Claude rédige le commentaire en direct : rien n'est écrit à l'avance.", {})],
+    [("4. La page vérifie chaque nombre de la réponse ; un nombre inconnu est surligné.", {})],
+    [("Pourquoi : l'IA rédige bien mais calcule mal ; les calculs restent dans le code, traçables.", {"color": MUTED})]], size=14)
+tb(s, M + hw + Inches(0.4), Inches(1.9), hw, Inches(5.0), [
+    [("Nos limites", {"bold": True, "size": 18})],
+    [("ROI = ordre de grandeur : ratios du groupe Fnac Darty, sans montée en charge ni impôts ; sensibilité 4,4 à 13,2 ans.", {})],
+    [("Investissement 1 500 €/m² et loyer IHK : hypothèses.", {})],
+    [("Catalogue éligible : simulé (catalogue Fnac non public).", {})],
+    [("Livres : 350 €/hab. en Allemagne contre 155 € en France, écart inexpliqué, non utilisé.", {})],
+    [("Magasins : 394 trouvés contre 403 publiés ; 4 villes homonymes non vérifiées.", {})]], size=14)
+footer(s, "README du repo ; dashboard, onglet « IA & méthode » ; docs/questions_jury.md")
+notes(s, "réserve", "Romane + Elena", "Slide de réserve. Si on nous demande comment on a utilisé l'IA : elle ne calcule rien ; elle "
+      "reçoit nos chiffres et les commente en direct, et la page vérifie chaque nombre. Si le jury attaque le ROI : c'est un ordre "
+      "de grandeur, et la sensibilité montre que la conclusion tient : il faut des achats locaux et un loyer maîtrisé dans tous les cas.")
 
 out = ROOT / "docs" / "Comex_Fnac_Allemagne.pptx"
 prs.save(out)

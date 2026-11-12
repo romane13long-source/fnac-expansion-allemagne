@@ -313,8 +313,8 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 | Quand | Étapes | État |
 |---|---|---|
 | Mer. 11/11 | Cadrage, choix du pays, KPI, sources, collecte, nettoyage, modèle de données, dictionnaire | ✅ |
-| Jeu. 12/11, après-midi | Gold, calcul des KPI, dashboard, brique IA, fin du README | ⬜ |
-| Ven. 13/11 | Slides, répétition de l'oral, rendu à 15h | ⬜ |
+| Jeu. 12/11 | Gold, calcul des KPI, dashboard interactif avec IA en direct, slides générées, fin du README, revue des retours du prof | ✅ |
+| Ven. 13/11 | Relecture des slides, répétition de l'oral, rendu à 15h | ⬜ |
 
 ### Next Steps (recommandations post-étude)
 
@@ -378,7 +378,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 
 Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi à la main) :
 
-**Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 9 slides au template homogène, graphiques natifs modifiables, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse, Go / No-Go) + une slide de réserve sur les limites. Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
+**Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 11 slides blanches au template homogène, graphiques natifs modifiables, mêmes chiffres que le dashboard, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse en 5 slides dont la capacité financière, Go / No-Go en conclusion) + une slide de réserve (usage de l'IA et limites). Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
 
 **Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`), publié comme page claude.ai pour l'IA en direct :
 - 12 onglets, une question par onglet, dans l'ordre du raisonnement : marché, prix et marges, concurrence, où ouvrir (7 villes candidates), logistique, assortiment, rentabilité, capacité financière de Fnac Darty, décision, définitions des KPI, IA et méthode.
