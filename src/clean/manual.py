@@ -32,7 +32,7 @@ facts.to_csv(SILVER / "sources_officielles.csv", index=False)
 print(f"sources_officielles.csv : {len(facts)} chiffres, {facts['source'].nunique()} documents sources, "
       f"années {sorted(facts['annee'].unique())}")
 
-for name in ["hubs_logistiques", "correspondance_categories"]:
+for name in ["hubs_logistiques", "correspondance_categories", "hypotheses_roi"]:
     table = pd.read_csv(MANUAL / f"{name}.csv", dtype=str)
     assert table.notna().all().all(), f"{name} : case vide"
     table.to_csv(SILVER / f"{name}.csv", index=False)

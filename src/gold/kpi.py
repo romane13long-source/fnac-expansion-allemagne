@@ -8,7 +8,7 @@ import math
 
 import pandas as pd
 
-from paths import GOLD
+from paths import GOLD, SILVER
 
 marche = pd.read_csv(GOLD / "fact_marche.csv")
 population = pd.read_csv(GOLD / "fact_population.csv")
@@ -117,6 +117,45 @@ for cat in ["TECH", "LIVRES"]:
         "(dépenses DE / population DE) / (dépenses FR / population FR) × 100", "DE", cat, annee=LAST)
     for p, valeur in par_hab.items():
         add("K10_detail", "Assortiment", "Dépenses par habitant", valeur, "€ / hab.", "mesuré", "dépenses / population", p, cat, annee=LAST)
+
+catalogue = pd.read_csv(GOLD / "catalogue_simule.csv")
+add("K11", "Assortiment", "% du catalogue France éligible en Allemagne", catalogue["eligible_allemagne"].mean() * 100,
+    "%", "simulé", "références éligibles / références du catalogue simulé (règles dans catalogue_simule.py)", "DE", annee=2026)
+for famille, part in catalogue.groupby("famille")["eligible_allemagne"].mean().items():
+    add("K11_detail", "Assortiment", "% éligible par famille", part * 100, "%", "simulé", "idem, par famille",
+        "DE", zone=famille, annee=2026)
+
+# --- ★ Synthèse : délai de retour sur investissement d'un magasin (hors guide du prof) ------
+# Quatre scénarios : marge (achats en France au prix allemand, ou achats locaux) × loyer (IHK ou niveau France).
+h = pd.read_csv(SILVER / "hypotheses_roi.csv").set_index("parametre")["valeur"].astype(float)
+ca_m2 = v("fnacdarty_ca_france", "FR") * 1e6 * (1 - h["part_ventes_en_ligne"] / 100) / h["surface_commerciale_france_m2"]
+ca_magasin = ca_m2 * h["surface_magasin_m2"]
+loyers_groupe_pct = (h["ebitda_courant_meur"] - h["ebitda_courant_hors_ifrs16_meur"]) / h["ca_groupe_meur"] * 100
+ebitda_hors_loyer_pct = h["ebitda_courant_meur"] / h["ca_groupe_meur"] * 100
+couts_hors_loyer_pct = marge_groupe * 100 - ebitda_hors_loyer_pct  # personnel, énergie, marketing… en % du CA
+k5 = {r["categorie_id"]: r["valeur"] for r in rows if r["kpi_id"] == "K5" and r["annee"] == LAST}
+poids = {"TECH": v("fnacdarty_part_ca_produits_techniques", "GROUPE"), "LIVRES": v("fnacdarty_part_ca_produits_editoriaux", "GROUPE")}
+marge_de_achats_france = sum(k5[c] * poids[c] for c in poids) / sum(poids.values())
+investissement = h["investissement_amenagement_eur_m2"] * h["surface_magasin_m2"]
+
+add("K12_ca", "Synthèse", "CA annuel estimé d'un magasin (2 400 m²)", ca_magasin / 1e6, "M€", "estimation",
+    "CA France × (1 - part en ligne) / surface commerciale France × surface d'un magasin", "DE", annee=LAST)
+add("K12_invest", "Synthèse", "Investissement d'ouverture d'un magasin", investissement / 1e6, "M€", "hypothèse",
+    "coût d'aménagement au m² (non sourcé) × surface", "DE", annee=LAST)
+scenarios = {
+    "A. achats France + loyer IHK": (marge_de_achats_france, loyer * 12 * h["surface_magasin_m2"]),
+    "B. achats France + loyer niveau France": (marge_de_achats_france, loyers_groupe_pct / 100 * ca_magasin),
+    "C. achats locaux + loyer IHK": (marge_groupe * 100, loyer * 12 * h["surface_magasin_m2"]),
+    "D. achats locaux + loyer niveau France": (marge_groupe * 100, loyers_groupe_pct / 100 * ca_magasin),
+}
+for nom, (marge_pct, loyer_annuel) in scenarios.items():
+    resultat = ca_magasin * (marge_pct - couts_hors_loyer_pct) / 100 - loyer_annuel
+    add("K12_resultat", "Synthèse", "Résultat annuel estimé d'un magasin (avant amortissement)", resultat / 1e6, "M€",
+        "estimation", "CA × (marge brute - coûts hors loyer) - loyer", "DE", zone=nom, annee=LAST)
+    # Résultat négatif : le magasin ne rembourse jamais l'investissement -> délai noté 999 (= jamais)
+    delai = investissement / resultat if resultat > 0 else 999
+    add("K12", "Synthèse", "Délai de retour sur investissement d'un magasin (999 = jamais)", delai, "années",
+        "estimation", "investissement / résultat annuel", "DE", zone=nom, annee=LAST)
 
 kpi = pd.DataFrame(rows)
 assert kpi["valeur"].map(math.isfinite).all(), "valeur non calculable"

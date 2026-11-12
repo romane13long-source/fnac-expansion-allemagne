@@ -98,3 +98,18 @@ K10_detail,Assortiment,Dépenses par habitant,FR,TECH,,2025,204.17,€ / hab.,me
 K10,Assortiment,Taux de pénétration de la catégorie en Allemagne (France = 100),DE,LIVRES,,2025,226.1,indice FR = 100,mesuré,(dépenses DE / population DE) / (dépenses FR / population FR) × 100
 K10_detail,Assortiment,Dépenses par habitant,DE,LIVRES,,2025,350.38,€ / hab.,mesuré,dépenses / population
 K10_detail,Assortiment,Dépenses par habitant,FR,LIVRES,,2025,154.97,€ / hab.,mesuré,dépenses / population
+K11,Assortiment,% du catalogue France éligible en Allemagne,DE,,,2026,47.18,%,simulé,références éligibles / références du catalogue simulé (règles dans catalogue_simule.py)
+K11_detail,Assortiment,% éligible par famille,DE,,JEUX_VIDEO,2026,89.34,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,LIVRES,2026,10.1,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,MUSIQUE_VIDEO,2026,39.05,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,TECH,2026,92.44,%,simulé,"idem, par famille"
+K12_ca,Synthèse,CA annuel estimé d'un magasin (2 400 m²),DE,,,2025,14.6,M€,estimation,CA France × (1 - part en ligne) / surface commerciale France × surface d'un magasin
+K12_invest,Synthèse,Investissement d'ouverture d'un magasin,DE,,,2025,3.6,M€,hypothèse,coût d'aménagement au m² (non sourcé) × surface
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,A. achats France + loyer IHK,2025,-4.1,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,A. achats France + loyer IHK,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,B. achats France + loyer niveau France,2025,-1.28,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,B. achats France + loyer niveau France,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,C. achats locaux + loyer IHK,2025,-2.37,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,C. achats locaux + loyer IHK,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,D. achats locaux + loyer niveau France,2025,0.45,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,D. achats locaux + loyer niveau France,2025,7.94,années,estimation,investissement / résultat annuel
