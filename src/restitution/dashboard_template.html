@@ -339,11 +339,12 @@ function pageVilles() {
 function pageLogistique() {
   const v = V(), gain = (1 - D.distance_depuis_koln / D.distance_moy) * 100;
   return {
-    phrase: `Aucun droit de douane entre la France et l'Allemagne (même union douanière). Un entrepôt en Allemagne (ex. Cologne) diviserait par ${nf(D.distance_moy / D.distance_depuis_koln, 1)} la distance moyenne aux grandes villes, mais pour un seul magasin pilote, livrer depuis la France ou passer par un prestataire allemand suffit.`,
-    tiles: [tile("Droits de douane France → Allemagne", "0 %", "pas une erreur : union douanière de l'UE", "Entre deux pays de l'UE, les marchandises circulent sans droits de douane (traité de l'UE, art. 28 et 30). Ce qui change : la TVA (19 % au lieu de 20 %).", "ok", "mesuré"),
+    phrase: `Livrer Cologne chaque semaine depuis la France coûterait ${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€ par an et repousserait le retour sur investissement de ${nf(D.scenarios.D.delai, 1)} à ${nf(D.transport.bas.delai, 1)}-${nf(D.transport.haut.delai, 1)} ans : la tech doit être achetée et livrée en Allemagne. Un entrepôt allemand (ex. Cologne) diviserait par ${nf(D.distance_moy / D.distance_depuis_koln, 1)} la distance moyenne aux grandes villes : à étudier si on déploie.`,
+    tiles: [tile("Coût des livraisons depuis la France", `${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€/an`, `un camion par semaine ; ${nf(D.transport.bas.trajet, 0)} à ${nf(D.transport.haut.trajet, 0)} € l'aller-retour`, "Aller-retour Chilly-Mazarin → Cologne par la route (vol d'oiseau × 1,2) × coût au km d'un camion 40 t (1,45 à 1,67 €/km hors péages, calculateur privé citant le CNR : source non officielle) × 52 semaines.", "bad", "hypothèse"),
+            tile("Retour sur investissement avec ce transport", `${nf(D.transport.bas.delai, 1)} à ${nf(D.transport.haut.delai, 1)} ans`, `au lieu de ${nf(D.scenarios.D.delai, 1)} ans sans camion depuis la France`, "Au-delà de notre critère d'arrêt de 8 ans. Borne haute : les coûts du groupe utilisés dans le calcul comprennent déjà une partie de la logistique.", "bad", "estimation"),
             tile(`Distance hub → ${v.ville}`, nf(v.km_hub, 0) + " km", `depuis Cologne : ${nf(v.km_koln, 0)} km`, "À vol d'oiseau, depuis la plateforme Fnac Darty de Chilly-Mazarin (Essonne).", "", "mesuré"),
             tile("Distance moyenne aux grandes villes", nf(D.distance_moy, 0) + " km", `avec un entrepôt à Cologne : ${nf(D.distance_depuis_koln, 0)} km (−${nf(gain, 0)} %)`, "Moyenne des distances vers les 79 villes de plus de 100 000 habitants, pondérée par leur population.", "", "mesuré"),
-            tile("TVA tech", `DE ${nf(D.tva.DE, 0)} % · FR ${nf(D.tva.FR, 0)} %`, `livres : ${nf(D.tva.DE_reduit, 0)} % / ${nf(D.tva.FR_reduit, 1)} %`, "Taxe payée par le client, reversée à l'État : presque identique, pas un frein. Autres obligations (recyclage, emballages) non chiffrées.", "", "mesuré")],
+],
     body: card("Livrer depuis la France ou depuis un entrepôt allemand ?", "Distance de chaque ville candidate : depuis le hub français (bleu) et depuis un entrepôt hypothétique à Cologne (gris). Cliquer pour choisir la ville.", `<svg id="g1"></svg>`,
       "coordonnées Destatis ; plateforme de Chilly-Mazarin (communiqué Fnac Darty) ; EUR-Lex TFUE art. 28 et 30 ; TVA : Commission européenne (Your Europe)"),
     draw() {
@@ -354,7 +355,8 @@ function pageLogistique() {
       }
       hbar(document.getElementById("g1"), rows, { W: 1100, labelW: 260, rowH: 22 });
     },
-    facts: [`Droits de douane 0 % entre pays de l'UE (union douanière, TFUE art. 28 et 30)`, `TVA tech Allemagne ${nf(D.tva.DE, 0)} %, France ${nf(D.tva.FR, 0)} %`,
+    facts: [`Coût d'un aller-retour en camion Chilly-Mazarin - Cologne : ${nf(D.transport.bas.trajet, 0)} à ${nf(D.transport.haut.trajet, 0)} € (hypothèse, source non officielle)`, `Un camion par semaine depuis la France : ${nf(D.transport.bas.an, 2)} à ${nf(D.transport.haut.an, 2)} M€ par an (hypothèse)`,
+            `Retour sur investissement du magasin pilote : ${nf(D.scenarios.D.delai, 1)} ans sans ce transport, ${nf(D.transport.bas.delai, 1)} à ${nf(D.transport.haut.delai, 1)} ans avec (estimation) ; critère d'arrêt : 8 ans`,
             `Distance moyenne pondérée aux 79 villes de plus de 100 000 habitants : ${nf(D.distance_moy, 0)} km depuis le hub français, ${nf(D.distance_depuis_koln, 0)} km depuis Cologne`,
             `${v.ville} : ${nf(v.km_hub, 0)} km du hub français, ${nf(v.km_koln, 0)} km de Cologne`, `Le pilote porte sur un seul magasin`],
   };
@@ -443,43 +445,41 @@ function pageFinances() {
 function pageDecision() {
   const k = D.villes.find(x => x.ville === "Köln"), sD = D.scenarios.D;
   return {
-    phrase: `Go sous conditions : un seul magasin pilote à Cologne, décision de déploiement après 2 ans d'exploitation.`,
+    phrase: `Go sous conditions : un seul magasin pilote à Cologne, décision de déploiement à 3 ans.`,
     tiles: [], body: `<div class="card"><p class="go">GO SOUS CONDITIONS</p><p style="font-size:16px;margin:4px 0 0">Un magasin pilote à Cologne, pas un réseau national.</p>
-      <div class="cond">${[["1. Acheter en Allemagne", "centrale d'achat locale pour garder ≈ 28 % de marge (sinon 12 %)"], ["2. Loyer < " + nf(D.seuil_loyer, 0) + " €/m²/mois", "grande surface hors rue prime (référence IHK : 115 €)"], ["3. Assortiment ciblé", "tech et jeux vidéo (≈ 90 % éligibles), peu de livres"]].map(([a, b]) => `<div class="card" style="background:var(--surface-0)"><b>${a}</b><div class="note" style="margin:4px 0 0">${b}</div></div>`).join("")}</div>
+      <div class="cond">${[["1. Achats en Allemagne", "livrés par des fournisseurs allemands : ≈ 28 % de marge (sinon 12 %) ; un camion par semaine depuis la France ferait dépasser 8 ans"], ["2. Loyer < " + nf(D.seuil_loyer, 0) + " €/m²/mois", "grande surface hors rue prime (référence IHK : 115 €)"], ["3. La tech d'abord", "un Allemand y dépense 1,8 fois plus qu'un Français"]].map(([a, b]) => `<div class="card" style="background:var(--surface-0)"><b>${a}</b><div class="note" style="margin:4px 0 0">${b}</div></div>`).join("")}</div>
       <p><b>Pourquoi Cologne :</b> ${nf(k.pop / 1e6, 2)} M habitants, ${k.magasins} magasins CECONOMY (${nf(k.magasins_par_100k, 2)} pour 100 000 hab.), ${nf(k.km_hub, 0)} km du hub, la plus proche des grandes villes.</p>
-      <p><b>Ce qu'on attend :</b> retour sur investissement en ${nf(sD.delai, 1)} ans dans le scénario D ; critère d'arrêt à 2 ans : résultat négatif ou retour au-delà de 8 ans.</p>
-      <p><b>Calendrier :</b> M1–M6 centrale d'achat et bail · M3–M6 test logistique · M12 ouverture · M36 décision de déploiement.</p><p class="src">Source : synthèse des onglets 1 à 8 ; README § 4 Next Steps</p></div>`,
-    facts: [`Décision de l'équipe : Go sous conditions, un magasin pilote à Cologne`, `Conditions : achats en Allemagne (marge 28 % contre ${nf(D.categories.TECH.marge[L], 1)} %), loyer sous ${nf(D.seuil_loyer, 1)} €/m²/mois (référence IHK ${nf(D.loyer_m2_mois, 0)}), assortiment tech et jeux vidéo`,
+      <p><b>Ce qu'on attend :</b> retour sur investissement en ${nf(sD.delai, 1)} ans dans le scénario D ; critère d'arrêt à 3 ans : résultat négatif ou retour au-delà de 8 ans.</p>
+      <p><b>Calendrier :</b> M1–M6 centrale d'achat et bail · M3–M6 test de livraison (fournisseurs allemands ou camion depuis la France) · M12 ouverture · M36 décision de déploiement.</p><p class="src">Source : synthèse des onglets 1 à 8 ; README § 4 Next Steps</p></div>`,
+    facts: [`Décision de l'équipe : Go sous conditions, un magasin pilote à Cologne`, `Conditions : achats en Allemagne (marge 28 % contre ${nf(D.categories.TECH.marge[L], 1)} %), loyer sous ${nf(D.seuil_loyer, 1)} €/m²/mois (référence IHK ${nf(D.loyer_m2_mois, 0)}), la tech d'abord ; livraisons par des fournisseurs allemands`,
             `Scénario D : résultat ${sgn(sD.resultat, 2)} M€ par an, retour en ${nf(sD.delai, 1)} ans`, `Cologne : ${k.magasins} magasins CECONOMY, ${nf(k.km_hub, 0)} km du hub`],
   };
 }
 const KPIS = [
   ["Croissance annuelle du secteur", "De combien les dépenses des ménages augmentent chaque année.", "(dépenses fin ÷ dépenses début)^(1 ÷ nb d'années) − 1", "% par an", "Eurostat", "mesuré"],
   ["Dépense par habitant", "Ce qu'un habitant dépense en moyenne par an dans la catégorie.", "dépenses du pays ÷ population", "€ par an", "Eurostat", "mesuré"],
-  ["Part de marché de Fnac Darty en France", "Quelle part du marché français la Fnac capte.", "CA France hors TVA × part tech et livres ÷ dépenses des ménages hors TVA", "%", "DEU 2025, Eurostat", "estimation"],
   ["Part de marché du concurrent", "Quelle part du marché allemand MediaMarkt + Saturn tient déjà.", "ventes CECONOMY Allemagne ÷ marché tech hors TVA (bas : seulement « IT et mobile »)", "%", "CECONOMY, Eurostat", "estimation"],
   ["Indice de prix relatif", "Combien coûte le même panier en Allemagne par rapport à la France.", "indice de prix DE ÷ indice FR × 100, TVA retirée", "France = 100", "Eurostat, Commission européenne", "mesuré"],
   ["Marge brute post-taxe", "Ce qu'il reste sur chaque vente une fois la marchandise payée, au prix allemand.", "1 − (1 − 28 %) ÷ (indice HT ÷ 100)", "%", "DEU 2025, Eurostat", "estimation"],
   ["Densité concurrentielle", "Combien de magasins du leader il y a pour 1 million d'habitants.", "magasins CECONOMY ÷ population × 1 000 000", "magasins / M hab.", "plans des sites, Destatis", "mesuré"],
   ["Coût au m² commercial", "Loyer d'un local commercial.", "loyer de référence × 12 ; × 2 400 m² pour un magasin", "€/m²/mois", "IHK Stuttgart", "hypothèse"],
   ["Distance au hub", "Distance de livraison depuis l'entrepôt français.", "distance à vol d'oiseau, moyenne pondérée par la population", "km", "Destatis, Fnac Darty", "mesuré"],
-  ["Droits de douane / taxes", "Coût réglementaire du passage de frontière.", "droits de douane UE (0 %) ; écart de TVA DE − FR", "% / points", "EUR-Lex, Commission européenne", "mesuré"],
+  ["Coût du transport", "Ce que coûtent les livraisons depuis la France.", "aller-retour par la route × coût au km du camion × 52 semaines", "M€ / an", "calculateur citant le CNR (non officiel)", "hypothèse"],
   ["Taux de pénétration", "Les Allemands consomment-ils plus ou moins la catégorie que les Français ?", "dépense par habitant DE ÷ dépense par habitant FR × 100", "France = 100", "Eurostat", "mesuré"],
-  ["% du catalogue éligible", "Part des produits Fnac vendables tels quels en Allemagne.", "références éligibles ÷ références du catalogue (simulé)", "%", "catalogue simulé", "simulé"],
   ["★ Délai de retour sur investissement", "En combien d'années un magasin rembourse son ouverture.", "investissement ÷ résultat annuel (ventes × marge − frais − loyer)", "années", "DEU 2025 + hypothèses", "estimation"],
-  ["Cash-flow libre opérationnel", "L'argent que l'activité génère après ses investissements.", "flux d'exploitation − investissements (publié par Fnac Darty)", "M€", "DEU 2025", "mesuré"],
+  ["Complément : cash-flow libre opérationnel", "L'argent que l'activité génère après ses investissements (capacité à financer le pilote).", "flux d'exploitation − investissements (publié par Fnac Darty)", "M€", "DEU 2025", "mesuré"],
 ];
 function pageDefinitions() {
   return { phrase: "Chaque indicateur en une phrase, avec son calcul et sa source. « Mesuré » = chiffre officiel ; « estimation » = notre calcul ; « hypothèse » = non sourcé ; « simulé » = données fictives.", tiles: [],
-    body: card("Définitions des KPI", "Les 12 KPI du guide du Comex (slide 7 du sujet), plus le KPI de synthèse et le cash-flow.",
+    body: card("Définitions des KPI", "Nos 9 KPI, choisis dans le guide du sujet (une question précise, un indicateur, une source fiable), plus le cash-flow en complément. Écartés : part de marché de la Fnac en France (décrit la France), douane et TVA (0 % de douane, 1 point de TVA : sans effet), % du catalogue éligible (donnée simulée).",
       `<div class="tw"><table><tr><th>KPI</th><th>Ce qu'il mesure</th><th>Calcul</th><th>Unité</th><th>Source</th><th>Nature</th></tr>${KPIS.map(k => `<tr><td><b>${k[0]}</b></td><td>${k[1]}</td><td>${k[2]}</td><td>${k[3]}</td><td>${k[4]}</td><td>${tag(k[5])}</td></tr>`).join("")}</table></div>`, "README § 2 du repo (dictionnaire de données, règles de gestion)"),
     facts: null };
 }
 function pageMethode() {
-  return { phrase: "Les données sont publiques et collectées par script ; l'IA ne calcule rien : elle commente, en direct, les chiffres déjà calculés, et chaque nombre qu'elle écrit est vérifié.", tiles: [],
+  return { phrase: "Les données sont publiques et collectées par script ; l'IA ne calcule rien : elle commente les chiffres déjà calculés, et chaque nombre qu'elle écrit est vérifié.", tiles: [],
     body: `<div class="grid2">${card("Comment l'IA est utilisée", "Brique « Commentaires & synthèse IA » (slide 5 du sujet).",
-      `<ol><li>Chaque onglet calcule ses chiffres en direct (selon les filtres).</li><li>Il envoie à Claude <b>uniquement ces chiffres</b> + une consigne courte (2 à 3 phrases pour un décideur, aucun nouveau chiffre).</li><li>Claude rédige 2 à 3 phrases pour un décideur, en direct : rien n'est écrit à l'avance.</li><li>La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.</li><li>Pour chaque onglet et chaque combinaison de filtres (109 au total), Claude a rédigé le commentaire à partir de ces chiffres ; changer un filtre affiche le commentaire correspondant.</li></ol>
-      <p class="note">Pourquoi ce choix : l'IA est bonne pour rédiger, pas pour calculer. Les calculs restent dans le code (traçables), l'IA les explique.</p>`, "page claude.ai, capacité « sample » (Claude appelé depuis la page)")}
+      `<ol><li>Chaque onglet calcule ses chiffres selon les filtres.</li><li>Claude reçoit <b>uniquement ces chiffres</b> + une consigne courte (2 à 3 phrases pour un décideur, aucun nouveau chiffre).</li><li>Un script vérifie chaque nombre de la réponse : un commentaire contenant un nombre absent des chiffres est rejeté.</li><li>Pour chaque onglet et chaque combinaison de filtres (109 au total), Claude a rédigé le commentaire à partir de ces chiffres ; changer un filtre affiche le commentaire correspondant.</li></ol>
+      <p class="note">Pourquoi ce choix : l'IA est bonne pour rédiger, pas pour calculer. Les calculs restent dans le code (traçables), l'IA les explique.</p>`, "src/ai/commentaires_par_filtre.py (claude -p) : commentaires rédigés à l'avance, car le lien public n'a pas de clé d'API")}
       ${card("Comment les données ont été collectées", "Pipeline Bronze → Silver → Gold (run_pipeline.py), relançable.",
       `<ul><li><b>API Eurostat</b> : dépenses des ménages, prix, population (téléchargement automatique).</li><li><b>Destatis</b> : fichier officiel des 10 753 communes allemandes.</li><li><b>Scraping MediaMarkt / Saturn</b> : nous avons lu les <i>plans de site</i> (fichiers XML publiés exprès pour les robots, robots.txt respecté), qui listent l'adresse de chaque magasin ; chaque magasin a été rattaché à sa commune (394 trouvés contre 403 publiés). 5 rattachements ambigus (villes homonymes) corrigés à la main.</li><li><b>Rapports officiels</b> (Fnac Darty, CECONOMY) : chiffres relevés à la main avec la page.</li></ul>`, "README § 3 du repo")}</div>`,
     facts: null };

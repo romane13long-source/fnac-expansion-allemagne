@@ -116,6 +116,12 @@ K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissemen
 K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,C. achats locaux + loyer IHK,2025,999.0,années,estimation,investissement / résultat annuel
 K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,D. achats locaux + loyer niveau France,2025,0.45,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
 K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,D. achats locaux + loyer niveau France,2025,7.94,années,estimation,investissement / résultat annuel
+K8_transport,Opérations & Logistique,Coût d'un aller-retour en camion Chilly-Mazarin -> Cologne,DE,,bas,2025,1445.94,€,hypothèse,"2 × distance × 1,2 (route) × coût au km du camion (source non officielle, hors péages)"
+K8_transport_an,Opérations & Logistique,Coût annuel des livraisons depuis la France (1 camion par semaine),DE,,bas,2025,0.08,M€ / an,hypothèse,coût d'un aller-retour × 52
+K12_avec_transport,Synthèse,"Délai de retour, scénario D, transport depuis la France compris",DE,,bas,2025,9.52,années,estimation,investissement / (résultat annuel - coût annuel du transport)
+K8_transport,Opérations & Logistique,Coût d'un aller-retour en camion Chilly-Mazarin -> Cologne,DE,,haut,2025,1665.32,€,hypothèse,"2 × distance × 1,2 (route) × coût au km du camion (source non officielle, hors péages)"
+K8_transport_an,Opérations & Logistique,Coût annuel des livraisons depuis la France (1 camion par semaine),DE,,haut,2025,0.09,M€ / an,hypothèse,coût d'un aller-retour × 52
+K12_avec_transport,Synthèse,"Délai de retour, scénario D, transport depuis la France compris",DE,,haut,2025,9.82,années,estimation,investissement / (résultat annuel - coût annuel du transport)
 K12_sensibilite,Synthèse,"Délai de retour, scénario D, sensibilité (999 = jamais)",DE,,CA -20% ; invest 1000 €/m²,2025,6.62,années,estimation,"investissement / résultat annuel, loyer proportionnel au CA"
 K12_sensibilite,Synthèse,"Délai de retour, scénario D, sensibilité (999 = jamais)",DE,,CA -20% ; invest 1500 €/m²,2025,9.93,années,estimation,"investissement / résultat annuel, loyer proportionnel au CA"
 K12_sensibilite,Synthèse,"Délai de retour, scénario D, sensibilité (999 = jamais)",DE,,CA -20% ; invest 2000 €/m²,2025,13.24,années,estimation,"investissement / résultat annuel, loyer proportionnel au CA"

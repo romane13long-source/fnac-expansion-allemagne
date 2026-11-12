@@ -178,6 +178,24 @@ for nom, (marge_pct, loyer_annuel) in scenarios.items():
     add("K12", "Synthèse", "Délai de retour sur investissement d'un magasin (999 = jamais)", delai, "années",
         "estimation", "investissement / résultat annuel", "DE", zone=nom, annee=LAST)
 
+# --- Logistique : coût de livraison depuis Chilly-Mazarin vers Cologne (ajouté le 13/11) ------------------------
+# La tech est achetée et livrée en Allemagne (condition 1) ; Chilly-Mazarin ne livre que les références achetées en
+# France. Coût = aller-retour par la route × coût au km du camion × nombre de livraisons. Ordre de grandeur prudent :
+# les coûts hors loyer du groupe (ratios) comprennent déjà une partie de la logistique, ce coût est donc une borne haute.
+koln = communes[communes["nom"].str.startswith("Köln")].iloc[0]
+aller_retour_km = 2 * float(koln["distance_hub_km"]) * h["coef_detour_route"]
+resultat_d = ca_magasin * (marge_groupe * 100 - couts_hors_loyer_pct) / 100 - scenarios["D. achats locaux + loyer niveau France"][1]
+for niveau in ("bas", "haut"):
+    trajet = aller_retour_km * h[f"cout_km_camion_{niveau}"]
+    annuel = trajet * h["livraisons_france_par_an"]
+    add("K8_transport", "Opérations & Logistique", "Coût d'un aller-retour en camion Chilly-Mazarin -> Cologne", trajet, "€",
+        "hypothèse", "2 × distance × 1,2 (route) × coût au km du camion (source non officielle, hors péages)", "DE", zone=niveau, annee=2025)
+    add("K8_transport_an", "Opérations & Logistique", "Coût annuel des livraisons depuis la France (1 camion par semaine)", annuel / 1e6,
+        "M€ / an", "hypothèse", "coût d'un aller-retour × 52", "DE", zone=niveau, annee=2025)
+    add("K12_avec_transport", "Synthèse", "Délai de retour, scénario D, transport depuis la France compris", investissement / (resultat_d - annuel)
+        if resultat_d > annuel else 999, "années", "estimation", "investissement / (résultat annuel - coût annuel du transport)",
+        "DE", zone=niveau, annee=LAST)
+
 # Sensibilité du scénario D (le seul positif) : CA au m² ± 20 % et investissement 1 000 / 1 500 / 2 000 €/m².
 # K12 est un ordre de grandeur calculé sur des ratios du GROUPE (CA France, surfaces France y compris
 # Nature & Découvertes, coûts groupe) : ni montée en charge, ni impôts, ni BFR, ni investissement de maintien.

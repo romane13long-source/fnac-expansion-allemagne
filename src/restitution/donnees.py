@@ -163,6 +163,9 @@ def donnees():
         "eligible_familles": {r.zone: r.valeur for r in kpi[kpi.kpi_id == "K11_detail"].itertuples()},
         "scenarios": scen,
         "seuil_loyer": val("K12_seuil_loyer"),
+        "transport": {n: {"trajet": val("K8_transport", zone=n), "an": val("K8_transport_an", zone=n),
+                          "delai": val("K12_avec_transport", zone=n)} for n in ("bas", "haut")},
+        "livraisons_an": int(hyp["livraisons_france_par_an"]),
         # paramètres du simulateur : mêmes formules que src/gold/kpi.py
         "simu": {
             "ca_magasin": ca_magasin, "surface": hyp["surface_magasin_m2"], "invest_m2": hyp["investissement_amenagement_eur_m2"],

@@ -51,7 +51,16 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 
 ### 2.1 Métriques (KPI)
 
-Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui répond à « rentable ? ».
+**Nos 9 KPI retenus** (choisis dans le guide du sujet selon la méthode du cours : une question précise → un indicateur concret → une source disponible et fiable) :
+croissance du secteur · part de marché du concurrent en Allemagne · indice de prix DE / FR · marge brute post-taxe · densité concurrentielle · coût au m² · distance au hub **et coût du transport** · taux de pénétration des catégories · ★ délai de retour sur investissement.
+
+**Écartés de la décision** (toujours calculés dans `kpi.csv`, à titre de contexte) :
+- *part de marché de Fnac Darty en France* : elle décrit la France, pas l'Allemagne ;
+- *droits de douane / TVA* : 0 % de douane dans l'UE et 1 point d'écart de TVA, sans effet sur la décision ;
+- *% du catalogue éligible* : donnée simulée, la plus fragile.
+
+Le tableau ci-dessous garde tous les indicateurs calculés, avec leur formule.
+
 
 | Axe | KPI | Formule | Données utilisées | Ce qu'il permet de décider |
 |---|---|---|---|---|
@@ -64,6 +73,7 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 | Réseau & implantation | **Pression concurrentielle nationale** *(complément, borne haute)* | (magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 | `fact_magasins_concurrents`, `concurrents_autres` (Silver), `fact_population` | La densité CECONOMY sous-estime-t-elle la concurrence ? |
 | Réseau & implantation | **Coût moyen au m² commercial** *(hypothèse)* | loyer de référence mensuel × 12 (€/m²/an) ; loyer d'un magasin = × 2 400 m² | hypothèse documentée (§ 3) | Quel coût pour chaque ouverture ? |
 | Opérations & logistique | **Distance moyenne depuis le hub** | distance à vol d'oiseau (formule de haversine) entre le hub et chaque ville de 100 000 habitants ou plus, moyenne pondérée par la population | `dim_commune`, hub | Livrer depuis la France, ou ouvrir un entrepôt en Allemagne ? |
+| Opérations & logistique | **Coût du transport depuis la France** *(hypothèse, ajouté le 13/11)* | aller-retour Chilly-Mazarin → Cologne par la route (vol d'oiseau × 1,2) × coût au km d'un camion 40 t (1,45 à 1,67 €/km hors péages, calculateur privé citant le CNR, source non officielle) × 52 livraisons ; effet sur le délai de retour du scénario D | `hypotheses_roi.csv`, `dim_commune` | Livrer depuis la France ou par des fournisseurs allemands ? |
 | Opérations & logistique | **Droits de douane / taxes locales** | droits de douane entre pays de l'UE ; écart de TVA DE − FR | `fact_indicateurs_officiels` | Surcoût réglementaire du passage de frontière |
 | Assortiment | **Taux de pénétration des catégories** | (dépenses DE / population DE) / (dépenses FR / population FR) × 100, par catégorie | `fact_marche`, `fact_population` | Quelles catégories vendre en priorité ? |
 | Assortiment | **% du catalogue France éligible** *(simulé)* | part des références du catalogue vendables en Allemagne | données simulées, signalées comme telles | 100 % du catalogue ou un assortiment ciblé ? |
@@ -318,8 +328,8 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 | Quand | Étapes | État |
 |---|---|---|
 | Mer. 11/11 | Cadrage, choix du pays, KPI, sources, collecte, nettoyage, modèle de données, dictionnaire | ✅ |
-| Jeu. 12/11 | Gold, calcul des KPI, dashboard interactif avec IA en direct, slides générées, fin du README, revue des retours du prof | ✅ |
-| Ven. 13/11 | Relecture des slides, répétition de l'oral, rendu à 15h | ⬜ |
+| Jeu. 12/11 | Gold, calcul des KPI, dashboard interactif avec commentaires IA, slides générées, fin du README, revue des retours du prof | ✅ |
+| Ven. 13/11 | Choix final de 9 KPI, coût du transport chiffré, relecture des slides, répétition de l'oral, rendu à 15h | ⬜ |
 
 ### Next Steps (recommandations post-étude)
 
@@ -328,7 +338,7 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention).
 
 **Ce qui pousse au Go**
-- Un marché qui grandit : dépenses TECH **+2,9 % en Allemagne** contre **−1,3 % en France** ; **363 €** par habitant contre **204 €** (pénétration 178, France = 100).
+- Un marché qui grandit : dépenses TECH **+2,7 % par an en Allemagne** contre **−0,8 % en France** (moyenne 2015-2025) ; **363 €** par habitant contre **204 €** (pénétration 178, France = 100).
 - Pas de barrière réglementaire : droits de douane **0 %**, TVA presque identique (19 % contre 20 % pour TECH).
 - Cologne : Land (Rhénanie-du-Nord-Westphalie) où la densité CECONOMY est parmi les plus faibles (**4,0 magasins par million d'habitants**, moyenne nationale 4,7), et ville de plus de 500 000 habitants la plus proche du hub de Chilly-Mazarin (**416 km**, contre **619 km** en moyenne pondérée pour les 79 villes de plus de 100 000 habitants).
 
@@ -340,17 +350,17 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 - Écart à expliquer : Eurostat donne **350 € par habitant** de dépenses « journaux, livres et papeterie » en Allemagne contre **155 €** en France (2025). Les autres pays vérifiés en 2023 sont plus proches de la France (Italie, Espagne) : la différence peut venir des méthodes nationales et n'est pas utilisée comme argument.
 
 **Conditions de succès du pilote** (issues du modèle, à valider par le Comex)
-1. **Acheter en Allemagne** (centrale d'achat locale) pour retrouver une marge brute proche de **28 %**.
+1. **Acheter et se faire livrer en Allemagne** (centrale d'achat locale, livraison par les fournisseurs allemands) pour retrouver une marge brute proche de **28 %**. Un camion par semaine depuis Chilly-Mazarin coûterait **0,08 à 0,09 M€ par an** *(hypothèse, coût au km d'un calculateur privé citant le CNR)* et repousserait le retour sur investissement à **9,5 à 9,8 ans**, au-delà du critère d'arrêt de 8 ans *(borne haute : les ratios de coûts du groupe comprennent déjà une partie de la logistique)*.
 2. **Loyer inférieur à 33 €/m²/mois** : au-delà, le magasin perd de l'argent même avec des achats locaux. Le loyer de référence IHK (115 €/m²/mois, petites surfaces de centre-ville) est trois fois trop élevé : il faut viser un emplacement de grande surface hors rue prime.
-3. **Assortiment ciblé** : produits techniques et jeux vidéo (environ 90 % éligibles), peu de livres (10 % éligibles, catalogue en français) *(données simulées)*.
+3. **La tech d'abord** : un Allemand y dépense **1,8 fois plus** qu'un Français (pénétration 178, France = 100). Le catalogue simulé va dans le même sens (produits techniques et jeux vidéo largement éligibles, livres en français peu éligibles) *(données simulées)*.
 
 | Étape | Action | Horizon | Critère de passage |
 |---|---|---|---|
 | 1 | Négocier une centrale d'achat allemande | M1–M6 | Marge brute TECH proche de 28 % |
 | 2 | Trouver un emplacement à Cologne (2 400 m²) | M1–M6 | Loyer < 33 €/m²/mois |
-| 3 | Tester la logistique : livraison depuis Chilly-Mazarin contre un prestataire allemand | M3–M6 | Coût et délai comparés (seuils à fixer) |
-| 4 | Ouvrir le magasin pilote, assortiment TECH + jeux | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
-| 5 | Décision de déploiement après **2 ans d'exploitation** | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
+| 3 | Tester la livraison : fournisseurs allemands contre camion depuis Chilly-Mazarin | M3–M6 | Coût du transport compatible avec un retour ≤ 8 ans |
+| 4 | Ouvrir le magasin pilote, la tech d'abord | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
+| 5 | Décision de déploiement à **3 ans** (2 ans d'exploitation) ; l'entrepôt allemand est étudié à ce stade | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
 
 **Arbitrages**
 - **Pas de déploiement national** avant la preuve du pilote.

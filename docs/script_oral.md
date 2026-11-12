@@ -38,13 +38,14 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 ## Slide 4 · Un indicateur pour chaque question du Comex — 2:30 → 4:30 · Romane
 
-> On est partis du guide des KPI, et pour chacun on s'est demandé : quelle décision il éclaire ?
-> Le marché attire-t-il ? Croissance du secteur et parts de marché.
-> Notre prix tient-il ? Indice de prix Allemagne-France et marge brute.
-> Où ouvrir, à quel coût ? Densité de magasins concurrents et coût au mètre carré.
-> Peut-on livrer ? Distance à notre entrepôt.
-> Que vendre ? Consommation par catégorie et part du catalogue vendable.
-> Aucun ne répond seul à « est-ce rentable ? ». On a donc ajouté un indicateur de synthèse : le délai de retour sur investissement d'un magasin. Les définitions sont en annexe.
+> Le sujet proposait une douzaine d'indicateurs. On en a retenu neuf, avec une règle simple : une question précise du Comex, un indicateur qui y répond, et une source fiable pour le calculer.
+> Le marché attire-t-il ? La croissance du secteur et la part de marché du leader allemand.
+> Notre prix tient-il ? L'indice de prix Allemagne-France et la marge brute.
+> Où ouvrir, à quel coût ? La densité de magasins concurrents et le coût au mètre carré.
+> Peut-on livrer ? La distance à notre entrepôt et le coût du transport.
+> Que vendre ? La dépense par habitant, catégorie par catégorie.
+> Et comme aucun ne répond seul à « est-ce rentable ? », un indicateur de synthèse : le délai de retour sur investissement d'un magasin.
+> On en a écarté trois : la part de marché de la Fnac en France, qui décrit la France et pas l'Allemagne ; la douane et la TVA, sans effet sur la décision ; et la part du catalogue vendable, parce que la donnée est simulée.
 
 *Transition :* « Voici ce que disent les chiffres. Elena. »
 
@@ -68,7 +69,8 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 ## Slide 8 · Cologne, la ville la plus adaptée pour un magasin pilote — 6:15 → 6:50 · Romane
 
 > Où ouvrir ? On a comparé les sept plus grandes villes allemandes sur trois critères : plus d'un million d'habitants, peu de magasins du leader pour leur taille, et moins de 450 kilomètres de notre entrepôt.
-> Cologne est la seule à cocher les trois. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne : le pilote peut être livré depuis la France. Un entrepôt allemand ne se justifiera que si on déploie un réseau.
+> Cologne est la seule à cocher les trois. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne.
+> Mais livrer depuis la France a un coût : un camion par semaine, c'est 0,08 à 0,09 million d'euros par an, et le retour sur investissement passerait de 7,9 à près de 10 ans. C'est une hypothèse prudente, mais elle suffit à trancher : la tech doit être livrée par des fournisseurs allemands. L'entrepôt en Allemagne sera étudié si on déploie.
 
 ## Slide 9 · L'IA commente nos chiffres, elle ne les calcule pas — 6:50 → 7:30 · Elena
 
@@ -79,10 +81,10 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 ## Slide 10 · Décision — 7:30 → 9:00 · Romane
 
-> Réponse au Comex. Réalisable ? Oui : marché porteur, pas d'obstacle réglementaire, une ville et un entrepôt identifiés. Rentable ? Oui, mais seulement sous trois conditions.
+> Réponse au Comex. Réalisable ? Oui : marché porteur, pas d'obstacle réglementaire, une ville identifiée et des fournisseurs sur place. Rentable ? Oui, mais seulement sous trois conditions.
 > Notre décision : Go sous trois conditions, pour un seul magasin pilote à Cologne.
-> Un : acheter en Allemagne, pour garder 28 % de marge au lieu de 12. Deux : un loyer sous 33 euros le mètre carré. Trois : un assortiment tech et jeux vidéo, dont 90 % est vendable en Allemagne.
-> Next steps : centrale d'achat et bail dans les six premiers mois, test de livraison depuis la France, ouverture à un an, décision de déploiement à trois ans.
+> Un : acheter et se faire livrer en Allemagne, pour garder 28 % de marge au lieu de 12, sans payer de camions depuis la France. Deux : un loyer sous 33 euros le mètre carré. Trois : la tech d'abord, où un Allemand dépense 1,8 fois plus qu'un Français.
+> Next steps : centrale d'achat et bail dans les six premiers mois ; un test de livraison, fournisseurs allemands contre camion depuis la France ; ouverture à un an ; décision de déploiement à trois ans.
 > Critère d'arrêt : si le magasin perd de l'argent, ou rembourse en plus de huit ans, on ne déploie pas.
 
 ## Slide 11 · Nos demandes au Comex — 9:00 → 9:30 · Romane
@@ -102,11 +104,14 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 **Nos limites, à dire si on nous les demande :**
 - La rentabilité est un ordre de grandeur : ratios du groupe, sans montée en charge ni impôts. Selon les ventes et l'investissement, le retour va de 4,4 à 13,2 ans ; la conclusion ne change pas.
-- L'investissement de 1 500 € par m² et le loyer de 115 € sont des hypothèses.
-- La part du catalogue vendable est simulée : le catalogue de la Fnac n'est pas public.
+- L'investissement de 1 500 € par m², le loyer de 115 € et le coût du camion (1,45 à 1,67 € par km, calculateur privé citant le CNR) sont des hypothèses.
+- La part du catalogue vendable est simulée : c'est pour ça qu'on l'a écartée des KPI de décision.
 - On a trouvé 394 magasins du concurrent contre 403 publiés.
 
 **Questions probables :**
+- *« Pourquoi ces 9 KPI et pas les autres ? »* Une question précise, un indicateur, une source fiable (méthode du cours). On a écarté ce qui ne change pas la décision (douane, TVA, part de la Fnac en France) et ce dont la donnée est simulée (catalogue).
+- *« Le transport depuis la France, combien ? »* 1 450 à 1 670 € l'aller-retour, 0,08 à 0,09 M€ par an pour un camion par semaine : le retour passerait à 9,5-9,8 ans. D'où la condition : fournisseurs allemands. C'est une borne haute, car nos ratios de coûts du groupe comprennent déjà de la logistique.
+- *« Le cash-flow, ça sert à la part de marché ? »* Non : la part de marché, c'est nos ventes divisées par le marché. Le cash-flow et le résultat net disent si le groupe peut financer le projet.
 - *« Eurostat, c'est fiable ? »* C'est l'office statistique de l'Union européenne : il harmonise les chiffres des instituts nationaux pour comparer les pays.
 - *« Comment avez-vous fait le scraping ? »* On a lu les plans de site publiés pour les robots (robots.txt respecté), puis rattaché chaque magasin à sa commune ; les villes homonymes ont été corrigées à la main.
 - *« C'est quoi le loyer modéré ? »* Le poids des loyers dans le chiffre d'affaires de la Fnac en France, appliqué au magasin de Cologne.
