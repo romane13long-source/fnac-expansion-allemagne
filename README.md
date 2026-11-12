@@ -372,21 +372,21 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 | Nettoyage et modélisation | `pandas` 3.1.1 ; `openpyxl` 3.1.5 pour lire le fichier Excel de Destatis |
 | Schémas | `matplotlib` 3.11.2 |
 | Versionnement et collaboration | Git et GitHub (branches `feature/*` → `develop` → `main`) |
-| Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main), PBIX / PNG / PDF (restitution) |
-| Restitution et brique IA | Power BI Desktop (dashboard, export PNG / PDF) ; Claude en ligne de commande (`claude -p`, synthèse), avec repli sur un template déterministe ; PowerPoint / Keynote pour l'oral |
+| Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main), PPTX / HTML (restitution), JSON (commentaires IA) |
+| Restitution et brique IA | `python-pptx` 1.0.2 (slides générées) ; HTML + SVG sans bibliothèque (dashboard) ; Claude en ligne de commande (`claude -p`, synthèse et commentaires), avec repli sur un texte déterministe |
 
 ### 5.1 Restitution
 
-**Dashboard Power BI Desktop** (`docs/dashboard/fnac_allemagne.pbix`, *en cours de construction*), quatre pages :
+Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi à la main) :
 
-1. **Marché & potentiel** : taille et croissance DE / FR, dépense par habitant, parts de marché HT / HT.
-2. **Prix & marges** : indice de prix, marge estimée par catégorie, scénarios de prix.
-3. **Concurrence & implantation** : carte des magasins CECONOMY, densité par Land, villes de plus de 100 000 habitants, distance au hub.
-4. **Synthèse Go / No-Go** : scorecard, payback, recommandation et synthèse IA.
+**Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 9 slides au template homogène, graphiques natifs modifiables, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse, Go / No-Go) + une slide de réserve sur les limites. Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
 
-Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissement est manuel après le pipeline de données (Bronze → Silver → Gold) ; les visuels sont exportés en PNG / PDF pour le rapport et les slides. Les données restent portables vers Tableau ou Looker Studio : aucun calcul n'est enfermé dans l'outil de visualisation.
-
-**Slides de l'oral** : 10 à 12 slides pour 10 minutes — question du Comex, méthodologie et sources, marché, économie, concurrence, logistique, scénarios, recommandation Go / No-Go, limites, next steps.
+**Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`) : un fichier HTML autonome, sans bibliothèque externe, qui s'ouvre hors ligne dans un navigateur.
+- 6 onglets, un par axe du guide des KPI + rentabilité : marché, prix et marges, réseau, logistique, assortiment, ★ rentabilité et Go / No-Go.
+- 4 filtres : catégorie (produits techniques / livres), achats (France / Allemagne), loyer (référence IHK / niveau France), Land.
+- **Commentaire IA qui change avec les filtres** : 30 commentaires (catégorie × axe, scénario, Land) rédigés par la brique IA au moment du build, chiffres contrôlés.
+- Simulateur « et si… ? » : loyer, investissement et CA modifiables, délai de retour recalculé en direct avec les formules du repo.
+- Liens directs vers une vue, par exemple `dashboard.html#tab=roi&loyer=ihk`.
 
 ### 5.2 Brique IA
 
@@ -416,6 +416,7 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python run_pipeline.py      # collecte, nettoyage, modèle Gold et KPI
 PYTHONPATH=src .venv/bin/python src/ai/synthese.py   # brique IA (claude -p) ; --sans-ia pour le texte déterministe
+PYTHONPATH=src .venv/bin/python src/ai/commentaires_dashboard.py   # commentaires IA par filtre, puis relancer run_pipeline.py
 .venv/bin/python src/make_schemas.py  # schémas du README
 ```
 

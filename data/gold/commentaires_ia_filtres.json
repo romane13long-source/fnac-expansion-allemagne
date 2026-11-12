@@ -1,0 +1,136 @@
+{
+ "source": {
+  "modele": "Claude (sonnet) via claude -p",
+  "faits": "data/gold/kpi.csv et tables Gold"
+ },
+ "axes": {
+  "TECH": {
+   "Marché & Potentiel": {
+    "texte": "Les dépenses TECH croissent de 2,9 % en 2025 en Allemagne, contre -1,3 % en France. Elles pèsent 30 337 M€ contre 14 064 M€, ce qui justifie un pilote.",
+    "source": "ia"
+   },
+   "Prix & Marges": {
+    "texte": "L'indice de prix hors taxes est à 82 (France = 100) et la marge brute est de 12,2 % (estimation) à coût d'achat français, contre 28 % pour le groupe. Sans centrale d'achat allemande, TECH n'est pas rentable.",
+    "source": "ia"
+   },
+   "Réseau & Implantation": {
+    "texte": "CECONOMY détient 17,3 à 37,5 % du marché TECH (estimation), avec 4,7 magasins par million d'habitants. Le pilote doit viser une zone peu dense, comme Cologne.",
+    "source": "ia"
+   },
+   "Opérations & Logistique": {
+    "texte": "Le hub de Chilly-Mazarin est à 619 km en moyenne, avec 0 % de droits de douane et un écart de TVA de -1 point. La distance plaide pour des achats via une centrale allemande.",
+    "source": "ia"
+   },
+   "Assortiment": {
+    "texte": "92,4 % du catalogue TECH est éligible (simulé). TECH est le socle naturel de l'assortiment du pilote.",
+    "source": "ia"
+   }
+  },
+  "LIVRES": {
+   "Marché & Potentiel": {
+    "texte": "Les dépenses LIVRES croissent de 3 % en 2025 en Allemagne, contre -2,5 % en France, pour 29 284 M€ contre 10 675 M€. Le marché est porteur, mais le catalogue éligible reste limité.",
+    "source": "ia"
+   },
+   "Prix & Marges": {
+    "texte": "L'indice de prix hors taxes est à 104,1 (France = 100) et la marge brute est de 30,8 % (estimation), au-dessus des 28 % du groupe. LIVRES reste rentable avec des achats français.",
+    "source": "ia"
+   },
+   "Réseau & Implantation": {
+    "texte": "La part de marché CECONOMY de 17,3 à 37,5 % (estimation) concerne TECH, pas LIVRES. La pression nationale tous réseaux est de 22,2.",
+    "source": "ia"
+   },
+   "Opérations & Logistique": {
+    "texte": "Le hub est à 619 km en moyenne, avec 0 % de droits de douane et un écart de TVA de 1,5 point. La logistique reste un coût à maîtriser même pour une catégorie à bonne marge.",
+    "source": "ia"
+   },
+   "Assortiment": {
+    "texte": "Seulement 10,1 % du catalogue LIVRES est éligible (simulé), contre 89,3 % pour JEUX_VIDEO. LIVRES est secondaire, ce qui confirme le choix techniques + jeux vidéo.",
+    "source": "ia"
+   }
+  }
+ },
+ "scenarios": {
+  "A": {
+   "texte": "Achats France et loyer IHK donnent -4,10 M€ par an, sans retour sur investissement. Ce scénario est à écarter.",
+   "source": "ia"
+  },
+  "B": {
+   "texte": "Achats France et loyer niveau France donnent -1,28 M€ par an, sans retour. Baisser le loyer seul ne suffit pas.",
+   "source": "ia"
+  },
+  "C": {
+   "texte": "Achats locaux et loyer IHK donnent -2,37 M€ par an, sans retour. La centrale allemande seule ne suffit pas.",
+   "source": "ia"
+  },
+  "D": {
+   "texte": "Achats locaux et loyer niveau France donnent 0,45 M€ par an, avec un retour en 7,9 ans pour 3,6 M€ investis (hypothèse). Le seuil de loyer est de 32,7 €/m²/mois, loin des 115 €/m²/mois de référence IHK (hypothèse), d'où le Go conditionnel.",
+   "source": "ia"
+  }
+ },
+ "lands": {
+  "Schleswig-Holstein": {
+   "texte": "Avec 5,1 magasins CECONOMY par million d'habitants et Kiel à 826 km du hub, ce Land est moins favorable que la Rhénanie-du-Nord-Westphalie. La distance est élevée et la densité supérieure.",
+   "source": "ia"
+  },
+  "Hamburg": {
+   "texte": "Avec 7 magasins par million d'habitants et 760 km du hub, ce Land est moins favorable. La concurrence est dense et la distance importante.",
+   "source": "ia"
+  },
+  "Niedersachsen": {
+   "texte": "Avec 4,8 magasins par million d'habitants et Hannover à 664 km, ce Land est moyennement favorable. Il est plus éloigné que Cologne pour une densité proche.",
+   "source": "ia"
+  },
+  "Bremen": {
+   "texte": "Avec 8,5 magasins par million d'habitants, c'est la densité la plus élevée, et Bremen est à 666 km du hub. Ce Land est peu favorable.",
+   "source": "ia"
+  },
+  "Nordrhein-Westfalen": {
+   "texte": "Avec 4 magasins par million d'habitants et Köln à 416 km du hub, ce Land combine faible densité et proximité. Il est plus favorable que la plupart des autres, ce qui appuie le choix de Cologne.",
+   "source": "ia"
+  },
+  "Hessen": {
+   "texte": "Avec 4,6 magasins par million d'habitants et Frankfurt à 487 km, ce Land est favorable. Il reste un peu plus dense et plus éloigné que la Rhénanie-du-Nord-Westphalie.",
+   "source": "ia"
+  },
+  "Rheinland-Pfalz": {
+   "texte": "Avec 5,1 magasins par million d'habitants et Mainz à 455 km, ce Land est proche du hub. Sa densité est supérieure à celle de la Rhénanie-du-Nord-Westphalie.",
+   "source": "ia"
+  },
+  "Baden-Württemberg": {
+   "texte": "Avec 4,5 magasins par million d'habitants et Stuttgart à 504 km, ce Land est favorable. Il est toutefois plus éloigné que Cologne.",
+   "source": "ia"
+  },
+  "Bayern": {
+   "texte": "Avec 5 magasins par million d'habitants et München à 686 km, ce Land est moins favorable que la Rhénanie-du-Nord-Westphalie. La distance est nettement plus élevée.",
+   "source": "ia"
+  },
+  "Saarland": {
+   "texte": "Saarbrücken est à 347 km, le plus proche du hub, mais la densité est de 6 magasins par million d'habitants. La logistique est favorable, la concurrence moins.",
+   "source": "ia"
+  },
+  "Berlin": {
+   "texte": "Avec 6,8 magasins par million d'habitants et 889 km du hub, ce Land est peu favorable. La concurrence est dense et la distance élevée.",
+   "source": "ia"
+  },
+  "Brandenburg": {
+   "texte": "Avec 4,3 magasins par million d'habitants mais Potsdam à 862 km, la densité est faible. La distance au hub pénalise ce Land.",
+   "source": "ia"
+  },
+  "Mecklenburg-Vorpommern": {
+   "texte": "Avec 5,1 magasins par million d'habitants et Rostock à 906 km, c'est le Land le plus éloigné du hub. Il est peu favorable.",
+   "source": "ia"
+  },
+  "Sachsen": {
+   "texte": "Avec 4 magasins par million d'habitants, la densité est aussi faible qu'en Rhénanie-du-Nord-Westphalie. Leipzig est cependant à 776 km du hub, ce qui pénalise la logistique.",
+   "source": "ia"
+  },
+  "Sachsen-Anhalt": {
+   "texte": "Avec 3,8 magasins par million d'habitants, c'est la densité la plus faible. Magdeburg est cependant à 761 km du hub, ce qui limite l'intérêt.",
+   "source": "ia"
+  },
+  "Thüringen": {
+   "texte": "Avec 4,3 magasins par million d'habitants et Erfurt à 674 km, la densité est faible mais la distance reste élevée. Ce Land est moyennement favorable.",
+   "source": "ia"
+  }
+ }
+}
