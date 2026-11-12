@@ -66,7 +66,7 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 
 > **Parts de marché : comparaison HT / HT.** Le CA des entreprises est publié hors taxes ; les dépenses des ménages Eurostat sont TTC. Les formules ci-dessus ramènent donc le marché à un montant HT avant de calculer une part (TVA 20 % FR / 19 % DE pour TECH ; 5,5 % FR / 7 % DE pour LIVRES). Sans cette correction, la part est sous-estimée d'environ 17 % pour TECH et 5 % pour LIVRES (`1 − 1/1,20` et `1 − 1/1,055`).
 >
-> **Densité concurrentielle.** Le KPI géolocalisé ne compte que CECONOMY (MediaMarkt + Saturn), seul réseau dont chaque magasin est connu. Les autres enseignes (Expert, Euronics, Amazon, Otto) sont suivies au niveau national dans `concurrents_autres` : elles documentent la pression concurrentielle, mais ne peuvent pas être affectées à un Land sans leur propre géolocalisation.
+> **Densité concurrentielle.** Le KPI géolocalisé ne compte que CECONOMY (MediaMarkt + Saturn), seul réseau dont chaque magasin est connu. Les autres enseignes (Expert, Euronics, Otto) sont suivies au niveau national dans `concurrents_autres` : elles documentent la pression concurrentielle, mais ne peuvent pas être affectées à un Land sans leur propre géolocalisation.
 
 ### 2.2 Dimensions (axes d'analyse)
 
@@ -85,7 +85,7 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 2. **Une année commune.** Une date (« 2025-12-31 ») donne son année. Un exercice décalé (« 2024/25 ») est rattaché à son **année de clôture** (2025). Un taux en vigueur est daté de l'année de consultation.
 3. **Valeurs provisoires gardées.** Eurostat marque certaines valeurs « provisoire ». On les garde, avec la mention dans `statut_eurostat`, et on le signale dans les visuels.
 4. **Zones sans habitants exclues.** 200 « communes » sans habitants (forêts, lacs, eaux côtières) sont retirées : on ne peut pas y ouvrir de magasin.
-5. **Un seul concurrent par groupe.** MediaMarkt et Saturn appartiennent à CECONOMY : ils forment **un** concurrent. Un magasin listé sur les deux sites (même identifiant) est compté une fois. Les autres enseignes (Expert, Euronics, Amazon, Otto) sont suivies séparément dans `concurrents_autres`.
+5. **Un seul concurrent par groupe.** MediaMarkt et Saturn appartiennent à CECONOMY : ils forment **un** concurrent. Un magasin listé sur les deux sites (même identifiant) est compté une fois. Les autres enseignes (Expert, Euronics, Otto) sont suivies séparément dans `concurrents_autres`.
 6. **Rattachement magasin → commune**, du plus sûr au moins sûr : table manuelle, puis nom exact, puis début du nom officiel. Un mot générique seul (« Bad », « Sankt ») ne suffit jamais. La méthode utilisée est gardée dans `methode_rattachement`.
 7. **Chiffre de groupe.** Un chiffre publié pour un groupe entier (CECONOMY, Fnac Darty) porte le pays `GROUPE`. Une clé n'est jamais vide.
 8. **Correspondance des catégories.** TECH a la même définition dans le marché et dans les prix (`exacte`). LIVRES n'a pas d'indice de prix propre : on utilise celui des loisirs et de la culture (`approximative`).
@@ -245,7 +245,7 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 | Communes allemandes | Destatis, *Gemeindeverzeichnis* 31.12.2025 | Fichier open data | Office statistique allemand : code officiel, population, coordonnées | Coordonnées du centre de la commune |
 | Magasins CECONOMY | Plans de site mediamarkt.de et saturn.de | Scraper (fichiers publiés pour les robots, robots.txt respecté) | Seule liste publique complète. Recoupée avec le rapport annuel : 394 magasins trouvés contre 403 publiés | 2 % d'écart ; conditions d'utilisation des sites non lues |
 | Chiffres CECONOMY | CECONOMY, *Annual Report 2024/25* | Rapport officiel | Comptes publiés d'une société cotée | Ventes Allemagne avec l'électroménager ; exercice clos au 30/09 |
-| Autres concurrents | Expert, Euronics, Amazon, Otto (Conrad et Medimax en veille) | Pages officielles / rapports | Comptages nationaux, formats complémentaires | Pas de géolocalisation magasin ; ne pas additionner avec CECONOMY |
+| Autres concurrents | Expert, Euronics, Otto (Conrad et Medimax en veille) | Pages officielles / rapports | Comptages nationaux, formats complémentaires | Pas de géolocalisation magasin ; ne pas additionner avec CECONOMY |
 | Chiffres de la Fnac | Fnac Darty, *Document d'enregistrement universel 2025* (déposé à l'AMF) | Rapport officiel | Document réglementaire d'une société cotée | La Fnac seule n'est pas publiée : chiffres du groupe |
 | TVA | Commission européenne, *Your Europe* | Page officielle | Taux publiés par la Commission | Page possiblement pas à jour |
 | Droits de douane | EUR-Lex, TFUE art. 28 et 30 | Texte de loi | Interdiction des droits de douane entre pays de l'UE | — |
@@ -261,7 +261,6 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 | MediaMarkt + Saturn | CECONOMY | magasins | 394 (sitemaps) ; 403 (rapport) | Leader tech, grandes surfaces | Sitemaps + CECONOMY 2024/25 |
 | Expert | Expert SE | magasins | > 400 | Réseau coopératif de proximité | expert.de, *Daten und Fakten* |
 | Euronics | Euronics Deutschland eG | magasins | > 1 100 | Coopérative, petits et moyens magasins | euronics.de, *Über EURONICS* |
-| Amazon.de | Amazon | en ligne | 0 | Leader de l'e-commerce | amazon.de |
 | Otto.de | Otto Group | en ligne | 0 | Vente à distance et marketplace | ottogroup.com |
 
 Les comptages ne sont pas additifs : les formats et les surfaces diffèrent. Seul CECONOMY est géolocalisé au magasin près, donc seul réseau utilisé dans le KPI de densité par Land ; les autres servent de borne de pression concurrentielle. Conrad (4 sites, surtout B2B), Electronic Partner / Medimax et les enseignes alimentaires (Kaufland, etc.) restent des acteurs de niche ou non spécialistes, non retenus dans le comptage.
@@ -330,7 +329,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 
 **Ce qui empêche un Go sans condition**
 - Prix TECH **18 % plus bas** en Allemagne (indice hors taxes 82, France = 100) : à coût d'achat français, la marge brute tombe à **12 %** contre **28 %** pour le groupe.
-- Concurrent installé : CECONOMY détient **17 à 38 %** du marché TECH (HT / HT), avec 394 magasins géolocalisés (403 publiés) ; Expert, Euronics, Amazon et Otto en plus.
+- Concurrent installé : CECONOMY détient **17 à 38 %** du marché TECH (HT / HT), avec 394 magasins géolocalisés (403 publiés) ; Expert (plus de 400 points de vente), Euronics (plus de 1 100) et Otto en ligne en plus.
 - Délai de retour sur investissement d'un magasin de 2 400 m² : **jamais** dans 3 scénarios sur 4. Seul le scénario « achats locaux + loyer au niveau français » est rentable : **+0,45 M€ par an, 7,9 ans** *(estimation ; l'investissement de 1 500 €/m² est une hypothèse non sourcée)*.
 - **Limites du ROI** : c'est un ordre de grandeur calculé avec des ratios du **groupe** (CA France, surfaces France y compris Nature & Découvertes, coûts groupe), pas de la Fnac seule ; il ne compte ni montée en charge, ni impôts, ni besoin en fonds de roulement, ni investissement de maintien. Sensibilité du scénario D (`K12_sensibilite`) : de **4,4 ans** (CA +20 %, 1 000 €/m²) à **13,2 ans** (CA −20 %, 2 000 €/m²).
 - Écart à expliquer : Eurostat donne **350 € par habitant** de dépenses « journaux, livres et papeterie » en Allemagne contre **155 €** en France (2025). Les autres pays vérifiés en 2023 sont plus proches de la France (Italie, Espagne) : la différence peut venir des méthodes nationales et n'est pas utilisée comme argument.
@@ -350,7 +349,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 
 **Arbitrages**
 - **Pas de déploiement national** avant la preuve du pilote.
-- **Pas de guerre des prix** : Amazon et MediaMarkt sont plus gros ; la Fnac doit se différencier par l'assortiment, le conseil et les services.
+- **Pas de guerre des prix** : MediaMarkt est plus gros ; la Fnac doit se différencier par l'assortiment, le conseil et les services.
 - **Pas d'acquisition de CECONOMY** : coût, endettement et risque d'exécution trop élevés pour un premier pas.
 
 **Risques à surveiller**
@@ -358,7 +357,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 | Risque | Impact | Mitigation |
 |---|---|---|
 | Compression de marge | Économie du modèle | Conditions d'achat, mix livres/services, prix local |
-| Concurrence Amazon / MediaMarkt | Parts de marché | Différenciation, expérience en magasin, click & collect |
+| Concurrence MediaMarkt / Saturn | Parts de marché | Différenciation, expérience en magasin, click & collect |
 | Logistique depuis la France | Délai et coût | 3PL allemand, stock avancé, test comparatif |
 | Réglementation et droit du travail | Ouverture | Conseil local, TVA, Buchpreisbindung, emballage |
 | Exécution du pilote | Go / No-Go | Jalons, budget de sortie, critères d'arrêt écrits |
@@ -430,5 +429,4 @@ PYTHONPATH=src .venv/bin/python src/ai/commentaires_dashboard.py   # commentaire
 - **Fnac Darty** : communiqué de la plateforme de Chilly-Mazarin. https://www.fnacdarty.com/en/inauguration-of-a-new-platform-dedicated-to-deliveryand-after-sales-service-in-chilly-mazarin/
 - **Expert SE** : *Daten und Fakten*. https://www.expert.de/Pressemitteilungen/Daten-Fakten
 - **Euronics Deutschland eG** : *Über EURONICS*. https://www.euronics-deutschland.de/ueber-euronics/
-- **Amazon.de** : https://www.amazon.de/
 - **Otto Group** : https://www.ottogroup.com/en/

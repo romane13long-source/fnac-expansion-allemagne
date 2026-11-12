@@ -294,7 +294,7 @@ const pdv = name => D.concurrents.find(k => k.enseigne === name).pdv;
 function pageConcurrence() {
   const v = V();
   return {
-    phrase: `Trois réseaux de magasins sont déjà là : CECONOMY (MediaMarkt + Saturn, le leader, sources : son rapport annuel et ses sites), Expert et Euronics (chiffres de leurs sites officiels), plus Amazon et Otto en ligne. À ${v.ville}, CECONOMY a ${v.magasins} magasins, soit ${nf(v.magasins_par_100k, 1)} pour 100 000 habitants.`,
+    phrase: `Trois réseaux de magasins sont déjà là : CECONOMY (MediaMarkt + Saturn, le leader, sources : son rapport annuel et ses sites), Expert et Euronics (chiffres de leurs sites officiels), plus Otto en ligne. À ${v.ville}, CECONOMY a ${v.magasins} magasins, soit ${nf(v.magasins_par_100k, 1)} pour 100 000 habitants.`,
     tiles: [tile("CECONOMY (MediaMarkt + Saturn)", "394 magasins", `9,6 Md€ de ventes en Allemagne · ${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} % du marché tech`, "Le leader, concurrent direct de la Fnac sur la tech. Magasins comptés un par un (plans des sites).", "", "mesuré"),
             tile("Expert", "> " + nf(pdv("Expert"), 0) + " points de vente", "coopérative de magasins de proximité", "Chiffre du site officiel d'Expert (« plus de 400 sites en Allemagne »). Magasins plus petits : on ne les additionne pas à CECONOMY.", "", "mesuré"),
             tile("Euronics", "> " + nf(pdv("Euronics"), 0) + " points de vente", "coopérative, petits et moyens magasins", "Chiffre du site officiel d'Euronics Deutschland (« plus de 1 100 sites »). Le plus grand réseau en nombre, mais de petites surfaces.", "", "mesuré"),
@@ -306,7 +306,7 @@ function pageConcurrence() {
       hbar(document.getElementById("g2"), [...D.villes].sort((a, b) => a.magasins_par_100k - b.magasins_par_100k).map(x => ({ name: x.ville, value: x.magasins_par_100k, sel: x.ville === state.ville,
         color: x.ville === state.ville ? "var(--de)" : "var(--neutral)", label: `${nf(x.magasins_par_100k, 2)} (${x.magasins} mag.)`, onclick: () => { state.ville = x.ville; render(); } })), { labelW: 150 });
     },
-    facts: [`Concurrents en magasin : CECONOMY ${pdv("MediaMarkt + Saturn")} magasins, Expert plus de ${pdv("Expert")}, Euronics plus de ${nf(pdv("Euronics"), 0)} ; en ligne : Amazon, Otto`, `Part de marché CECONOMY tech ${nf(D.parts.cec_bas, 1)} à ${nf(D.parts.cec_haut, 1)} % (estimation)`,
+    facts: [`Concurrents en magasin : CECONOMY ${pdv("MediaMarkt + Saturn")} magasins, Expert plus de ${pdv("Expert")}, Euronics plus de ${nf(pdv("Euronics"), 0)} ; en ligne : Otto`, `Part de marché CECONOMY tech ${nf(D.parts.cec_bas, 1)} à ${nf(D.parts.cec_haut, 1)} % (estimation)`,
             `Ville ${v.ville} : ${v.magasins} magasins CECONOMY, ${nf(v.magasins_par_100k, 2)} pour 100 000 habitants ; densité de son Land ${nf(v.densite_land, 1)} par million (moyenne nationale ${nf(D.densite_de, 1)})`],
   };
 }
