@@ -51,11 +51,13 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 
 ### 2.1 Métriques (KPI)
 
-**Nos 9 KPI retenus** (choisis dans le guide du sujet selon la méthode du cours : une question précise → un indicateur concret → une source disponible et fiable) :
-croissance du secteur · part de marché du concurrent en Allemagne · indice de prix DE / FR · marge brute post-taxe · densité concurrentielle · coût au m² · distance au hub **et coût du transport** · taux de pénétration des catégories · ★ délai de retour sur investissement.
+**Nos 8 KPI retenus** (choisis dans le guide du sujet selon la méthode du cours : une question précise → un indicateur concret → la donnée la plus fiable) :
+croissance du secteur · part de marché de la Fnac en France · part de marché du concurrent en Allemagne · indice de prix DE / FR · densité concurrentielle · distance au hub **et coût du transport** · taux de pénétration des catégories (dépense par habitant) · **cash-flow libre du groupe** (capacité à financer).
+Le **délai de retour sur investissement** n'est pas un KPI de plus : c'est la **synthèse** qui assemble ces KPI pour répondre à « rentable ? ».
 
-**Écartés de la décision** (toujours calculés dans `kpi.csv`, à titre de contexte) :
-- *part de marché de Fnac Darty en France* : elle décrit la France, pas l'Allemagne ;
+**Écartés de la décision** (toujours calculés dans `kpi.csv`, visibles comme contexte) :
+- *marge brute post-taxe* : elle se déduit de l'indice de prix ; on garde la donnée officielle (Eurostat) ;
+- *coût au m²* : une seule ville de référence (IHK Stuttgart), hypothèse ; la densité concurrentielle est mesurée ;
 - *droits de douane / TVA* : 0 % de douane dans l'UE et 1 point d'écart de TVA, sans effet sur la décision ;
 - *% du catalogue éligible* : donnée simulée, la plus fragile.
 
@@ -329,7 +331,7 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 |---|---|---|
 | Mer. 11/11 | Cadrage, choix du pays, KPI, sources, collecte, nettoyage, modèle de données, dictionnaire | ✅ |
 | Jeu. 12/11 | Gold, calcul des KPI, dashboard interactif avec commentaires IA, slides générées, fin du README, revue des retours du prof | ✅ |
-| Ven. 13/11 | Choix final de 9 KPI, coût du transport chiffré, relecture des slides, répétition de l'oral, rendu à 15h | ⬜ |
+| Ven. 13/11 | Choix final de 8 KPI (+ synthèse de rentabilité), coût du transport chiffré, relecture des slides, répétition de l'oral, rendu à 15h | ⬜ |
 
 ### Next Steps (recommandations post-étude)
 
@@ -361,6 +363,8 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 | 3 | Tester la livraison : fournisseurs allemands contre camion depuis Chilly-Mazarin | M3–M6 | Coût du transport compatible avec un retour ≤ 8 ans |
 | 4 | Ouvrir le magasin pilote, la tech d'abord | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
 | 5 | Décision de déploiement à **3 ans** (2 ans d'exploitation) ; l'entrepôt allemand est étudié à ce stade | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
+
+**Financement et ouvertures si Go** *(DEU 2025, p. 8, 21, 30, 34)* : cash-flow libre opérationnel **145 M€** en 2025 (210 M€ en 2024), plan d'investissement **200 M€ par an**, résultat net 2025 **−145,6 M€**. Le pilote (3,6 M€, hypothèse) = **2,5 %** du cash-flow libre 2025. Si le pilote réussit : **Düsseldorf** (34 km de Cologne) et **Francfort** (153 km), livrées depuis un entrepôt à Cologne, pour **7,2 M€** (5 % du cash-flow libre 2025 ; coût de l'entrepôt non chiffré). La perte nette 2025 justifie un déploiement par étapes.
 
 **Arbitrages**
 - **Pas de déploiement national** avant la preuve du pilote.

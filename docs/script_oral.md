@@ -38,14 +38,15 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 ## Slide 4 · Un indicateur pour chaque question du Comex — 2:30 → 4:30 · Romane
 
-> Le sujet proposait une douzaine d'indicateurs. On en a retenu neuf, avec une règle simple : une question précise du Comex, un indicateur qui y répond, et une source fiable pour le calculer.
-> Le marché attire-t-il ? La croissance du secteur et la part de marché du leader allemand.
-> Notre prix tient-il ? L'indice de prix Allemagne-France et la marge brute.
-> Où ouvrir, à quel coût ? La densité de magasins concurrents et le coût au mètre carré.
+> Le sujet proposait une douzaine d'indicateurs. On en a retenu huit, avec une règle simple : une question précise du Comex, un indicateur qui y répond, et la donnée la plus fiable pour le calculer.
+> Le marché attire-t-il ? La croissance du secteur, la part de marché de la Fnac en France, notre point de comparaison, et celle du leader en Allemagne.
+> Notre prix tient-il ? L'indice de prix Allemagne-France, un chiffre officiel d'Eurostat.
+> Où ouvrir ? La densité concurrentielle : combien de magasins MediaMarkt-Saturn il y a pour 100 000 habitants.
 > Peut-on livrer ? La distance à notre entrepôt et le coût du transport.
 > Que vendre ? La dépense par habitant, catégorie par catégorie.
-> Et comme aucun ne répond seul à « est-ce rentable ? », un indicateur de synthèse : le délai de retour sur investissement d'un magasin.
-> On en a écarté trois : la part de marché de la Fnac en France, qui décrit la France et pas l'Allemagne ; la douane et la TVA, sans effet sur la décision ; et la part du catalogue vendable, parce que la donnée est simulée.
+> Peut-on financer ? Le cash-flow libre du groupe.
+> La rentabilité n'est pas un KPI de plus : c'est la synthèse qui assemble ces huit indicateurs pour calculer ce que gagne un magasin.
+> On a écarté la marge brute, parce qu'elle se calcule à partir de l'indice de prix ; le coût au mètre carré, parce qu'on n'a qu'une ville de référence ; la douane et la TVA, sans effet ; et le catalogue, qui est simulé.
 
 *Transition :* « Voici ce que disent les chiffres. Elena. »
 
@@ -81,7 +82,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 ## Slide 10 · Décision — 7:30 → 9:00 · Romane
 
-> Réponse au Comex. Réalisable ? Oui : marché porteur, pas d'obstacle réglementaire, une ville identifiée et des fournisseurs sur place. Rentable ? Oui, mais seulement sous trois conditions.
+> Réponse au Comex. Réalisable ? Oui : marché porteur, pas d'obstacle réglementaire, une ville identifiée et des fournisseurs sur place. Rentable ? Oui, mais seulement sous trois conditions. Finançable ? Oui : le pilote coûte 3,6 millions, soit 2,5 % des 145 millions de cash-flow libre que le groupe a dégagés en 2025.
 > Notre décision : Go sous trois conditions, pour un seul magasin pilote à Cologne.
 > Un : acheter et se faire livrer en Allemagne, pour garder 28 % de marge au lieu de 12, sans payer de camions depuis la France. Deux : un loyer sous 33 euros le mètre carré. Trois : la tech d'abord, où un Allemand dépense 1,8 fois plus qu'un Français.
 > Next steps : centrale d'achat et bail dans les six premiers mois ; un test de livraison, fournisseurs allemands contre camion depuis la France ; ouverture à un an ; décision de déploiement à trois ans.
@@ -90,6 +91,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 ## Slide 11 · Nos demandes au Comex — 9:00 → 9:30 · Romane
 
 > Nous demandons trois décisions : valider le pilote de Cologne, valider nos trois conditions, et fixer dès aujourd'hui le rendez-vous de décision à trois ans.
+> Et si le pilote réussit, nous proposons deux ouvertures proches de Cologne : Düsseldorf, à 34 kilomètres, et Francfort, à 153, livrées depuis un entrepôt à Cologne. Coût : 7,2 millions, soit 5 % du cash-flow libre, hors entrepôt. Avec prudence, car le groupe a perdu 145,6 millions en 2025 : on avance par étapes.
 > Merci, nous sommes prêts pour vos questions.
 
 ---
@@ -100,7 +102,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 **Slide 13 · Sources et méthode de collecte** : à afficher pour « d'où viennent les chiffres ? » ou « comment avez-vous scrapé ? ».
 
-**Le groupe peut-il financer ? (oral, pas de slide)** 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net 2025 est de −145,6 millions : on peut financer un test, pas un réseau. Chiffres publiés pour l'ensemble du groupe.
+**Le groupe peut-il financer ? (slides 10 et 11)** 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net 2025 est de −145,6 millions : on peut financer un test, pas un réseau. Chiffres publiés pour l'ensemble du groupe.
 
 **Nos limites, à dire si on nous les demande :**
 - La rentabilité est un ordre de grandeur : ratios du groupe, sans montée en charge ni impôts. Selon les ventes et l'investissement, le retour va de 4,4 à 13,2 ans ; la conclusion ne change pas.
@@ -109,7 +111,8 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 - On a trouvé 394 magasins du concurrent contre 403 publiés.
 
 **Questions probables :**
-- *« Pourquoi ces 9 KPI et pas les autres ? »* Une question précise, un indicateur, une source fiable (méthode du cours). On a écarté ce qui ne change pas la décision (douane, TVA, part de la Fnac en France) et ce dont la donnée est simulée (catalogue).
+- *« Pourquoi ces 8 KPI ? »* Une question précise, un indicateur, la donnée la plus fiable (méthode du cours). Entre l'indice de prix et la marge, on garde l'indice, chiffre officiel (la marge s'en déduit) ; entre densité et coût au m², la densité, mesurée (le loyer vient d'une seule ville).
+- *« C'est quoi la densité concurrentielle ? »* Le nombre de magasins MediaMarkt-Saturn pour 100 000 habitants : à Cologne, 0,68 ; plus c'est bas, moins il y a de concurrence pour la taille de la ville.
 - *« Le transport depuis la France, combien ? »* 1 450 à 1 670 € l'aller-retour, 0,08 à 0,09 M€ par an pour un camion par semaine : le retour passerait à 9,5-9,8 ans. D'où la condition : fournisseurs allemands. C'est une borne haute, car nos ratios de coûts du groupe comprennent déjà de la logistique.
 - *« Le cash-flow, ça sert à la part de marché ? »* Non : la part de marché, c'est nos ventes divisées par le marché. Le cash-flow et le résultat net disent si le groupe peut financer le projet.
 - *« Eurostat, c'est fiable ? »* C'est l'office statistique de l'Union européenne : il harmonise les chiffres des instituts nationaux pour comparer les pays.
