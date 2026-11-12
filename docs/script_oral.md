@@ -5,7 +5,7 @@ Généré par `src/restitution/build_slides.py` avec les chiffres du Gold. Le m�
 ## Slide 1 · Titre
 **0:00 → 0:20 · Romane**
 
-Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? Notre réponse tient en une phrase : réalisable oui, rentable seulement sous trois conditions. Nous recommandons donc un Go conditionnel : un magasin pilote à Cologne. Voici comment on y arrive.
+Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? Pour y répondre, on a construit toute la chaîne de données, du téléchargement jusqu'à la recommandation. Notre décision arrive à la fin ; voici d'abord le contexte.
 
 ## Slide 2 · Une Fnac qui rétrécit en France, un marché allemand qui grandit
 **0:20 → 1:00 · Romane**
@@ -37,10 +37,10 @@ Deuxième constat : les produits techniques sont environ 18 % moins chers en All
 
 Troisième constat, le plus important. On a simulé le résultat d'un magasin de 2 400 mètres carrés dans quatre scénarios : achats en France ou en Allemagne, loyer de centre-ville ou loyer au niveau français. Trois sur quatre perdent de l'argent. Seul le scénario achats locaux et loyer maîtrisé est rentable, avec un retour en 7,9 ans. D'où la deuxième condition : un loyer sous 33 euros le mètre carré par mois. Le commentaire en violet est rédigé par notre brique IA : elle lit uniquement nos KPI, et un script vérifie que chaque chiffre qu'elle écrit existe bien dans nos données. [DÉMO, 30 s] Dans le dashboard, onglet Rentabilité : changer le filtre Loyer, le commentaire IA change ; bouger le curseur Loyer du simulateur jusqu'à 33 euros, le verdict passe au rouge.
 
-## Slide 8 · GO CONDITIONNEL : un magasin pilote à Cologne
+## Slide 8 · GO SOUS CONDITIONS : un magasin pilote à Cologne
 **7:30 → 9:00 · Romane**
 
-Notre décision : Go conditionnel, pour un seul magasin pilote, pas un réseau national. Trois conditions. Un : acheter en Allemagne pour retrouver notre marge. Deux : un loyer sous 33 euros le mètre carré, donc une grande surface hors des rues commerçantes les plus chères. Trois : un assortiment ciblé sur la tech et les jeux vidéo. Pourquoi Cologne : sa région a l'une des densités concurrentes les plus faibles, 4 magasins par million d'habitants, et c'est la grande ville la plus proche de notre entrepôt, à 416 kilomètres. Calendrier : centrale d'achat et bail dans les six premiers mois, ouverture à un an, et décision de déploiement après deux ans d'exploitation, avec un critère d'arrêt écrit : si le magasin perd de l'argent ou si le retour dépasse 8 ans, on s'arrête.
+Notre décision : Go sous conditions, pour un seul magasin pilote, pas un réseau national. Trois conditions. Un : acheter en Allemagne pour retrouver notre marge. Deux : un loyer sous 33 euros le mètre carré, donc une grande surface hors des rues commerçantes les plus chères. Trois : un assortiment ciblé sur la tech et les jeux vidéo. Pourquoi Cologne : sa région a l'une des densités concurrentes les plus faibles, 4 magasins par million d'habitants, et c'est la grande ville la plus proche de notre entrepôt, à 416 kilomètres. Calendrier : centrale d'achat et bail dans les six premiers mois, ouverture à un an, et décision de déploiement après deux ans d'exploitation, avec un critère d'arrêt écrit : si le magasin perd de l'argent ou si le retour dépasse 8 ans, on s'arrête.
 
 ## Slide 9 · Nos limites, dites avant qu'on nous les pose
 **9:00 → 10:00 · Romane + Elena**

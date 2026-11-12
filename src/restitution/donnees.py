@@ -45,8 +45,36 @@ def table_lands():
             "ville": ville["nom"].split(",")[0], "ville_pop": int(ville.population),
             "ville_km": float(ville.distance_hub_km),
             "villes_100k": int((c.population >= 100_000).sum()),
+            # Marché potentiel du Land (estimation) : dépenses nationales × part de la population, même dépense par habitant
+            "part_pop": float(c.population.sum() / communes.population.sum() * 100),
+            "marche_tech": float(dep_last("TECH") * c.population.sum() / communes.population.sum()),
+            "marche_livres": float(dep_last("LIVRES") * c.population.sum() / communes.population.sum()),
+            "villes": [{"nom": v["nom"].split(",")[0], "pop": int(v.population), "km": float(v.distance_hub_km),
+                        "magasins": int(nb_com.get(v.code_commune, 0))}
+                       for _, v in c.sort_values("population", ascending=False).head(8).iterrows()],
         })
     return out
+
+
+def dep_last(cat):
+    return float(marche[(marche.pays_id == "DE") & (marche.categorie_id == cat) & (marche.annee == LAST)]["depenses_menages_meur"].iloc[0])
+
+
+nb_com = magasins.groupby("code_commune").size()
+
+
+def carte():
+    """Points de la carte : communes de 5 000 hab. et plus (fond), magasins CECONOMY, villes de 100 000 hab. et plus."""
+    land_nom = lands.set_index("land_code")["land_nom"]
+    fond = communes[communes.population >= 5000]
+    mag = magasins.merge(communes[["code_commune", "nom", "longitude", "latitude", "land_code"]], on="code_commune")
+    villes = communes[communes.population >= 100_000]
+    return {
+        "fond": [[round(r.longitude, 2), round(r.latitude, 2), land_nom[r.land_code]] for r in fond.itertuples()],
+        "magasins": [[round(r.longitude, 3), round(r.latitude, 3), land_nom[r.land_code], r.nom.split(",")[0], r.enseigne] for r in mag.itertuples()],
+        "villes": [{"nom": r.nom.split(",")[0], "lon": r.longitude, "lat": r.latitude, "pop": int(r.population), "km": float(r.distance_hub_km),
+                    "land": land_nom[r.land_code], "magasins": int(nb_com.get(r.code_commune, 0))} for r in villes.itertuples()],
+    }
 
 
 SCENARIOS = {
@@ -102,4 +130,5 @@ def donnees():
             "marge_achats_france": sum(par_cat[c]["marge"][LAST] * poids[c] for c in cats) / sum(poids.values()),
         },
         "x_magasins_fr": 205,
+        "carte": carte(),
     }

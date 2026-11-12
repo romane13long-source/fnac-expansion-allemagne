@@ -22,7 +22,7 @@ from paths import GOLD, ROOT, SILVER
 
 MODELE = "sonnet"  # rédaction : tâche de difficulté moyenne
 AXES = ["Marché & Potentiel", "Prix & Marges", "Réseau & Implantation", "Opérations & Logistique", "Assortiment", "Synthèse"]
-DECISION = ("Go conditionnel : un magasin pilote à Cologne. Conditions : achats via une centrale allemande "
+DECISION = ("Go sous conditions : un magasin pilote à Cologne. Conditions : achats via une centrale allemande "
             "(marge brute proche de 28 %), loyer inférieur au seuil K12_seuil_loyer, assortiment TECH + jeux vidéo. "
             "Décision de déploiement après 2 ans d'exploitation.")
 
@@ -146,7 +146,7 @@ Distance moyenne depuis le hub : {fmt(val('K8'))} km [K8] ; droits de douane : {
 ### Assortiment
 {fmt(val('K11'))} % du catalogue est éligible [K11] (simulé).
 ### Synthèse
-Go conditionnel : pilote à Cologne.
+Go sous conditions : pilote à Cologne.
 
 ## Risques
 - Marge écrasée si les achats restent en France [K5].

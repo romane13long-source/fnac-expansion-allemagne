@@ -319,7 +319,7 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 
 ### Next Steps (recommandations post-étude)
 
-**Décision : Go conditionnel — un magasin pilote à Cologne, pas un réseau national.**
+**Décision : Go sous conditions — un magasin pilote à Cologne, pas un réseau national.**
 
 Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention).
 
@@ -384,7 +384,9 @@ Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi
 **Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`) : un fichier HTML autonome, sans bibliothèque externe, qui s'ouvre hors ligne dans un navigateur.
 - 6 onglets, un par axe du guide des KPI + rentabilité : marché, prix et marges, réseau, logistique, assortiment, ★ rentabilité et Go / No-Go.
 - 4 filtres : catégorie (produits techniques / livres), achats (France / Allemagne), loyer (référence IHK / niveau France), Land.
-- **Commentaire IA qui change avec les filtres** : 30 commentaires (catégorie × axe, scénario, Land) rédigés par la brique IA au moment du build, chiffres contrôlés.
+- **Commentaires IA qui changent avec les filtres et au survol** : 82 commentaires (catégorie × axe, scénario, Land, grande ville, année, famille de produits, concurrent) rédigés par la brique IA au moment du build, chiffres contrôlés. Au survol d'un point, d'une barre ou d'une ville, l'infobulle donne les chiffres et le commentaire IA de cet élément.
+- **Zone de chalandise** : le filtre Land change, sur tous les onglets, la population, le marché potentiel (estimation), la densité concurrente, la distance au hub et le graphique des grandes villes du Land.
+- **Carte** des 394 magasins CECONOMY et des 79 villes de plus de 100 000 habitants (onglet Réseau).
 - Simulateur « et si… ? » : loyer, investissement et CA modifiables, délai de retour recalculé en direct avec les formules du repo.
 - Liens directs vers une vue, par exemple `dashboard.html#tab=roi&loyer=ihk`.
 

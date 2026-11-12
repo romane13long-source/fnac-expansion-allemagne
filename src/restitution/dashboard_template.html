@@ -86,6 +86,16 @@
   .verdict-live { display: inline-block; margin-top: 6px; padding: 4px 10px; border-radius: 6px; font-weight: 600; color: #fff; }
   footer { color: var(--text-muted); font-size: 12px; margin-top: 16px; }
   [hidden] { display: none !important; }
+  .ai.hover { outline: 2px solid var(--ai); }
+  .tipai { display: block; max-width: 340px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); color: var(--ai); white-space: normal; }
+  .zoom { margin-bottom: 12px; }
+  .zoom-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 10px; }
+  .zoom-head h2 { font-size: 17px; margin: 0; }
+  .mini { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 10px; }
+  .mini div { background: var(--surface-0); border-radius: 6px; padding: 10px 12px; }
+  .mini .v { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .mini .l { font-size: 12px; color: var(--text-secondary); }
+  @media (max-width: 860px) { .mini { grid-template-columns: repeat(2, 1fr); } }
   .hero > *, .tiles > *, .grid2 > *, .sim > * { min-width: 0; }
   .tile .label, .tile .delta, .ai p { overflow-wrap: anywhere; }
   @media (max-width: 860px) {
@@ -102,7 +112,7 @@
       <h1>Fnac → Allemagne</h1>
       <p class="q">« L'implantation dans le pays ciblé est-elle réalisable et rentable ? » · Stratégie 2027-2029 · Fnac : <span id="x"></span> magasins en France</p>
     </div>
-    <div class="verdict">Recommandation<b>Go conditionnel : un pilote à Cologne</b>
+    <div class="verdict">Recommandation<b>Go sous conditions : un pilote à Cologne</b>
       <div class="chips"><span class="chip">Achats via une centrale allemande</span><span class="chip" id="chip-loyer"></span><span class="chip">Assortiment TECH + jeux</span><span class="chip">Décision après 2 ans</span></div>
     </div>
   </section>
@@ -122,6 +132,7 @@
     <div id="ai"></div>
     <p class="src" id="ai-src"></p>
   </section>
+  <section class="card zoom" id="zoom"></section>
   <section id="panel"></section>
 
   <footer>
@@ -218,17 +229,27 @@ function renderTiles() {
 /* ---------------- commentaire IA (change avec les filtres) ---------------- */
 function renderAI() {
   const a = AXES.find(x => x.id === state.tab);
-  let items = [], scope = "";
+  let items, scope;
   if (state.tab === "roi") { items = [AI.scenarios[scenarioKey()]]; scope = `scénario ${scenarioKey()}`; }
-  else { items = [AI.axes[state.cat][a.axe]]; scope = `${a.axe} · ${CAT[state.cat]}`; }
-  if (state.tab === "reseau" || state.tab === "logistique") { items.push(AI.lands[state.land]); scope += ` · ${state.land}`; }
+  else { items = [AI.axes[`${state.cat}|${a.axe}`]]; scope = `${a.axe} · ${CAT[state.cat]}`; }
+  items.push(AI.lands[state.land]); scope += ` · ${state.land}`;
   document.getElementById("ai").innerHTML = items.map(i => `<p>${i.texte}</p>`).join("");
+  document.querySelector(".ai").classList.remove("hover");
   const ia = items.every(i => i.source === "ia");
-  document.getElementById("ai-src").textContent = `Filtre : ${scope} · ${ia ? AI.source.modele + ", chiffres contrôlés contre les KPI" : "texte de repli sans IA"}`;
+  document.getElementById("ai-src").textContent = `Filtres : ${scope} · ${ia ? AI.source.modele + ", chiffres contrôlés contre les KPI" : "texte de repli sans IA"} · survolez un graphique pour un commentaire détaillé`;
 }
+// Survol d'un élément : le commentaire IA de cet élément remplace temporairement celui des filtres
+const aiText = (g, k) => (AI[g] && AI[g][k] ? AI[g][k].texte : null);
+function aiHover(g, k, label) {
+  const t = aiText(g, k); if (!t) return;
+  document.getElementById("ai").innerHTML = `<p><b>${label}</b> · ${t}</p>`;
+  document.querySelector(".ai").classList.add("hover");
+  document.getElementById("ai-src").textContent = `Au survol : ${label} · ${AI[g][k].source === "ia" ? AI.source.modele + ", chiffres contrôlés" : "texte de repli sans IA"}`;
+}
+const tipAI = (g, k) => { const t = aiText(g, k); return t ? `<span class="tipai">✦ ${t}</span>` : ""; };
 
 /* ---------------- graphiques ---------------- */
-function lineChart(svg, series, years, unit) {
+function lineChart(svg, series, years, unit, aiKey = null) {
   svg.innerHTML = "";
   const W = 560, H = 260, Lm = 52, R = 40, T = 10, B = 26;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
@@ -248,9 +269,11 @@ function lineChart(svg, series, years, unit) {
     const i = Math.max(0, Math.min(years.length - 1, Math.round((px - Lm) / (W - Lm - R) * (years.length - 1))));
     cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
     series.forEach((s, k) => { dots[k].setAttribute("cx", x(i)); dots[k].setAttribute("cy", y(s.values[i])); dots[k].setAttribute("visibility", "visible"); });
-    showTip(e, `<b>${years[i]}</b><br>` + series.map(s => `${s.name} : ${nf(s.values[i], 0)} ${unit}`).join("<br>"));
+    const evo = s => (i ? `(${sgn((s.values[i] / s.values[i - 1] - 1) * 100)} % sur un an)` : "");
+    showTip(e, `<b>${years[i]}</b><br>` + series.map(s => `${s.name} : ${nf(s.values[i], 0)} ${unit} ${evo(s)}`).join("<br>") + (aiKey ? tipAI(...aiKey(years[i])) : ""));
+    if (aiKey) aiHover(...aiKey(years[i]), String(years[i]));
   };
-  hit.onmouseleave = () => { hideTip(); cross.setAttribute("visibility", "hidden"); dots.forEach(d => d.setAttribute("visibility", "hidden")); };
+  hit.onmouseleave = () => { hideTip(); if (aiKey) renderAI(); cross.setAttribute("visibility", "hidden"); dots.forEach(d => d.setAttribute("visibility", "hidden")); };
   svg.setAttribute("aria-label", series.map(s => `${s.name} : ${s.values.map(v => nf(v, 0)).join(", ")}`).join(". "));
 }
 
@@ -270,7 +293,11 @@ function hbar(svg, rows, { ref = null, refLabel = "", fmt = v => nf(v), W = 560,
     const x0 = x(0), x1 = x(r.value);
     el("rect", { class: "bar", x: Math.min(x0, x1), y: yy + 7, width: Math.max(Math.abs(x1 - x0), 1), height: rowH - 14, rx: 4, fill: r.color || "var(--de)", opacity: r.dim ? .35 : 1 }, g);
     text(g, Math.max(x0, x1) + 6, yy + rowH / 2 + 4, r.label ?? fmt(r.value), { style: "fill:var(--text-primary)" });
-    if (r.tip) { g.onmousemove = e => showTip(e, r.tip); g.onmouseleave = hideTip; }
+    if (r.tip || r.ai) {
+      const base = r.tip || `<b>${r.name}</b><br>${r.label ?? fmt(r.value)}`;
+      g.onmousemove = e => { showTip(e, base + (r.ai ? tipAI(...r.ai) : "")); if (r.ai) aiHover(r.ai[0], r.ai[1], r.name); };
+      g.onmouseleave = () => { hideTip(); if (r.ai) renderAI(); };
+    }
     if (r.onclick) { g.onclick = r.onclick; g.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); r.onclick(); } }; }
   });
   el("line", { x1: x(0), x2: x(0), y1: top, y2: H - 20, stroke: "var(--axis)", "stroke-width": 1.5 }, svg);
@@ -292,9 +319,9 @@ function renderPanel() {
       ${card("Parts de marché (HT / HT)", "Estimations de l'équipe : CA publié rapporté aux dépenses des ménages hors TVA.", `<svg id="g2"></svg>`)}</div>`;
     const years = Object.keys(c.depenses.DE).map(Number).sort();
     lineChart(document.getElementById("g1"), [{ name: "DE", color: "var(--de)", values: years.map(y => c.depenses.DE[y]) },
-      { name: "FR", color: "var(--fr)", values: years.map(y => c.depenses.FR[y]) }], years, "M€");
+      { name: "FR", color: "var(--fr)", values: years.map(y => c.depenses.FR[y]) }], years, "M€", y => ["marche", `${state.cat}|${y}`]);
     hbar(document.getElementById("g2"), [
-      { name: "Fnac Darty (France)", value: D.parts.fnac_fr, color: "var(--fr)", label: nf(D.parts.fnac_fr) + " %" },
+      { name: "Fnac Darty (France)", value: D.parts.fnac_fr, color: "var(--fr)", label: nf(D.parts.fnac_fr) + " %", tip: "CA France × part tech + livres / dépenses FR hors TVA (estimation)", ai: ["axes", `${state.cat}|Marché & Potentiel`] },
       { name: "CECONOMY bas (DE)", value: D.parts.cec_bas, color: "var(--de)", label: nf(D.parts.cec_bas) + " %", tip: "Ventes Allemagne × part « IT et mobile »" },
       { name: "CECONOMY haut (DE)", value: D.parts.cec_haut, color: "var(--de)", label: nf(D.parts.cec_haut) + " %", tip: "Toutes les ventes Allemagne (avec électroménager)" }], { labelW: 180 });
   }
@@ -302,23 +329,26 @@ function renderPanel() {
     const yrs = Object.keys(c.indice_ht).map(Number).sort();
     p.innerHTML = `<div class="grid2">${card(`Indice de prix hors taxes DE / FR · ${CAT[state.cat]}`, "France = 100 (pointillé). Sous 100 : l'Allemagne est moins chère." + (state.cat === "LIVRES" ? " Livres : indice approximatif (loisirs et culture)." : ""), `<svg id="g1"></svg>`)}
       ${card("Marge brute estimée en Allemagne", "À coût d'achat français, au prix allemand. Pointillé : marge du groupe (28 %).", `<svg id="g2"></svg>`)}</div>`;
-    hbar(document.getElementById("g1"), yrs.map(y => ({ name: String(y), value: c.indice_ht[y], color: c.indice_ht[y] < 100 ? "var(--critical)" : "var(--de)", tip: `${y} : TTC ${nf(c.indice_ttc[y])} · HT ${nf(c.indice_ht[y])}` })), { ref: 100, refLabel: "France = 100", labelW: 70 });
-    hbar(document.getElementById("g2"), yrs.map(y => ({ name: String(y), value: c.marge[y], color: c.marge[y] < 28 ? "var(--critical)" : "var(--de)", label: nf(c.marge[y]) + " %" })), { ref: 28, refLabel: "groupe 28 %", labelW: 70 });
+    hbar(document.getElementById("g1"), yrs.map(y => ({ name: String(y), value: c.indice_ht[y], color: c.indice_ht[y] < 100 ? "var(--critical)" : "var(--de)", tip: `<b>${y}</b><br>Indice TTC ${nf(c.indice_ttc[y])} · HT ${nf(c.indice_ht[y])} (France = 100)<br>Marge estimée ${nf(c.marge[y])} %`, ai: ["prix", `${state.cat}|${y}`] })), { ref: 100, refLabel: "France = 100", labelW: 70 });
+    hbar(document.getElementById("g2"), yrs.map(y => ({ name: String(y), value: c.marge[y], color: c.marge[y] < 28 ? "var(--critical)" : "var(--de)", label: nf(c.marge[y]) + " %", tip: `<b>${y}</b><br>Marge estimée ${nf(c.marge[y])} % (groupe : 28 %)<br>Écart : ${sgn(c.marge[y] - 28)} points`, ai: ["prix", `${state.cat}|${y}`] })), { ref: 28, refLabel: "groupe 28 %", labelW: 70 });
   }
   if (state.tab === "reseau") {
     const rows = [...D.lands].sort((a, b) => a.densite - b.densite);
-    p.innerHTML = `<div class="grid2">${card("Densité CECONOMY par Land", "Magasins MediaMarkt + Saturn par million d'habitants. Cliquer un Land pour le sélectionner. Pointillé : moyenne nationale.", `<svg id="g1"></svg>`)}
+    p.innerHTML = card("Carte : les 394 magasins CECONOMY et les villes de plus de 100 000 habitants",
+      "Points bleus : magasins MediaMarkt / Saturn. Cercles : grandes villes (taille = population). Le Land sélectionné est foncé. Survoler une ville ; cliquer pour sélectionner son Land. ★ = pilote proposé.",
+      `<svg id="map"></svg>`) + `<div style="height:12px"></div><div class="grid2">${card("Densité CECONOMY par Land", "Magasins MediaMarkt + Saturn par million d'habitants. Cliquer un Land pour le sélectionner. Pointillé : moyenne nationale.", `<svg id="g1"></svg>`)}
       ${card("Paysage concurrentiel national", "Points de vente en Allemagne (formats non comparables, ne pas additionner).", `<svg id="g2"></svg>`)}</div>`;
     hbar(document.getElementById("g1"), rows.map(l => ({ name: l.land, value: l.densite, sel: l.land === state.land, color: l.land === state.land ? "var(--de)" : "var(--neutral)",
-      tip: `<b>${l.land}</b><br>${l.magasins} magasins · ${nf(l.population / 1e6)} M hab.<br>Densité : ${nf(l.densite)}`, onclick: () => { state.land = l.land; render(); } })),
+      tip: `<b>${l.land}</b><br>${l.magasins} magasins · ${nf(l.population / 1e6)} M hab. (${nf(l.part_pop)} % du pays)<br>Densité : ${nf(l.densite)} (moyenne ${nf(D.densite_de)})<br>Marché tech potentiel : ${nf(l.marche_tech / 1000)} Md€ (estimation)`, ai: ["lands", l.land], onclick: () => { state.land = l.land; render(); } })),
       { ref: D.densite_de, refLabel: "moyenne " + nf(D.densite_de), labelW: 190, rowH: 26 });
-    hbar(document.getElementById("g2"), D.concurrents.map(k => ({ name: k.enseigne, value: k.pdv, color: "var(--neutral)", label: k.pdv ? nf(k.pdv, 0) : "en ligne seulement" })), { labelW: 160, fmt: v => nf(v, 0) });
+    renderMap(document.getElementById("map"));
+    hbar(document.getElementById("g2"), D.concurrents.map(k => ({ name: k.enseigne, value: k.pdv, color: "var(--neutral)", label: k.pdv ? nf(k.pdv, 0) : "en ligne seulement", ai: ["concurrents", k.enseigne] })), { labelW: 160, fmt: v => nf(v, 0) });
   }
   if (state.tab === "logistique") {
     const rows = [...D.lands].sort((a, b) => a.ville_km - b.ville_km);
     p.innerHTML = card("Distance au hub de Chilly-Mazarin : plus grande ville de chaque Land", "Vol d'oiseau, en km. Pointillé : moyenne pondérée des 79 villes de plus de 100 000 habitants. Cliquer pour sélectionner.", `<svg id="g1"></svg>`);
     hbar(document.getElementById("g1"), rows.map(l => ({ name: `${l.ville} (${l.land})`, value: l.ville_km, sel: l.land === state.land, color: l.land === state.land ? "var(--de)" : "var(--neutral)", label: nf(l.ville_km, 0) + " km",
-      tip: `<b>${l.ville}</b><br>${nf(l.ville_pop / 1e6, 2)} M hab.`, onclick: () => { state.land = l.land; render(); } })),
+      tip: `<b>${l.ville}</b> (${l.land})<br>${nf(l.ville_pop / 1e6, 2)} M hab. · ${nf(l.ville_km, 0)} km du hub<br>${l.villes_100k} ville(s) de plus de 100 000 hab. dans le Land`, ai: ["lands", l.land], onclick: () => { state.land = l.land; render(); } })),
       { ref: D.distance_moy, refLabel: "moyenne " + nf(D.distance_moy, 0) + " km", W: 1180, labelW: 330, rowH: 26, fmt: v => nf(v, 0) });
   }
   if (state.tab === "assortiment") {
@@ -326,12 +356,75 @@ function renderPanel() {
       `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`)}
       ${card("Part du catalogue éligible en Allemagne " + tag("simulé"), "Catalogue fictif de 10 000 références ; règles dans src/gold/catalogue_simule.py.", `<svg id="g2"></svg>`)}</div>`;
     const rows = [];
-    for (const k of ["TECH", "LIVRES"]) for (const pays of ["DE", "FR"]) rows.push({ name: `${CAT[k]} · ${pays}`, value: D.categories[k].par_hab[pays], color: pays === "DE" ? "var(--de)" : "var(--fr)", sel: k === state.cat, label: nf(D.categories[k].par_hab[pays], 0) + " €" });
+    for (const k of ["TECH", "LIVRES"]) for (const pays of ["DE", "FR"]) rows.push({ name: `${CAT[k]} · ${pays}`, value: D.categories[k].par_hab[pays], color: pays === "DE" ? "var(--de)" : "var(--fr)", sel: k === state.cat, label: nf(D.categories[k].par_hab[pays], 0) + " €", tip: `<b>${CAT[k]} · ${pays}</b><br>${nf(D.categories[k].par_hab[pays], 0)} € par habitant (${L})<br>Pénétration DE : ${nf(D.categories[k].penetration, 0)} (France = 100)`, ai: ["axes", `${k}|Assortiment`] });
     hbar(document.getElementById("g1"), rows, { labelW: 190 });
     const names = { TECH: "Produits techniques", JEUX_VIDEO: "Jeux vidéo", MUSIQUE_VIDEO: "Musique et vidéo", LIVRES: "Livres" };
-    hbar(document.getElementById("g2"), Object.entries(D.eligible_familles).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ name: names[k] || k, value: v, sel: k === state.cat, color: v < 50 ? "var(--critical)" : "var(--de)", label: nf(v, 0) + " %" })), { labelW: 160 });
+    hbar(document.getElementById("g2"), Object.entries(D.eligible_familles).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ name: names[k] || k, value: v, sel: k === state.cat, color: v < 50 ? "var(--critical)" : "var(--de)", label: nf(v, 0) + " %", tip: `<b>${names[k] || k}</b><br>${nf(v)} % des références éligibles (simulé)`, ai: ["familles", k] })), { labelW: 160 });
   }
   if (state.tab === "roi") renderROI(p);
+}
+
+/* ---------------- carte de l'Allemagne (points géolocalisés) ---------------- */
+function renderMap(svg) {
+  svg.innerHTML = "";
+  const C = D.carte, W = 1180, H = 620, pad = 20;
+  const lons = C.fond.map(p => p[0]), lats = C.fond.map(p => p[1]);
+  const [x0, x1, y0, y1] = [Math.min(...lons), Math.max(...lons), Math.min(...lats), Math.max(...lats)];
+  const k = Math.cos(51 * Math.PI / 180);  // projection simple : longitude réduite à la latitude moyenne
+  const sc = Math.min((W / 2 - pad) / ((x1 - x0) * k), (H - 2 * pad) / (y1 - y0));
+  const px = lon => pad + (lon - x0) * k * sc, py = lat => H - pad - (lat - y0) * sc;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  for (const [lon, lat, land] of C.fond) el("circle", { cx: px(lon), cy: py(lat), r: 1.6, fill: land === state.land ? "var(--text-secondary)" : "var(--border)" }, svg);
+  for (const [lon, lat] of C.magasins) el("circle", { cx: px(lon), cy: py(lat), r: 2.6, fill: "var(--de)", opacity: .85 }, svg);
+  const maxPop = Math.max(...C.villes.map(v => v.pop));
+  const placed = [];
+  for (const v of [...C.villes].sort((a, b) => b.pop - a.pop)) {
+    const g = el("g", { class: "row", tabindex: 0 }, svg);
+    el("circle", { cx: px(v.lon), cy: py(v.lat), r: 4 + 14 * Math.sqrt(v.pop / maxPop), fill: "transparent", stroke: v.land === state.land ? "var(--text-primary)" : "var(--axis)", "stroke-width": v.land === state.land ? 2 : 1 }, g);
+    // étiquette seulement si elle ne chevauche pas une autre (villes triées de la plus grande à la plus petite)
+    const lx0 = px(v.lon) + 10, ly0 = py(v.lat) - 8, lw = v.nom.length * 7;
+    const libre = !placed.some(([a, b, w]) => lx0 < a + w && a < lx0 + lw && Math.abs(ly0 - b) < 15);
+    if (v.pop >= 500000 && libre) placed.push([lx0, ly0, lw]);
+    if (v.pop >= 500000 && libre) text(g, lx0, ly0, v.nom, { style: `fill:var(--text-primary);font-size:12px;font-weight:${v.land === state.land ? 650 : 400}` });
+    g.onmousemove = e => {
+      showTip(e, `<b>${v.nom}</b> (${v.land})<br>${nf(v.pop / 1e6, 2)} M hab. · ${v.magasins} magasin(s) CECONOMY<br>${nf(v.km, 0)} km du hub de Chilly-Mazarin` + tipAI("villes", v.nom));
+      aiHover(aiText("villes", v.nom) ? "villes" : "lands", aiText("villes", v.nom) ? v.nom : v.land, v.nom);
+    };
+    g.onmouseleave = () => { hideTip(); renderAI(); };
+    g.onclick = () => { state.land = v.land; render(); };
+  }
+  const koln = C.villes.find(v => v.nom === "Köln");
+  if (koln) text(svg, px(koln.lon) - 26, py(koln.lat) + 6, "★", { style: "fill:var(--good);font-size:20px" });
+  // légende chiffrée à droite de la carte
+  const land = D.lands.find(l => l.land === state.land), lx = W / 2 + 40;
+  const lines = [[`${state.land}`, 20, 650], [`${land.magasins} magasins CECONOMY · ${nf(land.densite)} par M hab.`, 15, 400],
+    [`${nf(land.population / 1e6)} M habitants (${nf(land.part_pop)} % du pays)`, 15, 400],
+    [`Marché tech potentiel : ${nf(land.marche_tech / 1000)} Md€ (estimation)`, 15, 400],
+    [`Plus grande ville : ${land.ville}, ${nf(land.ville_km, 0)} km du hub`, 15, 400],
+    [`Allemagne : ${C.magasins.length} magasins · ${nf(D.densite_de)} par M hab.`, 13, 400]];
+  lines.forEach(([t, size, w], i) => text(svg, lx, 60 + i * 34, t, { style: `fill:var(--text-${i ? "secondary" : "primary"});font-size:${size}px;font-weight:${w}` }));
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Carte de l'Allemagne : ${C.magasins.length} magasins CECONOMY ; Land sélectionné ${state.land}`);
+}
+
+/* ---------------- zoom sur la zone de chalandise (tous les onglets) ---------------- */
+function renderZoom() {
+  const l = D.lands.find(x => x.land === state.land), rank = [...D.lands].sort((a, b) => a.densite - b.densite).findIndex(x => x.land === l.land) + 1;
+  const mkt = state.cat === "TECH" ? l.marche_tech : l.marche_livres;
+  document.getElementById("zoom").innerHTML = `<div class="zoom-head"><h2>Zone de chalandise : ${l.land}${l.land === "Nordrhein-Westfalen" ? " ★ pilote (Cologne)" : ""}</h2>
+    <span class="note">Change avec le filtre « Land » ou en cliquant un Land dans les graphiques</span></div>
+    <div class="mini">
+      <div><div class="v">${nf(l.population / 1e6)} M</div><div class="l">habitants · ${nf(l.part_pop)} % du pays</div></div>
+      <div><div class="v">${nf(mkt / 1000)} Md€</div><div class="l">marché ${state.cat === "TECH" ? "tech" : "livres"} potentiel ${tag("estimation")}</div></div>
+      <div><div class="v ${l.densite <= D.densite_de ? "ok" : "bad"}">${nf(l.densite)}</div><div class="l">magasins CECONOMY / M hab. · ${rank}<sup>e</sup> plus faible sur 16</div></div>
+      <div><div class="v">${l.magasins}</div><div class="l">magasins CECONOMY · ${l.villes_100k} ville(s) &gt; 100 000 hab.</div></div>
+      <div><div class="v">${nf(l.ville_km, 0)} km</div><div class="l">de ${l.ville} au hub (moyenne ${nf(D.distance_moy, 0)} km)</div></div>
+    </div>
+    <h2 class="t">Les plus grandes villes du Land</h2><p class="note">Population ; libellé : magasins CECONOMY et distance au hub. Survoler pour le détail.</p><svg id="zoom-g"></svg>`;
+  hbar(document.getElementById("zoom-g"), l.villes.map(v => ({ name: v.nom, value: v.pop / 1e6, color: v.magasins ? "var(--de)" : "var(--neutral)",
+    label: `${nf(v.pop / 1e6, 2)} M hab. · ${v.magasins} magasin(s) · ${nf(v.km, 0)} km`,
+    tip: `<b>${v.nom}</b><br>${nf(v.pop, 0)} habitants<br>${v.magasins} magasin(s) CECONOMY<br>${nf(v.km, 0)} km du hub`, ai: aiText("villes", v.nom) ? ["villes", v.nom] : ["lands", l.land] })),
+    { W: 1180, labelW: 200, rowH: 24, valW: 330 });
 }
 
 /* ---------------- rentabilité : 4 scénarios + simulateur ---------------- */
@@ -352,7 +445,7 @@ function renderROI(p) {
   const sel = scenarioKey();
   hbar(document.getElementById("g1"), Object.entries(D.scenarios).map(([k, s]) => ({ name: s.nom, value: s.resultat, sel: k === sel,
     color: s.resultat < 0 ? "var(--critical)" : "var(--good)", dim: k !== sel, label: sgn(s.resultat, 2) + " M€ · " + (s.delai >= 999 ? "jamais" : nf(s.delai) + " ans"),
-    onclick: () => { state.achats = "ABab".includes(k) ? "france" : "locaux"; state.loyer = "AC".includes(k) ? "ihk" : "france"; state.sim = null; render(); } })),
+    ai: ["scenarios", k], tip: `<b>${s.nom}</b><br>Résultat annuel : ${sgn(s.resultat, 2)} M€<br>Délai de retour : ${s.delai >= 999 ? "jamais" : nf(s.delai) + " ans"}`, onclick: () => { state.achats = "ABab".includes(k) ? "france" : "locaux"; state.loyer = "AC".includes(k) ? "ihk" : "france"; state.sim = null; render(); } })),
     { W: 640, labelW: 270, valW: 150 });
   const sl = { loyer: document.getElementById("s-loyer"), invest: document.getElementById("s-invest"), ca: document.getElementById("s-ca") };
   sl.loyer.value = state.sim.loyer; sl.invest.value = state.sim.invest; sl.ca.value = state.sim.ca;
@@ -384,7 +477,7 @@ function render() {
   document.querySelectorAll("#f-loyer button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.loyer));
   document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.t === state.tab));
   document.getElementById("f-land").value = state.land;
-  renderTiles(); renderAI(); renderPanel();
+  renderTiles(); renderAI(); renderZoom(); renderPanel();
 }
 document.getElementById("x").textContent = D.x_magasins_fr;
 document.getElementById("chip-loyer").textContent = "Loyer < " + nf(D.seuil_loyer, 0) + " €/m²/mois";

@@ -1,136 +1,350 @@
 {
- "source": {
-  "modele": "Claude (sonnet) via claude -p",
-  "faits": "data/gold/kpi.csv et tables Gold"
- },
  "axes": {
-  "TECH": {
-   "Marché & Potentiel": {
-    "texte": "Les dépenses TECH croissent de 2,9 % en 2025 en Allemagne, contre -1,3 % en France. Elles pèsent 30 337 M€ contre 14 064 M€, ce qui justifie un pilote.",
-    "source": "ia"
-   },
-   "Prix & Marges": {
-    "texte": "L'indice de prix hors taxes est à 82 (France = 100) et la marge brute est de 12,2 % (estimation) à coût d'achat français, contre 28 % pour le groupe. Sans centrale d'achat allemande, TECH n'est pas rentable.",
-    "source": "ia"
-   },
-   "Réseau & Implantation": {
-    "texte": "CECONOMY détient 17,3 à 37,5 % du marché TECH (estimation), avec 4,7 magasins par million d'habitants. Le pilote doit viser une zone peu dense, comme Cologne.",
-    "source": "ia"
-   },
-   "Opérations & Logistique": {
-    "texte": "Le hub de Chilly-Mazarin est à 619 km en moyenne, avec 0 % de droits de douane et un écart de TVA de -1 point. La distance plaide pour des achats via une centrale allemande.",
-    "source": "ia"
-   },
-   "Assortiment": {
-    "texte": "92,4 % du catalogue TECH est éligible (simulé). TECH est le socle naturel de l'assortiment du pilote.",
-    "source": "ia"
-   }
+  "TECH|Marché & Potentiel": {
+   "texte": "Le marché tech allemand croît de 2,7 % par an contre -0,8 % en France, avec 30 337 M€ de dépenses en 2025 : le potentiel justifie l'implantation. La part de CECONOMY (17,3 à 37,5 %, estimation) indique un marché déjà disputé, à aborder avec un pilote.",
+   "source": "ia"
   },
-  "LIVRES": {
-   "Marché & Potentiel": {
-    "texte": "Les dépenses LIVRES croissent de 3 % en 2025 en Allemagne, contre -2,5 % en France, pour 29 284 M€ contre 10 675 M€. Le marché est porteur, mais le catalogue éligible reste limité.",
-    "source": "ia"
-   },
-   "Prix & Marges": {
-    "texte": "L'indice de prix hors taxes est à 104,1 (France = 100) et la marge brute est de 30,8 % (estimation), au-dessus des 28 % du groupe. LIVRES reste rentable avec des achats français.",
-    "source": "ia"
-   },
-   "Réseau & Implantation": {
-    "texte": "La part de marché CECONOMY de 17,3 à 37,5 % (estimation) concerne TECH, pas LIVRES. La pression nationale tous réseaux est de 22,2.",
-    "source": "ia"
-   },
-   "Opérations & Logistique": {
-    "texte": "Le hub est à 619 km en moyenne, avec 0 % de droits de douane et un écart de TVA de 1,5 point. La logistique reste un coût à maîtriser même pour une catégorie à bonne marge.",
-    "source": "ia"
-   },
-   "Assortiment": {
-    "texte": "Seulement 10,1 % du catalogue LIVRES est éligible (simulé), contre 89,3 % pour JEUX_VIDEO. LIVRES est secondaire, ce qui confirme le choix techniques + jeux vidéo.",
-    "source": "ia"
-   }
+  "TECH|Prix & Marges": {
+   "texte": "Avec des achats français, la marge brute tombe à 12,2 % (estimation) contre 28 % pour le groupe, et les prix allemands sont à 82 (France = 100). Passer par une centrale d'achats allemande est donc une condition du Go.",
+   "source": "ia"
+  },
+  "TECH|Réseau & Implantation": {
+   "texte": "La densité CECONOMY est de 4,7 magasins par million d'habitants et le loyer de référence IHK de 115 €/m²/mois (hypothèse). Le réseau est déjà dense : le loyer devra être négocié sous le seuil pour que le pilote soit viable.",
+   "source": "ia"
+  },
+  "TECH|Opérations & Logistique": {
+   "texte": "Le hub de Chilly-Mazarin est à 619 km en moyenne, sans droits de douane (0 %). La logistique reste faisable depuis la France, mais cet éloignement renforce l'intérêt d'achats locaux via une centrale allemande.",
+   "source": "ia"
+  },
+  "TECH|Assortiment": {
+   "texte": "La dépense tech par habitant atteint 363 € en Allemagne contre 204 € en France, et 47,2 % du catalogue est éligible (simulé). La demande est forte : l'assortiment techniques doit être le cœur de l'offre du pilote.",
+   "source": "ia"
+  },
+  "LIVRES|Marché & Potentiel": {
+   "texte": "Le marché des livres croît de 2,2 % par an en Allemagne contre -0,6 % en France, pour 29 284 M€ de dépenses en 2025. Le potentiel existe, mais il ne justifie pas à lui seul de placer les livres au centre du pilote.",
+   "source": "ia"
+  },
+  "LIVRES|Prix & Marges": {
+   "texte": "L'indice de prix est de 104,1 et la marge brute atteint 30,8 % (estimation) avec des achats français, au-dessus des 28 % du groupe. Les livres sont rentables, mais leur poids reste insuffisant pour porter seuls l'équilibre.",
+   "source": "ia"
+  },
+  "LIVRES|Réseau & Implantation": {
+   "texte": "La densité CECONOMY est de 4,7 magasins par million d'habitants et le loyer de référence IHK de 115 €/m²/mois (hypothèse). Le loyer reste la condition clé de l'implantation, quel que soit l'assortiment.",
+   "source": "ia"
+  },
+  "LIVRES|Opérations & Logistique": {
+   "texte": "Le hub est à 619 km en moyenne et l'écart de TVA est de 1,5 point. Ces contraintes sont gérables, mais elles s'ajoutent à un assortiment livres peu compatible avec le catalogue allemand.",
+   "source": "ia"
+  },
+  "LIVRES|Assortiment": {
+   "texte": "La dépense par habitant en livres est de 350 € en Allemagne contre 155 € en France, mais seulement 10,1 % des références livres sont éligibles (simulé). Les livres restent donc hors du périmètre du pilote.",
+   "source": "ia"
   }
  },
  "scenarios": {
   "A": {
-   "texte": "Achats France et loyer IHK donnent -4,10 M€ par an, sans retour sur investissement. Ce scénario est à écarter.",
+   "texte": "Le résultat annuel est de -4,10 M€ et le retour sur investissement n'est jamais atteint. Ce scénario est à écarter.",
    "source": "ia"
   },
   "B": {
-   "texte": "Achats France et loyer niveau France donnent -1,28 M€ par an, sans retour. Baisser le loyer seul ne suffit pas.",
+   "texte": "Le résultat annuel est de -1,28 M€, sans retour sur investissement. Un loyer bas ne suffit pas si les achats restent faits en France.",
    "source": "ia"
   },
   "C": {
-   "texte": "Achats locaux et loyer IHK donnent -2,37 M€ par an, sans retour. La centrale allemande seule ne suffit pas.",
+   "texte": "Le résultat annuel est de -2,37 M€, sans retour sur investissement. Des achats locaux ne suffisent pas avec un loyer IHK : le loyer doit passer sous 32,7 €/m²/mois.",
    "source": "ia"
   },
   "D": {
-   "texte": "Achats locaux et loyer niveau France donnent 0,45 M€ par an, avec un retour en 7,9 ans pour 3,6 M€ investis (hypothèse). Le seuil de loyer est de 32,7 €/m²/mois, loin des 115 €/m²/mois de référence IHK (hypothèse), d'où le Go conditionnel.",
+   "texte": "Le résultat annuel est de 0,45 M€ avec un retour en 7,9 ans, pour 3,6 M€ investis (hypothèse). C'est le seul scénario viable : il fonde les deux conditions du Go, achats locaux et loyer bas.",
    "source": "ia"
   }
  },
  "lands": {
   "Schleswig-Holstein": {
-   "texte": "Avec 5,1 magasins CECONOMY par million d'habitants et Kiel à 826 km du hub, ce Land est moins favorable que la Rhénanie-du-Nord-Westphalie. La distance est élevée et la densité supérieure.",
+   "texte": "Avec 5,1 magasins par million d'habitants et un marché de 1 075 M€ (estimation), le Land est petit et déjà couvert. Il n'est pas prioritaire pour le pilote.",
    "source": "ia"
   },
   "Hamburg": {
-   "texte": "Avec 7 magasins par million d'habitants et 760 km du hub, ce Land est moins favorable. La concurrence est dense et la distance importante.",
+   "texte": "Avec 7 magasins par million d'habitants (moyenne 4,7), Hamburg est très équipé, à 760 km du hub. La concurrence y est forte : ce n'est pas un site pilote.",
    "source": "ia"
   },
   "Niedersachsen": {
-   "texte": "Avec 4,8 magasins par million d'habitants et Hannover à 664 km, ce Land est moyennement favorable. Il est plus éloigné que Cologne pour une densité proche.",
+   "texte": "Le marché de 2 908 M€ (estimation) est notable, mais le Land est à 664 km du hub avec 4,8 magasins par million d'habitants. Il peut être envisagé après le pilote.",
    "source": "ia"
   },
   "Bremen": {
-   "texte": "Avec 8,5 magasins par million d'habitants, c'est la densité la plus élevée, et Bremen est à 666 km du hub. Ce Land est peu favorable.",
+   "texte": "Avec 8,5 magasins par million d'habitants et un marché de 257 M€ (estimation), Bremen est saturé et trop petit. Il est à écarter.",
    "source": "ia"
   },
   "Nordrhein-Westfalen": {
-   "texte": "Avec 4 magasins par million d'habitants et Köln à 416 km du hub, ce Land combine faible densité et proximité. Il est plus favorable que la plupart des autres, ce qui appuie le choix de Cologne.",
+   "texte": "Avec 6 537 M€ de marché potentiel (estimation) et 4 magasins par million d'habitants (moyenne 4,7), le Land est le plus grand et reste sous-équipé. Köln, à 416 km du hub, justifie d'y ouvrir le pilote.",
    "source": "ia"
   },
   "Hessen": {
-   "texte": "Avec 4,6 magasins par million d'habitants et Frankfurt à 487 km, ce Land est favorable. Il reste un peu plus dense et plus éloigné que la Rhénanie-du-Nord-Westphalie.",
+   "texte": "Le marché de 2 282 M€ (estimation) et la densité de 4,6 magasins par million d'habitants en font un candidat sérieux. Frankfurt, à 487 km du hub, est une option de déploiement.",
    "source": "ia"
   },
   "Rheinland-Pfalz": {
-   "texte": "Avec 5,1 magasins par million d'habitants et Mainz à 455 km, ce Land est proche du hub. Sa densité est supérieure à celle de la Rhénanie-du-Nord-Westphalie.",
+   "texte": "Avec 1 499 M€ de marché (estimation) et 5,1 magasins par million d'habitants, le Land est modeste et déjà bien couvert. Il n'est pas prioritaire.",
    "source": "ia"
   },
   "Baden-Württemberg": {
-   "texte": "Avec 4,5 magasins par million d'habitants et Stuttgart à 504 km, ce Land est favorable. Il est toutefois plus éloigné que Cologne.",
+   "texte": "Le marché de 4 085 M€ (estimation) et une densité de 4,5 magasins par million d'habitants offrent un potentiel élevé. Stuttgart, à 504 km du hub, est un bon site de deuxième vague.",
    "source": "ia"
   },
   "Bayern": {
-   "texte": "Avec 5 magasins par million d'habitants et München à 686 km, ce Land est moins favorable que la Rhénanie-du-Nord-Westphalie. La distance est nettement plus élevée.",
+   "texte": "Avec 4 814 M€ de marché (estimation), Bayern est le deuxième potentiel, mais München est à 686 km du hub. À considérer pour le déploiement, pas pour le pilote.",
    "source": "ia"
   },
   "Saarland": {
-   "texte": "Saarbrücken est à 347 km, le plus proche du hub, mais la densité est de 6 magasins par million d'habitants. La logistique est favorable, la concurrence moins.",
+   "texte": "Saarbrücken est le plus proche du hub (347 km), mais le marché ne pèse que 366 M€ (estimation) avec 6 magasins par million d'habitants. Le Land est trop petit pour le pilote.",
    "source": "ia"
   },
   "Berlin": {
-   "texte": "Avec 6,8 magasins par million d'habitants et 889 km du hub, ce Land est peu favorable. La concurrence est dense et la distance élevée.",
+   "texte": "Avec 6,8 magasins par million d'habitants et un hub à 889 km, Berlin est bien équipé et éloigné. Il n'est pas adapté à un premier magasin.",
    "source": "ia"
   },
   "Brandenburg": {
-   "texte": "Avec 4,3 magasins par million d'habitants mais Potsdam à 862 km, la densité est faible. La distance au hub pénalise ce Land.",
+   "texte": "Le marché de 928 M€ (estimation) est moyen et Potsdam est à 862 km du hub. Le Land n'est pas prioritaire.",
    "source": "ia"
   },
   "Mecklenburg-Vorpommern": {
-   "texte": "Avec 5,1 magasins par million d'habitants et Rostock à 906 km, c'est le Land le plus éloigné du hub. Il est peu favorable.",
+   "texte": "Avec 572 M€ de marché (estimation) et Rostock à 906 km du hub, le Land est petit et éloigné. Il est à écarter à ce stade.",
    "source": "ia"
   },
   "Sachsen": {
-   "texte": "Avec 4 magasins par million d'habitants, la densité est aussi faible qu'en Rhénanie-du-Nord-Westphalie. Leipzig est cependant à 776 km du hub, ce qui pénalise la logistique.",
+   "texte": "La densité est faible (4 magasins par million d'habitants) mais Leipzig est à 776 km du hub, pour 1 464 M€ de marché (estimation). Le Land est à revoir lors du déploiement.",
    "source": "ia"
   },
   "Sachsen-Anhalt": {
-   "texte": "Avec 3,8 magasins par million d'habitants, c'est la densité la plus faible. Magdeburg est cependant à 761 km du hub, ce qui limite l'intérêt.",
+   "texte": "Avec 3,8 magasins par million d'habitants, le Land est sous-équipé, mais son marché est de 771 M€ (estimation) et Magdeburg est à 761 km du hub. Il n'est pas prioritaire.",
    "source": "ia"
   },
   "Thüringen": {
-   "texte": "Avec 4,3 magasins par million d'habitants et Erfurt à 674 km, la densité est faible mais la distance reste élevée. Ce Land est moyennement favorable.",
+   "texte": "Le marché de 756 M€ (estimation) est limité et Erfurt est à 674 km du hub. Le Land n'est pas prioritaire.",
    "source": "ia"
   }
+ },
+ "villes": {
+  "Hamburg": {
+   "texte": "Hamburg compte 1,87 M habitants mais 13 magasins CECONOMY, et se trouve à 760 km du hub. Concurrence dense et éloignement logistique : à écarter pour le pilote.",
+   "source": "ia"
+  },
+  "Hannover": {
+   "texte": "Hannover n'a que 0,52 M habitants et se situe à 664 km du hub. Marché modeste et éloigné : non prioritaire.",
+   "source": "ia"
+  },
+  "Bremen": {
+   "texte": "Bremen a 0,59 M habitants pour 5 magasins CECONOMY, à 666 km du hub. La concurrence est forte pour la taille de la ville : à écarter.",
+   "source": "ia"
+  },
+  "Düsseldorf": {
+   "texte": "Düsseldorf compte 0,62 M habitants, 3 magasins CECONOMY et se situe à 425 km du hub. Bon candidat de second site en Nordrhein-Westfalen après le pilote.",
+   "source": "ia"
+  },
+  "Duisburg": {
+   "texte": "Duisburg a 0,50 M habitants pour 3 magasins CECONOMY, à 439 km du hub. Le marché est trop petit pour le pilote, mais la ville est proche de la zone retenue.",
+   "source": "ia"
+  },
+  "Essen": {
+   "texte": "Essen compte 0,57 M habitants et seulement 2 magasins CECONOMY, à 454 km du hub. Peu de concurrence, mais un marché modeste : option pour un déploiement ultérieur.",
+   "source": "ia"
+  },
+  "Köln": {
+   "texte": "Köln réunit 1,03 M habitants et 7 magasins CECONOMY, et c'est la ville la plus proche du hub (416 km). C'est le site pilote retenu, à condition que le loyer reste sous le seuil.",
+   "source": "ia"
+  },
+  "Dortmund": {
+   "texte": "Dortmund a 0,60 M habitants, 3 magasins CECONOMY et se situe à 482 km du hub. Candidate possible pour une extension dans la même région après le pilote.",
+   "source": "ia"
+  },
+  "Frankfurt am Main": {
+   "texte": "Frankfurt compte 0,76 M habitants et 0 magasin CECONOMY, à 487 km du hub. Aucun concurrent direct : à étudier pour un déploiement, hors région du pilote.",
+   "source": "ia"
+  },
+  "Stuttgart": {
+   "texte": "Stuttgart a 0,61 M habitants pour 3 magasins CECONOMY, à 504 km du hub. Marché moyen et plus éloigné : non prioritaire.",
+   "source": "ia"
+  },
+  "München": {
+   "texte": "München compte 1,51 M habitants et 10 magasins CECONOMY, à 686 km du hub. Marché attractif mais éloigné et concurrentiel : à reconsidérer seulement après la décision à 2 ans.",
+   "source": "ia"
+  },
+  "Nürnberg": {
+   "texte": "Nürnberg a 0,53 M habitants pour 4 magasins CECONOMY, à 643 km du hub. Marché modeste et éloigné : non prioritaire.",
+   "source": "ia"
+  },
+  "Berlin": {
+   "texte": "Berlin est le plus grand marché (3,70 M habitants) mais aussi le plus concurrentiel (25 magasins CECONOMY) et le plus éloigné (889 km). Trop risqué pour un pilote.",
+   "source": "ia"
+  },
+  "Dresden": {
+   "texte": "Dresden compte 0,56 M habitants et se situe à 858 km du hub. Marché modeste et très éloigné : à écarter.",
+   "source": "ia"
+  },
+  "Leipzig": {
+   "texte": "Leipzig a 0,62 M habitants pour 5 magasins CECONOMY, à 776 km du hub. Concurrence notable et éloignement important : non prioritaire.",
+   "source": "ia"
+  }
+ },
+ "marche": {
+  "TECH|2016": {
+   "texte": "En 2016, les produits techniques pèsent 24 856 M€ en Allemagne (7,3 % sur un an) contre 15 539 M€ en France. Le marché allemand est déjà bien plus vaste : la cible produits techniques se justifie.",
+   "source": "ia"
+  },
+  "TECH|2017": {
+   "texte": "En 2017, le marché allemand progresse (25 720 M€, 3,5 %) quand le marché français recule (14 683 M€, -5,5 %). L'Allemagne est un relais de croissance pour les produits techniques.",
+   "source": "ia"
+  },
+  "TECH|2018": {
+   "texte": "En 2018, l'Allemagne atteint 26 062 M€ (1,3 %) et la France baisse à 14 480 M€ (-1,4 %). La tendance de fond favorise l'Allemagne.",
+   "source": "ia"
+  },
+  "TECH|2019": {
+   "texte": "En 2019, l'Allemagne atteint 26 366 M€ (1,2 %) et la France 14 374 M€ (-0,7 %). Croissance lente mais régulière côté allemand : un pilote prudent est adapté.",
+   "source": "ia"
+  },
+  "TECH|2020": {
+   "texte": "En 2020, la France rebondit (15 451 M€, 7,5 %) et l'Allemagne atteint 27 455 M€ (4,1 %). Ce rebond français ne remet pas en cause l'écart de taille entre les deux marchés.",
+   "source": "ia"
+  },
+  "TECH|2021": {
+   "texte": "En 2021, l'Allemagne atteint 28 158 M€ (2,6 %) et la France 15 955 M€ (3,3 %). Les deux marchés progressent, mais l'Allemagne reste nettement plus grande.",
+   "source": "ia"
+  },
+  "TECH|2022": {
+   "texte": "En 2022, l'Allemagne est quasi stable (28 239 M€, 0,3 %) tandis que la France recule (15 367 M€, -3,7 %). La croissance allemande ralentit : il faut viser des parts de marché plutôt que compter sur le marché.",
+   "source": "ia"
+  },
+  "TECH|2023": {
+   "texte": "En 2023, les deux marchés reculent : Allemagne 27 827 M€ (-1,5 %), France 14 621 M€ (-4,9 %). Risque de conjoncture : c'est un argument pour un pilote unique avant tout déploiement.",
+   "source": "ia"
+  },
+  "TECH|2024": {
+   "texte": "En 2024, l'Allemagne rebondit à 29 489 M€ (6 %) alors que la France continue de baisser (14 253 M€, -2,5 %). La fenêtre d'entrée est favorable pour les produits techniques.",
+   "source": "ia"
+  },
+  "TECH|2025": {
+   "texte": "En 2025, l'Allemagne atteint 30 337 M€ (2,9 %), son plus haut de la série, et la France 14 064 M€ (-1,3 %). Le potentiel allemand confirme le choix des produits techniques.",
+   "source": "ia"
+  },
+  "LIVRES|2016": {
+   "texte": "En 2016, livres, presse et papeterie pèsent 24 564 M€ en Allemagne (4,7 %) contre 11 116 M€ en France (-1,4 %). Le marché est vaste, mais ce n'est pas l'assortiment retenu pour le pilote.",
+   "source": "ia"
+  },
+  "LIVRES|2017": {
+   "texte": "En 2017, l'Allemagne est stable à 24 551 M€ (-0,1 %) et la France recule à 10 883 M€ (-2,1 %). Peu de croissance : les livres ne justifient pas d'être prioritaires.",
+   "source": "ia"
+  },
+  "LIVRES|2018": {
+   "texte": "En 2018, l'Allemagne atteint 24 579 M€ (0,1 %) et la France 10 666 M€ (-2 %). Marché mature : à garder en option, pas en moteur du pilote.",
+   "source": "ia"
+  },
+  "LIVRES|2019": {
+   "texte": "En 2019, l'Allemagne atteint 24 690 M€ (0,5 %) et la France 10 697 M€ (0,3 %). Croissance faible des deux côtés : pas de raison d'élargir l'assortiment au démarrage.",
+   "source": "ia"
+  },
+  "LIVRES|2020": {
+   "texte": "En 2020, l'Allemagne progresse à 25 381 M€ (2,8 %) alors que la France chute à 10 038 M€ (-6,2 %). Le marché allemand est plus résilient, sans changer l'assortiment du pilote.",
+   "source": "ia"
+  },
+  "LIVRES|2021": {
+   "texte": "En 2021, l'Allemagne atteint 26 968 M€ (6,3 %) et la France 11 200 M€ (11,6 %). Rebond marqué des deux côtés, à ne pas extrapoler pour décider.",
+   "source": "ia"
+  },
+  "LIVRES|2022": {
+   "texte": "En 2022, l'Allemagne atteint 27 977 M€ (3,7 %) et la France 11 225 M€ (0,2 %). Marché allemand porteur : les livres pourraient être testés après le pilote.",
+   "source": "ia"
+  },
+  "LIVRES|2023": {
+   "texte": "En 2023, l'Allemagne recule légèrement à 27 831 M€ (-0,5 %) et la France à 11 147 M€ (-0,7 %). Marché plat : les livres restent secondaires.",
+   "source": "ia"
+  },
+  "LIVRES|2024": {
+   "texte": "En 2024, l'Allemagne atteint 28 445 M€ (2,2 %) alors que la France baisse à 10 949 M€ (-1,8 %). Les livres pourraient être envisagés à l'étape du déploiement.",
+   "source": "ia"
+  },
+  "LIVRES|2025": {
+   "texte": "En 2025, l'Allemagne atteint 29 284 M€ (2,9 %) et la France 10 675 M€ (-2,5 %). Le marché allemand est solide, mais l'assortiment du pilote reste techniques et jeux vidéo.",
+   "source": "ia"
+  }
+ },
+ "prix": {
+  "TECH|2022": {
+   "texte": "En 2022, les prix hors taxes techniques sont à l'indice 88 (France = 100) pour une marge brute de 18,2 % (estimation) contre 28 % pour le groupe. La marge est sous celle du groupe : les achats via une centrale allemande sont une condition clé.",
+   "source": "ia"
+  },
+  "TECH|2023": {
+   "texte": "En 2023, l'indice de prix est de 90,1 (France = 100) pour une marge brute de 20,1 % (estimation) contre 28 % pour le groupe. L'écart de marge reste net : il faut sécuriser les conditions d'achat avant d'ouvrir.",
+   "source": "ia"
+  },
+  "TECH|2024": {
+   "texte": "En 2024, l'indice de prix tombe à 80,8 (France = 100) et la marge brute à 10,9 % (estimation) contre 28 % pour le groupe. La pression sur les prix menace la rentabilité : à surveiller de près pendant le pilote.",
+   "source": "ia"
+  },
+  "TECH|2025": {
+   "texte": "En 2025, l'indice de prix est de 82 (France = 100) pour une marge brute de 12,2 % (estimation) contre 28 % pour le groupe. La marge reste faible : le Go est conditionné à la centrale d'achats et à un loyer sous le seuil.",
+   "source": "ia"
+  },
+  "LIVRES|2022": {
+   "texte": "En 2022, les prix des livres sont à l'indice 100,8 (France = 100) pour une marge brute de 28,5 % (estimation) contre 28 % pour le groupe. La marge est comparable à celle du groupe.",
+   "source": "ia"
+  },
+  "LIVRES|2023": {
+   "texte": "En 2023, l'indice de prix est de 102,6 (France = 100) pour une marge brute de 29,8 % (estimation) contre 28 % pour le groupe. Les livres sont plus rentables que les produits techniques.",
+   "source": "ia"
+  },
+  "LIVRES|2024": {
+   "texte": "En 2024, l'indice de prix est de 104 (France = 100) pour une marge brute de 30,8 % (estimation) contre 28 % pour le groupe. Les livres sont une option rentable à étudier après le pilote.",
+   "source": "ia"
+  },
+  "LIVRES|2025": {
+   "texte": "En 2025, l'indice de prix est de 104,1 (France = 100) pour une marge brute de 30,8 % (estimation) contre 28 % pour le groupe. Les livres pourraient compenser la faible marge des produits techniques lors du déploiement.",
+   "source": "ia"
+  }
+ },
+ "familles": {
+  "JEUX_VIDEO": {
+   "texte": "89,3 % des références jeux vidéo sont éligibles en Allemagne (simulé), contre 47,2 % pour le catalogue total. Les jeux vidéo sont un bon complément des produits techniques.",
+   "source": "ia"
+  },
+  "LIVRES": {
+   "texte": "Seulement 10,1 % des références livres sont éligibles en Allemagne (simulé), contre 47,2 % pour le catalogue total. Les livres sont à exclure de l'assortiment du pilote.",
+   "source": "ia"
+  },
+  "MUSIQUE_VIDEO": {
+   "texte": "39 % des références musique et vidéo sont éligibles (simulé), sous les 47,2 % du catalogue total. Cette famille reste secondaire dans l'assortiment.",
+   "source": "ia"
+  },
+  "TECH": {
+   "texte": "92,4 % des références techniques sont éligibles en Allemagne (simulé), contre 47,2 % pour le catalogue total. Les produits techniques sont le socle de l'assortiment du pilote.",
+   "source": "ia"
+  }
+ },
+ "concurrents": {
+  "MediaMarkt + Saturn": {
+   "texte": "MediaMarkt + Saturn compte 394 points de vente en Allemagne. Le leader est bien implanté : la Fnac doit se différencier par son assortiment plutôt que par le nombre de magasins.",
+   "source": "ia"
+  },
+  "Expert": {
+   "texte": "Expert compte 364 points de vente en Allemagne. Son maillage est proche de celui de MediaMarkt + Saturn, ce qui confirme un marché physique déjà occupé.",
+   "source": "ia"
+  },
+  "Euronics": {
+   "texte": "Euronics compte 1 100 points de vente en Allemagne, le plus grand réseau. Le pilote doit viser une zone urbaine dense plutôt qu'une couverture large.",
+   "source": "ia"
+  },
+  "Amazon.de": {
+   "texte": "Amazon.de vend en ligne seulement, sans magasin. La Fnac peut se différencier avec un point de vente physique et du conseil.",
+   "source": "ia"
+  },
+  "Otto.de": {
+   "texte": "Otto.de vend en ligne seulement, sans magasin. Le magasin physique reste un levier de différenciation face à ces acteurs.",
+   "source": "ia"
+  }
+ },
+ "source": {
+  "modele": "Claude (sonnet) via claude -p",
+  "faits": "data/gold/kpi.csv et tables Gold"
  }
 }

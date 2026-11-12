@@ -5,13 +5,15 @@ Les slides suivent les 5 sections de l'oral imposées par le sujet (slide 8 du P
 · 4. analyse des chiffres + brique IA (3 min) · 5. Go / No-Go (1 min 30). Tous les chiffres sont lus dans le Gold.
 """
 import json
+import re
 
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
-from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_LEGEND_POSITION
+from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_LEGEND_POSITION, XL_TICK_LABEL_POSITION
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
 import sys
@@ -27,6 +29,8 @@ L = D["last"]
 T = D["categories"]["TECH"]
 NRW = next(x for x in D["lands"] if x["land"] == "Nordrhein-Westfalen")
 SD = D["scenarios"]["D"]
+# La décision n'apparaît qu'à la conclusion : on retire du commentaire IA de l'analyse les phrases qui l'annoncent
+TEXTE_IA_D = " ".join(p for p in re.split(r"(?<=\.) ", AI["scenarios"]["D"]["texte"]) if "Go" not in p)
 
 INK, DARK, WHITE = RGBColor(0x0B, 0x0B, 0x0B), RGBColor(0x14, 0x17, 0x22), RGBColor(0xFF, 0xFF, 0xFF)
 BLUE, ORANGE, RED, GREEN = RGBColor(0x2A, 0x78, 0xD6), RGBColor(0xEB, 0x68, 0x34), RGBColor(0xD0, 0x3B, 0x3B), RGBColor(0x0C, 0xA3, 0x0C)
@@ -113,20 +117,17 @@ def style(chart, legend=False):
 
 
 # ============================================================ 1. ENTREPRISE & PAYS (1 min)
-s = slide("Comex Fnac · Stratégie 2027-2029", "", dark=True)
-tb(s, M, Inches(1.6), CW, Inches(1.2), "Fnac → Allemagne", size=60, bold=True, color=WHITE)
-tb(s, M, Inches(2.75), CW, Inches(1.4), [[("Réalisable ? ", {"color": LIGHT}), ("Oui.", {"bold": True})],
-                                          [("Rentable ? ", {"color": LIGHT}), ("Seulement sous 3 conditions.", {"bold": True})]],
-   size=34, color=WHITE)
-box(s, M, Inches(4.75), Inches(5.3), Inches(0.75), GREEN)
-tb(s, M, Inches(4.75), Inches(5.3), Inches(0.75), "GO CONDITIONNEL : un pilote à Cologne", size=22, bold=True, color=WHITE,
-   align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-tb(s, M, Inches(6.2), CW, Inches(0.6), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL",
-   size=14, color=LIGHT)
-footer(s, "Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne réelle de la Fnac", dark=True)
+s = slide("Comex Fnac · Stratégie 2027-2029", "")
+tb(s, M, Inches(1.7), CW, Inches(1.2), "Fnac → Allemagne", size=64, bold=True, color=INK)
+box(s, M, Inches(3.05), Inches(0.12), Inches(1.5), BLUE)
+tb(s, M + Inches(0.4), Inches(3.05), CW - Inches(0.4), Inches(1.5),
+   "« L'implantation dans le pays ciblé est-elle réalisable et rentable ? »", size=28, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
+tb(s, M, Inches(5.4), CW, Inches(0.5), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL",
+   size=16, color=INK)
+footer(s, "Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne réelle de la Fnac")
 notes(s, "0:00 → 0:20", "Romane", "Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne "
-      "est-elle réalisable et rentable ? Notre réponse tient en une phrase : réalisable oui, rentable seulement sous trois "
-      "conditions. Nous recommandons donc un Go conditionnel : un magasin pilote à Cologne. Voici comment on y arrive.")
+      "est-elle réalisable et rentable ? Pour y répondre, on a construit toute la chaîne de données, du téléchargement jusqu'à "
+      "la recommandation. Notre décision arrive à la fin ; voici d'abord le contexte.")
 
 s = slide("1 · L'entreprise et le pays cible", "Une Fnac qui rétrécit en France, un marché allemand qui grandit")
 stat(s, M, Inches(2.1), Inches(3.8), f"{D['x_magasins_fr']}", "magasins Fnac en France fin 2025\n(1 ouverture, 15 fermetures en 2025)", color=INK)
@@ -264,19 +265,20 @@ notes(s, "5:30 → 6:30", "Romane", f"Deuxième constat : les produits technique
 s = slide("4 · L'analyse · + brique IA", "Un seul scénario rentable : achats locaux et loyer maîtrisé")
 cd = CategoryChartData()
 sc = list(D["scenarios"].values())
-cd.categories = [x["nom"] for x in sc]
-cd.add_series("Résultat annuel d'un magasin (M€)", [round(x["resultat"], 2) for x in sc])
+cd.categories = [x["nom"] + " · " + sg(x["resultat"], 2) + " M€" for x in sc]
+# Deux séries (perte / gain) superposées : couleur portée par la série, pas de barre négative inversée en blanc
+cd.add_series("Perte", [round(x["resultat"], 2) if x["resultat"] < 0 else 0 for x in sc])
+cd.add_series("Gain", [round(x["resultat"], 2) if x["resultat"] > 0 else 0 for x in sc])
 ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.9), Inches(7.2), Inches(3.3), cd).chart
 style(ch)
 pl = ch.plots[0]
-pl.gap_width, pl.has_data_labels = 50, True
-pl.data_labels.number_format, pl.data_labels.number_format_is_linked = '+0.00" M€";−0.00" M€"', False
-pl.data_labels.font.size = Pt(13)
-for i, x in enumerate(sc):
-    pt = ch.series[0].points[i]
-    pt.format.fill.solid()
-    pt.format.fill.fore_color.rgb = GREEN if x["resultat"] > 0 else RED
+pl.gap_width, pl.overlap, pl.has_data_labels = 50, 100, False  # valeurs écrites dans les libellés
+for ser, col in zip(ch.series, (RED, GREEN)):
+    ser.invert_if_negative = False
+    ser.format.fill.solid()
+    ser.format.fill.fore_color.rgb = col
 ch.category_axis.reverse_order = True
+ch.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
 ch.category_axis.tick_labels.font.size = Pt(12)
 ch.value_axis.has_major_gridlines = False
 ch.value_axis.tick_labels.font.size = Pt(10)
@@ -287,7 +289,7 @@ stat(s, xs, Inches(3.65), ws, f"< {n(D['seuil_loyer'], 0)} €", f"loyer maximal
 box(s, M, Inches(5.4), prs.slide_width - 2 * M, Inches(1.5), VTINT)
 tb(s, M + Inches(0.3), Inches(5.5), prs.slide_width - 2 * M - Inches(0.6), Inches(1.35), [
     [("✦ Synthèse IA (Claude, chiffres contrôlés contre nos KPI)", {"bold": True, "color": VIOLET, "size": 13})],
-    [(AI["scenarios"]["D"]["texte"], {"size": 15})]], size=15)
+    [(TEXTE_IA_D, {"size": 15})]], size=15)
 footer(s, "Hypothèses : surface 2 400 m² (DEU 2025 p. 40), coûts et loyers du groupe (DEU p. 30) ; investissement 1 500 €/m² non sourcé · KPI K12")
 notes(s, "6:30 → 7:30", "Elena", "Troisième constat, le plus important. On a simulé le résultat d'un magasin de 2 400 mètres carrés "
       "dans quatre scénarios : achats en France ou en Allemagne, loyer de centre-ville ou loyer au niveau français. Trois sur quatre "
@@ -298,29 +300,29 @@ notes(s, "6:30 → 7:30", "Elena", "Troisième constat, le plus important. On a 
       "change ; bouger le curseur Loyer du simulateur jusqu'à 33 euros, le verdict passe au rouge.")
 
 # ============================================================ 5. GO / NO-GO (1 min 30)
-s = slide("5 · Décision et recommandation · défense des arbitrages 15 pts", "GO CONDITIONNEL : un magasin pilote à Cologne", dark=True)
+s = slide("5 · Décision et recommandation · défense des arbitrages 15 pts", "GO SOUS CONDITIONS : un magasin pilote à Cologne")
 conds = [("1", "Acheter en Allemagne", "centrale d'achat locale\nmarge brute ≈ 28 %"),
          ("2", f"Loyer < {n(D['seuil_loyer'], 0)} €/m²/mois", "grande surface hors rue prime\n(IHK : 115 €)"),
          ("3", "Assortiment ciblé", "tech + jeux vidéo (≈ 90 % éligibles)\npeu de livres en français")]
 cw = (CW - Inches(0.5)) / 3
 for i, (num, t1, t2) in enumerate(conds):
     x = M + i * (cw + Inches(0.25))
-    box(s, x, Inches(1.95), cw, Inches(1.9), RGBColor(0x25, 0x2B, 0x3D))
-    tb(s, x + Inches(0.25), Inches(2.05), cw - Inches(0.5), Inches(0.5), f"CONDITION {num}", size=12, bold=True, color=LIGHT)
-    tb(s, x + Inches(0.25), Inches(2.45), cw - Inches(0.5), Inches(0.6), t1, size=22, bold=True, color=WHITE)
-    tb(s, x + Inches(0.25), Inches(3.05), cw - Inches(0.5), Inches(0.8), t2, size=14, color=LIGHT)
-tb(s, M, Inches(4.15), CW, Inches(0.4), "POURQUOI COLOGNE", size=12, bold=True, color=LIGHT)
+    box(s, x, Inches(1.95), cw, Inches(1.9), TINT)
+    tb(s, x + Inches(0.25), Inches(2.05), cw - Inches(0.5), Inches(0.5), f"CONDITION {num}", size=12, bold=True, color=GREEN)
+    tb(s, x + Inches(0.25), Inches(2.45), cw - Inches(0.5), Inches(0.6), t1, size=22, bold=True, color=INK)
+    tb(s, x + Inches(0.25), Inches(3.05), cw - Inches(0.5), Inches(0.8), t2, size=14, color=MUTED)
+tb(s, M, Inches(4.15), CW, Inches(0.4), "POURQUOI COLOGNE", size=12, bold=True, color=MUTED)
 tb(s, M, Inches(4.5), CW, Inches(0.8), f"Rhénanie-du-Nord-Westphalie : {n(NRW['densite'])} magasins concurrents par million d'habitants "
    f"(moyenne {n(D['densite_de'])}) · Cologne à {n(NRW['ville_km'], 0)} km du hub de Chilly-Mazarin, la plus proche des villes de plus de 500 000 habitants.",
-   size=16, color=WHITE)
+   size=16, color=INK)
 steps = [("M1–M6", "centrale d'achat + bail"), ("M3–M6", "test logistique"), ("M12", "ouverture du pilote"), ("M36", "Go / No-Go déploiement")]
 sw = CW / 4
 for i, (when, what) in enumerate(steps):
     x = M + i * sw
-    tb(s, x, Inches(5.55), sw - Inches(0.2), Inches(0.45), when, size=20, bold=True, color=RGBColor(0x39, 0x87, 0xE5))
-    tb(s, x, Inches(6.0), sw - Inches(0.2), Inches(0.5), what, size=14, color=WHITE)
-footer(s, "Critère d'arrêt à M36 : résultat annuel négatif ou retour > 8 ans → pas de déploiement. Détail : README § 4 Next Steps", dark=True)
-notes(s, "7:30 → 9:00", "Romane", "Notre décision : Go conditionnel, pour un seul magasin pilote, pas un réseau national. Trois "
+    tb(s, x, Inches(5.55), sw - Inches(0.2), Inches(0.45), when, size=20, bold=True, color=BLUE)
+    tb(s, x, Inches(6.0), sw - Inches(0.2), Inches(0.5), what, size=14, color=INK)
+footer(s, "Critère d'arrêt à M36 : résultat annuel négatif ou retour > 8 ans → pas de déploiement. Détail : README § 4 Next Steps")
+notes(s, "7:30 → 9:00", "Romane", "Notre décision : Go sous conditions, pour un seul magasin pilote, pas un réseau national. Trois "
       "conditions. Un : acheter en Allemagne pour retrouver notre marge. Deux : un loyer sous 33 euros le mètre carré, donc une "
       "grande surface hors des rues commerçantes les plus chères. Trois : un assortiment ciblé sur la tech et les jeux vidéo. "
       f"Pourquoi Cologne : sa région a l'une des densités concurrentes les plus faibles, {n(NRW['densite'])} magasins par million "
