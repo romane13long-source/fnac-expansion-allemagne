@@ -1,0 +1,115 @@
+kpi_id,axe,kpi,pays_id,categorie_id,zone,annee,valeur,unite,nature,formule
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2016,4.75,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2017,-0.05,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2018,0.11,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2019,0.45,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2020,2.8,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2021,6.25,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2022,3.74,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2023,-0.52,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2024,2.21,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,LIVRES,,2025,2.95,%,mesuré,dépenses N / dépenses N-1 - 1
+K1b,Marché & Potentiel,Croissance annuelle moyenne 2015-2025,DE,LIVRES,,2025,2.25,%,mesuré,(dépenses fin / dépenses début)^(1/nb années) - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2016,7.29,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2017,3.48,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2018,1.33,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2019,1.17,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2020,4.13,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2021,2.56,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2022,0.29,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2023,-1.46,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2024,5.97,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,DE,TECH,,2025,2.88,%,mesuré,dépenses N / dépenses N-1 - 1
+K1b,Marché & Potentiel,Croissance annuelle moyenne 2015-2025,DE,TECH,,2025,2.73,%,mesuré,(dépenses fin / dépenses début)^(1/nb années) - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2016,-1.41,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2017,-2.09,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2018,-2.0,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2019,0.29,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2020,-6.16,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2021,11.58,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2022,0.22,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2023,-0.69,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2024,-1.77,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,LIVRES,,2025,-2.5,%,mesuré,dépenses N / dépenses N-1 - 1
+K1b,Marché & Potentiel,Croissance annuelle moyenne 2015-2025,FR,LIVRES,,2025,-0.55,%,mesuré,(dépenses fin / dépenses début)^(1/nb années) - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2016,1.99,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2017,-5.51,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2018,-1.39,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2019,-0.73,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2020,7.49,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2021,3.26,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2022,-3.68,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2023,-4.85,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2024,-2.52,%,mesuré,dépenses N / dépenses N-1 - 1
+K1a,Marché & Potentiel,Taux de croissance annuel du secteur,FR,TECH,,2025,-1.33,%,mesuré,dépenses N / dépenses N-1 - 1
+K1b,Marché & Potentiel,Croissance annuelle moyenne 2015-2025,FR,TECH,,2025,-0.8,%,mesuré,(dépenses fin / dépenses début)^(1/nb années) - 1
+K2,Marché & Potentiel,Part de marché de Fnac Darty en France,FR,,,2025,15.28,%,estimation,CA France × (part techniques + part éditoriaux du groupe) / dépenses FR (TECH + LIVRES)
+K3_bas,Marché & Potentiel,Part de marché du concurrent CECONOMY en Allemagne (bas),DE,TECH,,2025,14.51,%,estimation,ventes DE × part « IT et mobile » / dépenses DE TECH
+K3_haut,Marché & Potentiel,Part de marché du concurrent CECONOMY en Allemagne (haut),DE,TECH,,2025,31.54,%,estimation,ventes DE / dépenses DE TECH
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,TECH,,2022,87.27,indice FR = 100,mesuré,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,TECH,,2022,88.01,indice FR = 100,mesuré,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,TECH,,2022,18.19,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,TECH,,2023,89.33,indice FR = 100,mesuré,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,TECH,,2023,90.08,indice FR = 100,mesuré,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,TECH,,2023,20.07,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,TECH,,2024,80.12,indice FR = 100,mesuré,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,TECH,,2024,80.79,indice FR = 100,mesuré,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,TECH,,2024,10.88,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,TECH,,2025,81.29,indice FR = 100,mesuré,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,TECH,,2025,81.97,indice FR = 100,mesuré,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,TECH,,2025,12.16,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,LIVRES,,2022,102.19,indice FR = 100,estimation,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,LIVRES,,2022,100.75,indice FR = 100,estimation,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,LIVRES,,2022,28.54,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,LIVRES,,2023,104.04,indice FR = 100,estimation,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,LIVRES,,2023,102.58,indice FR = 100,estimation,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,LIVRES,,2023,29.81,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,LIVRES,,2024,105.45,indice FR = 100,estimation,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,LIVRES,,2024,103.97,indice FR = 100,estimation,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,LIVRES,,2024,30.75,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K4_ttc,Prix & Marges,Indice de prix relatif DE / FR (TTC),DE,LIVRES,,2025,105.56,indice FR = 100,estimation,indice DE / indice FR × 100
+K4_ht,Prix & Marges,Indice de prix relatif DE / FR (hors taxes),DE,LIVRES,,2025,104.08,indice FR = 100,estimation,(indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100
+K5,Prix & Marges,Marge brute estimée post-taxe en Allemagne,DE,LIVRES,,2025,30.82,%,estimation,"1 - (1 - marge brute groupe) / (indice HT / 100), coût d'achat identique"
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Schleswig-Holstein,2025,5.07,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Hamburg,2025,6.95,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Niedersachsen,2025,4.75,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Bremen,2025,8.49,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Nordrhein-Westfalen,2025,4.0,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Hessen,2025,4.62,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Rheinland-Pfalz,2025,5.09,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Baden-Württemberg,2025,4.54,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Bayern,2025,4.98,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Saarland,2025,5.96,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Berlin,2025,6.76,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Brandenburg,2025,4.31,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Mecklenburg-Vorpommern,2025,5.08,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Sachsen,2025,3.97,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Sachsen-Anhalt,2025,3.77,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Thüringen,2025,4.33,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
+K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Allemagne,2025,4.72,magasins / M hab.,mesuré,magasins / population × 1 000 000
+K7,Réseau & Implantation,"Coût moyen au m² commercial (loyer, centre-ville)",DE,,,2024,1380.0,€/m²/an,hypothèse,"loyer de référence IHK Stuttgart (115 €/m²/mois, unité mensuelle déduite) × 12"
+K8,Opérations & Logistique,Distance moyenne depuis le hub de Chilly-Mazarin (villes ≥ 100 000 hab.),DE,,,2025,618.61,km,mesuré,"moyenne des distances à vol d'oiseau, pondérée par la population (79 villes)"
+K9_douane,Opérations & Logistique,Droits de douane France -> Allemagne,DE,,,2026,0.0,%,mesuré,union douanière de l'UE (TFUE art. 28 et 30)
+K9_tva,Opérations & Logistique,Écart de TVA Allemagne - France,DE,TECH,,2026,-1.0,points de %,mesuré,TVA DE - TVA FR
+K9_tva,Opérations & Logistique,Écart de TVA Allemagne - France,DE,LIVRES,,2026,1.5,points de %,mesuré,TVA DE - TVA FR
+K10,Assortiment,Taux de pénétration de la catégorie en Allemagne (France = 100),DE,TECH,,2025,177.79,indice FR = 100,mesuré,(dépenses DE / population DE) / (dépenses FR / population FR) × 100
+K10_detail,Assortiment,Dépenses par habitant,DE,TECH,,2025,362.98,€ / hab.,mesuré,dépenses / population
+K10_detail,Assortiment,Dépenses par habitant,FR,TECH,,2025,204.17,€ / hab.,mesuré,dépenses / population
+K10,Assortiment,Taux de pénétration de la catégorie en Allemagne (France = 100),DE,LIVRES,,2025,226.1,indice FR = 100,mesuré,(dépenses DE / population DE) / (dépenses FR / population FR) × 100
+K10_detail,Assortiment,Dépenses par habitant,DE,LIVRES,,2025,350.38,€ / hab.,mesuré,dépenses / population
+K10_detail,Assortiment,Dépenses par habitant,FR,LIVRES,,2025,154.97,€ / hab.,mesuré,dépenses / population
+K11,Assortiment,% du catalogue France éligible en Allemagne,DE,,,2026,47.18,%,simulé,références éligibles / références du catalogue simulé (règles dans catalogue_simule.py)
+K11_detail,Assortiment,% éligible par famille,DE,,JEUX_VIDEO,2026,89.34,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,LIVRES,2026,10.1,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,MUSIQUE_VIDEO,2026,39.05,%,simulé,"idem, par famille"
+K11_detail,Assortiment,% éligible par famille,DE,,TECH,2026,92.44,%,simulé,"idem, par famille"
+K12_ca,Synthèse,CA annuel estimé d'un magasin (2 400 m²),DE,,,2025,14.6,M€,estimation,CA France × (1 - part en ligne) / surface commerciale France × surface d'un magasin
+K12_invest,Synthèse,Investissement d'ouverture d'un magasin,DE,,,2025,3.6,M€,hypothèse,coût d'aménagement au m² (non sourcé) × surface
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,A. achats France + loyer IHK,2025,-4.1,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,A. achats France + loyer IHK,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,B. achats France + loyer niveau France,2025,-1.28,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,B. achats France + loyer niveau France,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,C. achats locaux + loyer IHK,2025,-2.37,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,C. achats locaux + loyer IHK,2025,999.0,années,estimation,investissement / résultat annuel
+K12_resultat,Synthèse,Résultat annuel estimé d'un magasin (avant amortissement),DE,,D. achats locaux + loyer niveau France,2025,0.45,M€,estimation,CA × (marge brute - coûts hors loyer) - loyer
+K12,Synthèse,Délai de retour sur investissement d'un magasin (999 = jamais),DE,,D. achats locaux + loyer niveau France,2025,7.94,années,estimation,investissement / résultat annuel

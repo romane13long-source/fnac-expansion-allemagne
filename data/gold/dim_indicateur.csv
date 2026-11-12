@@ -1,0 +1,22 @@
+indicateur_id,unite,source,page,url
+fnac_magasins_total,magasins,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_magasins_rattaches_france,magasins,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_magasins_rattaches_france_a_l_etranger,magasins,Fnac Darty - Document d'enregistrement universel 2025 (note 1),39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_ouvertures_france,magasins,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnac_fermetures_france,magasins,Fnac Darty - Document d'enregistrement universel 2025,39,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_taux_marge_brute,%,Fnac Darty - Document d'enregistrement universel 2025,33,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+ceconomy_ventes_allemagne,M EUR,CECONOMY - Annual Report 2024/25,109,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_ventes_allemagne_n1,M EUR,CECONOMY - Annual Report 2024/25,109,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+mediamarkt_magasins_allemagne,magasins,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+saturn_magasins_allemagne,magasins,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_part_ventes_it_mobile,%,CECONOMY - Annual Report 2024/25 (groupe),63,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+ceconomy_participation_fnac_darty,%,CECONOMY - Annual Report 2024/25,39,https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+tva_taux_normal,%,Commission européenne - Your Europe,,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+tva_taux_reduit,%,Commission européenne - Your Europe,,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+tva_taux_reduit_le_plus_bas,%,"Commission européenne - Your Europe (hors taux super-réduit 2,1 %)",,https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+fnacdarty_ca_france,M EUR,Fnac Darty - Document d'enregistrement universel 2025,32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_produits_techniques,%,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_produits_editoriaux,%,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+fnacdarty_part_ca_electromenager,%,Fnac Darty - Document d'enregistrement universel 2025 (groupe),32,https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
+droits_douane_intra_ue,%,EUR-Lex - Traité sur le fonctionnement de l'UE (art. 28 et 30),,https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM:customs_union
+loyer_reference_centre_ville,"EUR/m2 de surface de vente par mois (unité de temps déduite, non écrite)","IHK Region Stuttgart - Mietpreisumfrage Einzelhandel 2024 (Bestandsmieten, City)",,https://www.ihk.de/stuttgart/branchen/handel/zahlen-und-fakten/mietpreisumfrage-einzelhandel-2024-6201604
