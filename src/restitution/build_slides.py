@@ -30,7 +30,7 @@ T = D["categories"]["TECH"]
 NRW = next(x for x in D["lands"] if x["land"] == "Nordrhein-Westfalen")
 SD = D["scenarios"]["D"]
 # La décision n'apparaît qu'à la conclusion : on retire du commentaire IA de l'analyse les phrases qui l'annoncent
-TEXTE_IA_D = " ".join(p for p in re.split(r"(?<=\.) ", AI["scenarios"]["D"]["texte"]) if "Go" not in p)
+TEXTE_IA_D = " ".join(p for p in re.split(r"(?<=[.:]) ", AI["scenarios"]["D"]["texte"]) if "Go" not in p and "pilote" not in p)
 
 INK, DARK, WHITE = RGBColor(0x0B, 0x0B, 0x0B), RGBColor(0x14, 0x17, 0x22), RGBColor(0xFF, 0xFF, 0xFF)
 BLUE, ORANGE, RED, GREEN = RGBColor(0x2A, 0x78, 0xD6), RGBColor(0xEB, 0x68, 0x34), RGBColor(0xD0, 0x3B, 0x3B), RGBColor(0x0C, 0xA3, 0x0C)
@@ -107,6 +107,18 @@ def notes(s, minutage, qui, texte):
     s.notes_slide.notes_text_frame.text = f"[{minutage} · {qui}]\n{texte}"
     titre = next(sh.text_frame.text for sh in list(s.shapes)[1:2])
     SCRIPT.append((len(prs.slides), titre, minutage, qui, texte))
+
+
+def sans_decision(texte):
+    """La décision n'apparaît qu'à la conclusion : on retire les phrases qui annoncent le Go."""
+    return " ".join(p for p in re.split(r"(?<=[.:]) ", texte) if "Go" not in p and "pilote" not in p)
+
+
+def lecture_ia(s, x, y, w, kpi_id):
+    """Encadré « Lecture IA » : commentaire de la brique IA pour ce KPI (chiffres contrôlés)."""
+    box(s, x, y, w, Inches(1.05), VTINT)
+    tb(s, x + Inches(0.2), y + Inches(0.1), w - Inches(0.4), Inches(0.9), [
+        [("✦ Lecture IA · ", {"bold": True, "color": VIOLET, "size": 12}), (sans_decision(AI["kpi"][kpi_id]["texte"]), {"size": 12})]], size=12)
 
 
 def style(chart, legend=False):
@@ -209,7 +221,8 @@ years = sorted(T["depenses"]["DE"])
 cd.categories = [str(y) for y in years]
 cd.add_series("Allemagne", [round(T["depenses"]["DE"][y] / 1000, 1) for y in years])
 cd.add_series("France", [round(T["depenses"]["FR"][y] / 1000, 1) for y in years])
-ch = s.shapes.add_chart(XL_CHART_TYPE.LINE, M, Inches(1.9), Inches(7.6), Inches(4.9), cd).chart
+ch = s.shapes.add_chart(XL_CHART_TYPE.LINE, M, Inches(1.9), Inches(7.6), Inches(3.85), cd).chart
+lecture_ia(s, M, Inches(5.9), Inches(7.6), "K1")
 style(ch, legend=True)
 for ser, col in zip(ch.series, (BLUE, ORANGE)):
     ser.format.line.color.rgb, ser.format.line.width, ser.smooth = col, Pt(3), False
@@ -236,7 +249,8 @@ cd = CategoryChartData()
 yrs = sorted(T["marge"])
 cd.categories = [str(y) for y in yrs]
 cd.add_series("Marge brute en Allemagne à coût d'achat français (%)", [round(T["marge"][y], 1) for y in yrs])
-ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, M, Inches(1.9), Inches(6.6), Inches(4.9), cd).chart
+ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, M, Inches(1.9), Inches(6.6), Inches(3.85), cd).chart
+lecture_ia(s, M, Inches(5.9), Inches(6.6), "K5")
 style(ch)
 pl = ch.plots[0]
 pl.gap_width, pl.has_data_labels = 60, True

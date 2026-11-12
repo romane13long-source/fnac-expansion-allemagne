@@ -88,6 +88,23 @@ def faits():
     for k in D["concurrents"]:
         F["concurrents"][k["enseigne"]] = (f"{k['enseigne']} : {f(k['pdv'], 0)} points de vente en Allemagne" if k["pdv"]
                                           else f"{k['enseigne']} : vente en ligne seulement, aucun magasin")
+    # Un commentaire par KPI du guide (vue d'ensemble du dashboard)
+    t = D["categories"]["TECH"]
+    sd = D["scenarios"]["D"]
+    F["kpi"] = {
+        "K1": f"croissance annuelle moyenne des dépenses tech 2015-{L} : Allemagne {f(t['croissance_moy']['DE'])} %, France {f(t['croissance_moy']['FR'])} %",
+        "K2": f"part de marché de Fnac Darty en France {f(D['parts']['fnac_fr'])} % (estimation, HT/HT)",
+        "K3": f"part de marché de CECONOMY sur la tech en Allemagne {f(D['parts']['cec_bas'])} à {f(D['parts']['cec_haut'])} % (estimation)",
+        "K4": f"indice de prix tech hors taxes Allemagne/France {f(t['indice_ht'][L])} (France = 100)",
+        "K5": f"marge brute tech en Allemagne à coût d'achat français {f(t['marge'][L])} % (estimation) contre 28 % pour le groupe",
+        "K6": f"densité CECONOMY {f(D['densite_de'])} magasins par million d'habitants en Allemagne, de {f(min(x['densite'] for x in D['lands']))} à {f(max(x['densite'] for x in D['lands']))} selon le Land",
+        "K7": f"loyer de référence IHK {f(D['loyer_m2_mois'], 0)} €/m²/mois soit {f(D['loyer_magasin'])} M€ par an pour 2 400 m² (hypothèse) ; seuil de rentabilité {f(D['seuil_loyer'])} €/m²/mois",
+        "K8": f"distance moyenne pondérée au hub de Chilly-Mazarin {f(D['distance_moy'], 0)} km",
+        "K9": f"droits de douane 0 % ; écart de TVA tech Allemagne - France {f(t['tva']['DE'])} point",
+        "K10": f"pénétration tech {f(t['penetration'], 0)} (France = 100) ; livres {f(D['categories']['LIVRES']['penetration'], 0)}",
+        "K11": f"part du catalogue France éligible en Allemagne, toutes familles confondues : {f(D['eligible'])} % (simulé) ; par famille : produits techniques {f(D['eligible_familles']['TECH'])} %, jeux vidéo {f(D['eligible_familles']['JEUX_VIDEO'])} %, livres {f(D['eligible_familles']['LIVRES'])} %",
+        "K12": f"délai de retour d'un magasin : {f(sd['delai'])} ans dans le seul scénario rentable (achats locaux, loyer niveau France), jamais dans les 3 autres (estimation)",
+    }
     return F
 
 
@@ -117,7 +134,7 @@ N'utilise QUE les nombres des faits (virgule décimale). Écris « (estimation) 
 Réponds UNIQUEMENT avec un objet JSON valide, sans texte autour : mêmes groupes et mêmes clés que les faits, valeur = commentaire.
 N'utilise jamais de guillemets droits (") dans les commentaires : utilise « » si besoin.
 """
-LOTS = [("axes", "scenarios", "lands", "familles", "concurrents"), ("villes", "marche", "prix")]
+LOTS = [("axes", "scenarios", "lands", "familles", "concurrents"), ("villes", "marche", "prix", "kpi")]
 
 
 def appeler_claude(groupes, essais=2):

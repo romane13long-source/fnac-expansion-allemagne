@@ -87,6 +87,18 @@
   footer { color: var(--text-muted); font-size: 12px; margin-top: 16px; }
   [hidden] { display: none !important; }
   .ai.hover { outline: 2px solid var(--ai); }
+  .lecture { margin: 10px 0 0; padding: 8px 10px; border-radius: 6px; background: var(--ai-bg); color: var(--text-primary); font-size: 13px; }
+  .lecture b { color: var(--ai); }
+  [data-ai] { cursor: help; }
+  .score td, .score th { vertical-align: top; text-align: left; } .score td.v { white-space: nowrap; font-weight: 650; }
+  .score tr.go { cursor: pointer; } .score tr.go:hover td { background: var(--highlight); }
+  .score .ia { color: var(--text-secondary); font-size: 12.5px; }
+  .verd { white-space: nowrap; font-weight: 600; font-size: 12.5px; }
+  .syn h3 { font-size: 14px; margin: 14px 0 4px; } .syn p { margin: 6px 0; } .syn ul { margin: 6px 0; padding-left: 20px; }
+  .btn { border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; border-radius: 6px; padding: 5px 10px; font: inherit; font-size: 12px; cursor: pointer; margin-top: 10px; }
+  details.data { margin-top: 12px; } details.data summary { cursor: pointer; color: var(--text-secondary); }
+  .tw { overflow-x: auto; }
+  @media print { .filters, .tabs, .btn, #tip { display: none !important; } body { background: #fff; } .card { break-inside: avoid; } }
   .tipai { display: block; max-width: 340px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); color: var(--ai); white-space: normal; }
   .zoom { margin-bottom: 12px; }
   .zoom-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 10px; }
@@ -114,6 +126,7 @@
     </div>
     <div class="verdict">Recommandation<b>Go sous conditions : un pilote à Cologne</b>
       <div class="chips"><span class="chip">Achats via une centrale allemande</span><span class="chip" id="chip-loyer"></span><span class="chip">Assortiment TECH + jeux</span><span class="chip">Décision après 2 ans</span></div>
+      <button class="btn" onclick="window.print()">Exporter en PDF</button>
     </div>
   </section>
 
@@ -148,6 +161,7 @@
 const D = /*__DATA__*/null;
 const AI = /*__AI__*/null;
 const AXES = [
+  { id: "vue", axe: "Vue d'ensemble", label: "Vue d'ensemble · 12 KPI" },
   { id: "marche", axe: "Marché & Potentiel", label: "Marché" },
   { id: "prix", axe: "Prix & Marges", label: "Prix & marges" },
   { id: "reseau", axe: "Réseau & Implantation", label: "Réseau" },
@@ -156,7 +170,7 @@ const AXES = [
   { id: "roi", axe: "Rentabilité", label: "★ Rentabilité & Go/No-Go" },
 ];
 const CAT = { TECH: "Produits techniques", LIVRES: "Livres" };
-const state = { tab: "marche", cat: "TECH", achats: "locaux", loyer: "france", land: "Nordrhein-Westfalen", sim: null };
+const state = { tab: "vue", cat: "TECH", achats: "locaux", loyer: "france", land: "Nordrhein-Westfalen", sim: null };
 const SVGNS = "http://www.w3.org/2000/svg";
 const nf = (v, d = 1) => new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 0, maximumFractionDigits: d }).format(v);
 const sgn = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + nf(Math.abs(v), d);
@@ -197,7 +211,12 @@ function tile(label, value, delta = "", cls = "") { return `<div class="card til
 const tag = t => `<span class="tag">${t}</span>`;
 function renderTiles() {
   const c = D.categories[state.cat], s = D.scenarios[scenarioKey()], land = D.lands.find(l => l.land === state.land);
+  const sc = scorecard(), fav = sc.filter(r => r.verdict > 0).length, def = sc.filter(r => r.verdict < 0).length;
   const t = {
+    vue: [tile("KPI favorables", `${fav} / ${sc.length}`, "selon les filtres en cours", "ok"),
+          tile("KPI défavorables", `${def} / ${sc.length}`, "à lever par les conditions du Go", "bad"),
+          tile("Délai de retour (scénario des filtres)", s.delai >= 999 ? "jamais" : nf(s.delai) + " ans", s.nom + " " + tag("estimation"), s.delai >= 999 ? "bad" : "ok"),
+          tile("Loyer maximal (achats locaux)", nf(D.seuil_loyer) + " €", "par m² et par mois · IHK : " + nf(D.loyer_m2_mois, 0) + " € " + tag("estimation"))],
     marche: [tile(`Croissance annuelle DE · ${CAT[state.cat]}`, sgn(c.croissance_moy.DE) + " %", `2015-${L} · France ${sgn(c.croissance_moy.FR)} %`, c.croissance_moy.DE > 0 ? "ok" : "bad"),
              tile(`Dépenses des ménages DE ${L}`, nf(c.depenses.DE[L] / 1000) + " Md€", `France : ${nf(c.depenses.FR[L] / 1000)} Md€`),
              tile("Part de marché CECONOMY (TECH)", `${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, "HT / HT " + tag("estimation")),
@@ -224,13 +243,22 @@ function renderTiles() {
           tile("Loyer maximal (achats locaux)", nf(D.seuil_loyer) + " €", "par m² et par mois " + tag("estimation"))],
   };
   document.getElementById("tiles").innerHTML = t[state.tab].join("");
+  // chaque tuile porte le commentaire IA de son KPI (survol)
+  const K = (k) => ["kpi", k], A = (axe) => ["axes", `${state.cat}|${axe}`];
+  const keys = {
+    vue: [["scenarios", scenarioKey()], ["scenarios", scenarioKey()], K("K12"), K("K7")],
+    marche: [K("K1"), A("Marché & Potentiel"), K("K3"), K("K2")], prix: [K("K4"), K("K5"), K("K9"), K("K9")],
+    reseau: [["lands", state.land], K("K6"), K("K7"), K("K7")], logistique: [K("K8"), ["lands", state.land], K("K9"), K("K9")],
+    assortiment: [K("K10"), A("Assortiment"), K("K11"), ["familles", state.cat]], roi: [["scenarios", scenarioKey()], ["scenarios", scenarioKey()], K("K12"), K("K7")],
+  }[state.tab];
+  [...document.getElementById("tiles").children].forEach((n, i) => { if (keys[i]) n.dataset.ai = keys[i].join("::"); });
 }
 
 /* ---------------- commentaire IA (change avec les filtres) ---------------- */
 function renderAI() {
   const a = AXES.find(x => x.id === state.tab);
   let items, scope;
-  if (state.tab === "roi") { items = [AI.scenarios[scenarioKey()]]; scope = `scénario ${scenarioKey()}`; }
+  if (state.tab === "roi" || state.tab === "vue") { items = [AI.scenarios[scenarioKey()]]; scope = `scénario ${scenarioKey()}`; }
   else { items = [AI.axes[`${state.cat}|${a.axe}`]]; scope = `${a.axe} · ${CAT[state.cat]}`; }
   items.push(AI.lands[state.land]); scope += ` · ${state.land}`;
   document.getElementById("ai").innerHTML = items.map(i => `<p>${i.texte}</p>`).join("");
@@ -308,15 +336,16 @@ function hbar(svg, rows, { ref = null, refLabel = "", fmt = v => nf(v), W = 560,
   svg.setAttribute("role", "img"); svg.setAttribute("aria-label", rows.map(r => `${r.name} ${fmt(r.value)}`).join(", "));
 }
 
-const card = (title, note, inner) => `<div class="card"><h2 class="t">${title}</h2><p class="note">${note}</p>${inner}</div>`;
+const card = (title, note, inner, ai = null) => `<div class="card"><h2 class="t">${title}</h2><p class="note">${note}</p>${inner}` +
+  (ai && aiText(...ai) ? `<p class="lecture" data-ai="${ai.join("::")}"><b>✦ Lecture IA</b> · ${aiText(...ai)}</p>` : "") + `</div>`;
 
 /* ---------------- panneaux par axe (slide 7) ---------------- */
 function renderPanel() {
   const p = document.getElementById("panel"), c = D.categories[state.cat];
   if (state.tab === "marche") {
     p.innerHTML = `<div class="grid2">${card(`Dépenses des ménages · ${CAT[state.cat]} (Md€)`, "Eurostat, euros courants. Survoler pour les valeurs.",
-      `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`)}
-      ${card("Parts de marché (HT / HT)", "Estimations de l'équipe : CA publié rapporté aux dépenses des ménages hors TVA.", `<svg id="g2"></svg>`)}</div>`;
+      `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`, ["axes", `${state.cat}|Marché & Potentiel`])}
+      ${card("Parts de marché (HT / HT)", "Estimations de l'équipe : CA publié rapporté aux dépenses des ménages hors TVA.", `<svg id="g2"></svg>`, ["kpi", "K3"])}</div>`;
     const years = Object.keys(c.depenses.DE).map(Number).sort();
     lineChart(document.getElementById("g1"), [{ name: "DE", color: "var(--de)", values: years.map(y => c.depenses.DE[y]) },
       { name: "FR", color: "var(--fr)", values: years.map(y => c.depenses.FR[y]) }], years, "M€", y => ["marche", `${state.cat}|${y}`]);
@@ -327,8 +356,8 @@ function renderPanel() {
   }
   if (state.tab === "prix") {
     const yrs = Object.keys(c.indice_ht).map(Number).sort();
-    p.innerHTML = `<div class="grid2">${card(`Indice de prix hors taxes DE / FR · ${CAT[state.cat]}`, "France = 100 (pointillé). Sous 100 : l'Allemagne est moins chère." + (state.cat === "LIVRES" ? " Livres : indice approximatif (loisirs et culture)." : ""), `<svg id="g1"></svg>`)}
-      ${card("Marge brute estimée en Allemagne", "À coût d'achat français, au prix allemand. Pointillé : marge du groupe (28 %).", `<svg id="g2"></svg>`)}</div>`;
+    p.innerHTML = `<div class="grid2">${card(`Indice de prix hors taxes DE / FR · ${CAT[state.cat]}`, "France = 100 (pointillé). Sous 100 : l'Allemagne est moins chère." + (state.cat === "LIVRES" ? " Livres : indice approximatif (loisirs et culture)." : ""), `<svg id="g1"></svg>`, ["kpi", "K4"])}
+      ${card("Marge brute estimée en Allemagne", "À coût d'achat français, au prix allemand. Pointillé : marge du groupe (28 %).", `<svg id="g2"></svg>`, ["kpi", "K5"])}</div>`;
     hbar(document.getElementById("g1"), yrs.map(y => ({ name: String(y), value: c.indice_ht[y], color: c.indice_ht[y] < 100 ? "var(--critical)" : "var(--de)", tip: `<b>${y}</b><br>Indice TTC ${nf(c.indice_ttc[y])} · HT ${nf(c.indice_ht[y])} (France = 100)<br>Marge estimée ${nf(c.marge[y])} %`, ai: ["prix", `${state.cat}|${y}`] })), { ref: 100, refLabel: "France = 100", labelW: 70 });
     hbar(document.getElementById("g2"), yrs.map(y => ({ name: String(y), value: c.marge[y], color: c.marge[y] < 28 ? "var(--critical)" : "var(--de)", label: nf(c.marge[y]) + " %", tip: `<b>${y}</b><br>Marge estimée ${nf(c.marge[y])} % (groupe : 28 %)<br>Écart : ${sgn(c.marge[y] - 28)} points`, ai: ["prix", `${state.cat}|${y}`] })), { ref: 28, refLabel: "groupe 28 %", labelW: 70 });
   }
@@ -336,8 +365,8 @@ function renderPanel() {
     const rows = [...D.lands].sort((a, b) => a.densite - b.densite);
     p.innerHTML = card("Carte : les 394 magasins CECONOMY et les villes de plus de 100 000 habitants",
       "Points bleus : magasins MediaMarkt / Saturn. Cercles : grandes villes (taille = population). Le Land sélectionné est foncé. Survoler une ville ; cliquer pour sélectionner son Land. ★ = pilote proposé.",
-      `<svg id="map"></svg>`) + `<div style="height:12px"></div><div class="grid2">${card("Densité CECONOMY par Land", "Magasins MediaMarkt + Saturn par million d'habitants. Cliquer un Land pour le sélectionner. Pointillé : moyenne nationale.", `<svg id="g1"></svg>`)}
-      ${card("Paysage concurrentiel national", "Points de vente en Allemagne (formats non comparables, ne pas additionner).", `<svg id="g2"></svg>`)}</div>`;
+      `<svg id="map"></svg>`, ["lands", state.land]) + `<div style="height:12px"></div><div class="grid2">${card("Densité CECONOMY par Land", "Magasins MediaMarkt + Saturn par million d'habitants. Cliquer un Land pour le sélectionner. Pointillé : moyenne nationale.", `<svg id="g1"></svg>`, ["kpi", "K6"])}
+      ${card("Paysage concurrentiel national", "Points de vente en Allemagne (formats non comparables, ne pas additionner).", `<svg id="g2"></svg>`, ["axes", `${state.cat}|Réseau & Implantation`])}</div>`;
     hbar(document.getElementById("g1"), rows.map(l => ({ name: l.land, value: l.densite, sel: l.land === state.land, color: l.land === state.land ? "var(--de)" : "var(--neutral)",
       tip: `<b>${l.land}</b><br>${l.magasins} magasins · ${nf(l.population / 1e6)} M hab. (${nf(l.part_pop)} % du pays)<br>Densité : ${nf(l.densite)} (moyenne ${nf(D.densite_de)})<br>Marché tech potentiel : ${nf(l.marche_tech / 1000)} Md€ (estimation)`, ai: ["lands", l.land], onclick: () => { state.land = l.land; render(); } })),
       { ref: D.densite_de, refLabel: "moyenne " + nf(D.densite_de), labelW: 190, rowH: 26 });
@@ -346,15 +375,15 @@ function renderPanel() {
   }
   if (state.tab === "logistique") {
     const rows = [...D.lands].sort((a, b) => a.ville_km - b.ville_km);
-    p.innerHTML = card("Distance au hub de Chilly-Mazarin : plus grande ville de chaque Land", "Vol d'oiseau, en km. Pointillé : moyenne pondérée des 79 villes de plus de 100 000 habitants. Cliquer pour sélectionner.", `<svg id="g1"></svg>`);
+    p.innerHTML = card("Distance au hub de Chilly-Mazarin : plus grande ville de chaque Land", "Vol d'oiseau, en km. Pointillé : moyenne pondérée des 79 villes de plus de 100 000 habitants. Cliquer pour sélectionner.", `<svg id="g1"></svg>`, ["kpi", "K8"]);
     hbar(document.getElementById("g1"), rows.map(l => ({ name: `${l.ville} (${l.land})`, value: l.ville_km, sel: l.land === state.land, color: l.land === state.land ? "var(--de)" : "var(--neutral)", label: nf(l.ville_km, 0) + " km",
       tip: `<b>${l.ville}</b> (${l.land})<br>${nf(l.ville_pop / 1e6, 2)} M hab. · ${nf(l.ville_km, 0)} km du hub<br>${l.villes_100k} ville(s) de plus de 100 000 hab. dans le Land`, ai: ["lands", l.land], onclick: () => { state.land = l.land; render(); } })),
       { ref: D.distance_moy, refLabel: "moyenne " + nf(D.distance_moy, 0) + " km", W: 1180, labelW: 330, rowH: 26, fmt: v => nf(v, 0) });
   }
   if (state.tab === "assortiment") {
     p.innerHTML = `<div class="grid2">${card("Dépense par habitant (€, " + L + ")", "Les deux catégories. Livres : écart DE / FR inexpliqué, non utilisé comme argument.",
-      `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`)}
-      ${card("Part du catalogue éligible en Allemagne " + tag("simulé"), "Catalogue fictif de 10 000 références ; règles dans src/gold/catalogue_simule.py.", `<svg id="g2"></svg>`)}</div>`;
+      `<div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div><svg id="g1"></svg>`, ["kpi", "K10"])}
+      ${card("Part du catalogue éligible en Allemagne " + tag("simulé"), "Catalogue fictif de 10 000 références ; règles dans src/gold/catalogue_simule.py.", `<svg id="g2"></svg>`, ["kpi", "K11"])}</div>`;
     const rows = [];
     for (const k of ["TECH", "LIVRES"]) for (const pays of ["DE", "FR"]) rows.push({ name: `${CAT[k]} · ${pays}`, value: D.categories[k].par_hab[pays], color: pays === "DE" ? "var(--de)" : "var(--fr)", sel: k === state.cat, label: nf(D.categories[k].par_hab[pays], 0) + " €", tip: `<b>${CAT[k]} · ${pays}</b><br>${nf(D.categories[k].par_hab[pays], 0)} € par habitant (${L})<br>Pénétration DE : ${nf(D.categories[k].penetration, 0)} (France = 100)`, ai: ["axes", `${k}|Assortiment`] });
     hbar(document.getElementById("g1"), rows, { labelW: 190 });
@@ -362,6 +391,58 @@ function renderPanel() {
     hbar(document.getElementById("g2"), Object.entries(D.eligible_familles).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ name: names[k] || k, value: v, sel: k === state.cat, color: v < 50 ? "var(--critical)" : "var(--de)", label: nf(v, 0) + " %", tip: `<b>${names[k] || k}</b><br>${nf(v)} % des références éligibles (simulé)`, ai: ["familles", k] })), { labelW: 160 });
   }
   if (state.tab === "roi") renderROI(p);
+  if (state.tab === "vue") renderVue(p);
+  renderDataTable(p);
+}
+
+/* ---------------- vue d'ensemble : les 12 KPI du guide (slide 7) ---------------- */
+function scorecard() {
+  const t = D.categories[state.cat], l = D.lands.find(x => x.land === state.land), s = D.scenarios[scenarioKey()];
+  const nat = state.cat === "TECH" ? "mesuré" : "estimation";
+  return [
+    { id: "K1", tab: "marche", axe: "Marché", kpi: "Croissance annuelle du secteur", v: sgn(t.croissance_moy.DE) + " %/an", cmp: `France ${sgn(t.croissance_moy.FR)} %/an`, verdict: t.croissance_moy.DE > t.croissance_moy.FR ? 1 : -1, nature: "mesuré" },
+    { id: "K2", tab: "marche", axe: "Marché", kpi: "Part de marché de Fnac Darty en France", v: nf(D.parts.fnac_fr) + " %", cmp: "référence de ce que la Fnac sait prendre", verdict: 0, nature: "estimation" },
+    { id: "K3", tab: "marche", axe: "Marché", kpi: "Part de marché du concurrent (CECONOMY)", v: `${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, cmp: "concurrent déjà installé", verdict: -1, nature: "estimation" },
+    { id: "K4", tab: "prix", axe: "Prix & marges", kpi: "Indice de prix relatif DE / FR (HT)", v: nf(t.indice_ht[L], 0), cmp: "France = 100", verdict: t.indice_ht[L] >= 100 ? 1 : -1, nature: nat },
+    { id: "K5", tab: "prix", axe: "Prix & marges", kpi: "Marge brute estimée post-taxe", v: nf(t.marge[L]) + " %", cmp: "groupe : 28 % (à coût d'achat français)", verdict: t.marge[L] >= 28 ? 1 : -1, nature: "estimation" },
+    { id: "K6", tab: "reseau", axe: "Réseau", kpi: `Densité concurrentielle · ${l.land}`, v: nf(l.densite), cmp: `moyenne ${nf(D.densite_de)} magasins / M hab.`, verdict: l.densite <= D.densite_de ? 1 : -1, nature: "mesuré" },
+    { id: "K7", tab: "reseau", axe: "Réseau", kpi: "Coût moyen au m² commercial", v: nf(D.loyer_m2_mois, 0) + " €/m²/mois", cmp: `seuil de rentabilité ${nf(D.seuil_loyer)} €`, verdict: D.loyer_m2_mois <= D.seuil_loyer ? 1 : -1, nature: "hypothèse" },
+    { id: "K8", tab: "logistique", axe: "Logistique", kpi: `Distance au hub · ${l.ville}`, v: nf(l.ville_km, 0) + " km", cmp: `moyenne ${nf(D.distance_moy, 0)} km`, verdict: l.ville_km <= D.distance_moy ? 1 : -1, nature: "mesuré" },
+    { id: "K9", tab: "logistique", axe: "Logistique", kpi: "Droits de douane / taxes locales", v: nf(D.douane, 0) + " %", cmp: `écart de TVA ${sgn(t.tva.DE)} pt`, verdict: 1, nature: "mesuré" },
+    { id: "K10", tab: "assortiment", axe: "Assortiment", kpi: "Taux de pénétration de la catégorie", v: nf(t.penetration, 0), cmp: "France = 100", verdict: t.penetration > 100 ? 1 : -1, nature: "mesuré" },
+    { id: "K11", tab: "assortiment", axe: "Assortiment", kpi: `% du catalogue éligible · ${CAT[state.cat]}`, v: nf(D.eligible_familles[state.cat], 0) + " %", cmp: `catalogue total ${nf(D.eligible, 0)} %`, verdict: D.eligible_familles[state.cat] >= 50 ? 1 : -1, nature: "simulé" },
+    { id: "K12", tab: "roi", axe: "★ Synthèse", kpi: "Délai de retour sur investissement", v: s.delai >= 999 ? "jamais" : nf(s.delai) + " ans", cmp: s.nom, verdict: s.delai <= 8 ? 1 : -1, nature: "estimation" },
+  ];
+}
+const VERD = { 1: ["▲ Favorable", "var(--good)"], 0: ["● Neutre", "var(--text-secondary)"], "-1": ["▼ Défavorable", "var(--critical)"] };
+function renderVue(p) {
+  const rows = scorecard();
+  p.innerHTML = card(`Les 12 KPI du guide du Comex · ${CAT[state.cat]} · ${state.land}`,
+      "Verdict calculé par règle fixe (comparaison à la France, à la moyenne ou au seuil) ; il change avec les filtres. Lecture IA : commentaire rédigé par Claude, chiffres contrôlés. Cliquer une ligne pour ouvrir l'onglet.",
+      `<div class="tw"><table class="score"><tr><th>Axe</th><th>KPI</th><th>Valeur</th><th>Comparaison</th><th>Verdict</th><th>Lecture IA</th></tr>` +
+      rows.map(r => `<tr class="go" data-tab="${r.tab}" data-ai="kpi::${r.id}"><td>${r.axe}</td><td>${r.kpi} ${tag(r.nature)}</td><td class="v">${r.v}</td><td>${r.cmp}</td>
+        <td><span class="verd" style="color:${VERD[r.verdict][1]}">${VERD[r.verdict][0]}</span></td><td class="ia">${aiText("kpi", r.id) || ""}</td></tr>`).join("") + `</table></div>`)
+    + `<div style="height:12px"></div>` + card("✦ Synthèse IA pour le Comex", `${AI.synthese_source} · lue dans docs/synthese_ia.md, générée à partir de kpi.csv`, `<div class="syn">${AI.synthese_html}</div>`);
+  p.querySelectorAll("tr.go").forEach(tr => tr.onclick = () => { state.tab = tr.dataset.tab; render(); });
+}
+
+/* ---------------- tableau des données (chaque onglet) ---------------- */
+function renderDataTable(p) {
+  const axe = { vue: null, marche: "Marché & Potentiel", prix: "Prix & Marges", reseau: "Réseau & Implantation", logistique: "Opérations & Logistique", assortiment: "Assortiment", roi: "Synthèse" }[state.tab];
+  const rows = D.kpi_table.filter(r => !axe || r.axe === axe);
+  const d = document.createElement("details"); d.className = "card data";
+  d.innerHTML = `<summary>Voir les données de cet onglet (${rows.length} lignes de data/gold/kpi.csv)</summary><div class="tw"><table><tr><th>KPI</th><th>Périmètre</th><th>Année</th><th>Valeur</th><th>Unité</th><th>Nature</th><th>Formule</th></tr>` +
+    rows.map(r => `<tr><td>${r.kpi_id} · ${r.kpi}</td><td>${[r.pays_id, r.categorie_id, r.zone].filter(Boolean).join(" · ")}</td><td>${r.annee}</td><td>${nf(r.valeur, 2)}</td><td>${r.unite}</td><td>${r.nature}</td><td style="text-align:left">${r.formule}</td></tr>`).join("") + `</table></div>`;
+  p.appendChild(d);
+}
+
+/* ---------------- survol générique : tout élément [data-ai] affiche son commentaire IA ---------------- */
+function bindAI() {
+  document.querySelectorAll("[data-ai]").forEach(n => {
+    const [g, k] = n.dataset.ai.split("::");
+    n.onmousemove = e => { showTip(e, `<b>Lecture IA</b>` + tipAI(g, k)); aiHover(g, k, n.querySelector(".label")?.textContent || (n.tagName === "TR" ? n.children[1].textContent : "Lecture IA")); };
+    n.onmouseleave = () => { hideTip(); renderAI(); };
+  });
 }
 
 /* ---------------- carte de l'Allemagne (points géolocalisés) ---------------- */
@@ -433,7 +514,7 @@ function simDefaults() {
 }
 function renderROI(p) {
   if (!state.sim) state.sim = simDefaults();
-  p.innerHTML = `<div class="grid2">${card("Résultat annuel d'un magasin de 2 400 m², par scénario (M€)", "Le scénario des filtres « Achats » et « Loyer » est surligné. Rouge : perte.", `<svg id="g1"></svg>`)}
+  p.innerHTML = `<div class="grid2">${card("Résultat annuel d'un magasin de 2 400 m², par scénario (M€)", "Le scénario des filtres « Achats » et « Loyer » est surligné. Rouge : perte.", `<svg id="g1"></svg>`, ["kpi", "K12"])}
     <div class="card"><h2 class="t">Simulateur : et si… ?</h2><p class="note">Calcul en direct avec les formules du repo (pas d'IA). Marge : ${state.achats === "locaux" ? "achats locaux, 28 %" : "achats en France, " + nf(D.simu.marge_achats_france) + " %"} (filtre « Achats »).</p>
       <div class="sim"><div>
         <div class="slider"><label>Loyer <b id="v-loyer"></b></label><input id="s-loyer" type="range" min="5" max="130" step="any"></div>
@@ -477,7 +558,7 @@ function render() {
   document.querySelectorAll("#f-loyer button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.loyer));
   document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.t === state.tab));
   document.getElementById("f-land").value = state.land;
-  renderTiles(); renderAI(); renderZoom(); renderPanel();
+  renderTiles(); renderAI(); renderZoom(); renderPanel(); bindAI();
 }
 document.getElementById("x").textContent = D.x_magasins_fr;
 document.getElementById("chip-loyer").textContent = "Loyer < " + nf(D.seuil_loyer, 0) + " €/m²/mois";
