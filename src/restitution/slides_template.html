@@ -143,7 +143,7 @@ const SLIDES = [
     <div class="team" ${IN()}>Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL</div>
     <div class="school" ${IN()}>Projet final Data Analytics · Eugenia School M2 · données publiques, aucune donnée interne de la Fnac</div>`, "cover",
    "0:00 → 0:10 · Romane — Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ?"],
-  [() => head("1 · Présentation de l'entreprise et du pays cible · 1 min", "La Fnac recule en France,<br>le marché allemand grandit") +
+  [() => head("1 · Présentation de l'entreprise et du pays cible · 1 min", "La Fnac recule en France,<br>le marché allemand progresse") +
     `<div class="row c3" style="flex:none">${tile(D.x_magasins_fr, "magasins Fnac en France fin 2025 (1 ouverture, 15 fermetures en 2025)")}
       ${tile(sg(T.croissance_moy.DE) + " %/an", `croissance des dépenses tech en Allemagne depuis 2015, contre ${sg(T.croissance_moy.FR)} %/an en France`, "good")}
       ${tile("0", "magasin Fnac en Allemagne, le 1er marché d'Europe (83,6 M d'habitants)")}</div>
@@ -151,7 +151,7 @@ const SLIDES = [
     <div class="src">Source : Document d'enregistrement universel 2025, p. 39 ; Eurostat (dépenses des ménages, population)</div>`, "mid",
    "0:10 → 1:00 · Romane — La Fnac compte 205 magasins en France fin 2025, après 15 fermetures. En Allemagne, les dépenses tech des ménages progressent de 2,7 % par an, quand elles reculent en France. C'est le premier marché d'Europe et la Fnac n'y a aucun magasin. L'enjeu de la stratégie 2027-2029 : trouver de la croissance hors de France."],
   // ===== 2. Base de données & cadrage · 1 min 30 · Modélisation 20 pts + Sources 15 pts
-  [() => head("2 · Base de données et cadrage · 1 min 30 · modélisation 20 pts + sources 15 pts", "Une architecture solide,<br>des sources fiables et traçables") +
+  [() => head("2 · Base de données et cadrage · 1 min 30 · modélisation 20 pts + sources 15 pts", "Des données publiques,<br>fiables et traçables") +
     `<div class="row c3" style="flex:none">
       <div class="card" ${IN()}><h3>Architecture</h3><h4>Bronze → Silver → Gold</h4><ul><li>Un script relançable : collecte, nettoyage, modèle, KPI</li><li><b>Modèle en étoile avec un flocon</b> (commune → Land) : chaque chiffre a une date, un pays, une catégorie</li><li>Détail dans le README</li></ul></div>
       <div class="card" ${IN()}><h3>Sources officielles</h3><h4>Une source par sujet</h4><ul><li><b>API Eurostat</b> (office statistique de l'UE) : marché, prix, population</li><li><b>Destatis</b> : les communes allemandes</li><li><b>Scraping</b> des plans de site MediaMarkt / Saturn : 394 magasins</li><li>Rapports annuels, textes de loi</li></ul></div>
@@ -159,7 +159,7 @@ const SLIDES = [
     <div class="src">Source : README § 2 (dictionnaire, règles de gestion) et § 3 (sources) du repo</div>`, "mid",
    "1:00 → 2:30 · Elena — Aucune donnée n'était fournie, tout vient de sources publiques. On a utilisé l'API d'Eurostat, l'office statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel des communes allemandes ; et du scraping pour localiser les magasins MediaMarkt et Saturn. Le pipeline suit les trois couches du cours et aboutit à un modèle en étoile, avec un flocon de la commune vers le Land. Chaque chiffre est étiqueté : mesuré, estimé, hypothèse ou simulé."],
   // ===== 3. La démarche analytique · 2 min · Choix des KPI 30 pts
-  [() => head("3 · La démarche analytique · 2 min · choix des KPI 30 pts", "Pour chaque question du Comex,<br>un indicateur qui aide à décider") +
+  [() => head("3 · La démarche analytique · 2 min · choix des KPI 30 pts", "Un indicateur pour chaque<br>question du Comex") +
     `<table ${IN()}><tr><th>Question du Comex</th><th>KPI retenus</th><th>Ce qu'ils décident</th></tr>
       <tr><td><b>Le marché attire-t-il ?</b></td><td>Croissance du secteur · parts de marché (la Fnac en France, le concurrent en Allemagne)</td><td>Le plafond de chiffre d'affaires</td></tr>
       <tr><td><b>Notre prix tient-il ?</b></td><td>Indice de prix Allemagne / France · marge brute après taxes</td><td>Le positionnement prix</td></tr>
@@ -170,7 +170,7 @@ const SLIDES = [
     <div class="src">Les 12 KPI du guide du sujet ; définitions et calculs : dashboard (onglet « Définitions des KPI ») et README § 2.1</div>`, "",
    "2:30 → 4:30 · Romane — On a suivi le guide des KPI du Comex, et pour chacun on s'est demandé quelle décision il éclaire. Le marché dit quel chiffre d'affaires est accessible ; les prix disent si notre positionnement tient ; le réseau dit où ouvrir et à quel coût ; la logistique dit si on peut livrer ; l'assortiment dit quoi vendre. Aucun ne répond seul à « rentable ? » : on a ajouté le délai de retour d'un magasin, et le cash-flow du groupe pour savoir s'il peut financer le projet."],
   // ===== 4. L'analyse tirée des chiffres · 3 min · Impact décisionnel & DataViz 35 pts
-  [() => head("4 · L'analyse · 3 min · insight 1 sur 4 · 35 pts", `Les Allemands dépensent ${nf(ph.DE[L] / ph.FR[L], 1)} fois plus en tech<br>que les Français : le marché est attractif`) +
+  [() => head("4 · L'analyse · 3 min · insight 1 sur 4 · 35 pts", `Un marché attractif : ${nf(ph.DE[L] / ph.FR[L], 1)} fois plus<br>de dépenses tech par habitant`) +
     `<div class="row c2"><div class="chart" ${IN()}><h3>Dépense tech par habitant et par an (€)</h3><div class="sub">Dépenses des ménages du pays ÷ nombre d'habitants</div><div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div>
       ${lines([{ c: "#2a78d6", v: yrs.map(y => ph.DE[y]) }, { c: "#eb6834", v: yrs.map(y => ph.FR[y]) }], yrs)}
       <div class="src" style="margin-top:6px">Source : Eurostat (dépenses des ménages, population), chiffres officiels</div></div>
@@ -178,7 +178,7 @@ const SLIDES = [
       ${tile(`${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, `mais le leader CECONOMY (MediaMarkt + Saturn) tient déjà ce morceau du marché ; Expert et Euronics ont aussi des centaines de magasins`, "bad")}
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> il y a de la demande, mais il faudra se différencier du leader.</div></div></div>`, "",
    "4:30 → 5:00 · Elena — Premier insight : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais le leader, MediaMarkt-Saturn, tient déjà entre 17 et 38 % du marché : il faudra se différencier."],
-  [() => head("4 · L'analyse · insight 2 sur 4", "Les prix sont 18 % plus bas en Allemagne :<br>si on achète en France, notre marge passe de 28 % à 12 %") +
+  [() => head("4 · L'analyse · insight 2 sur 4", "Des prix 18 % plus bas :<br>il faut acheter en Allemagne") +
     `<div class="row c2e"><div class="chart" ${IN()}><h3>Prix d'un même panier tech en ${L}</h3><div class="sub">Base 100 = moyenne de l'Union européenne</div>
       ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "moyenne UE = 100", labelW: 190, H: 260, W: 760 })}
       <div class="src" style="margin-top:auto">Source : Eurostat, indices de niveau des prix (chiffres officiels)</div></div>
@@ -188,22 +188,22 @@ const SLIDES = [
         tech <b style="color:var(--de)">${nf(D.categories.TECH.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.TECH.par_hab.FR, 0)} €</b> · livres, presse <b style="color:var(--de)">${nf(D.categories.LIVRES.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.LIVRES.par_hab.FR, 0)} €</b> (écart à confirmer)<br>
         <b>Donc :</b> des prix plus bas mais plus d'achats ; il faut acheter en Allemagne pour garder la marge.</div></div></div>`, "",
    "5:00 → 5:35 · Romane — Deuxième insight : non, la France n'est pas moins chère, c'est l'inverse : 116,5 contre 94,7 en base 100 européenne. Une fois la TVA retirée, la tech est 18 % moins chère en Allemagne. Si la Fnac achète au prix français et vend au prix allemand, sa marge passe de 28 à 12 %. Il faut donc acheter en Allemagne."],
-  [() => head("4 · L'analyse · insight 3 sur 4", "Un magasin ne gagne de l'argent que si on achète<br>en Allemagne et que le loyer reste bas") +
-    `<div class="row c2"><div class="chart" ${IN()}><h3>Bénéfice ou perte d'un magasin par an (M€)</h3><div class="sub">On a testé 4 cas : produits achetés en France ou en Allemagne, loyer cher (centre-ville) ou modéré</div>
+  [() => head("4 · L'analyse · insight 3 sur 4", "Un magasin rentable à deux conditions :<br>achats locaux et loyer modéré") +
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Bénéfice ou perte d'un magasin par an (M€)</h3><div class="sub">4 cas testés : produits achetés en France ou en Allemagne × loyer de centre-ville (115 €/m²) ou modéré</div>
       ${hbars(Object.entries(D.scenarios).map(([k, x]) => ({ n: { A: "France + centre-ville", B: "France + loyer modéré", C: "Allemagne + centre-ville", D: "Allemagne + loyer modéré" }[k], v: x.resultat, c: x.resultat > 0 ? "#0c9a0c" : "#d03b3b", lab: sg(x.resultat, 2) + " M€", bold: k === "D" })), { labelW: 410, W: 920 })}
       <div class="src" style="margin-top:auto">Source : rapport annuel 2025 du groupe (ventes au m², coûts) ; loyer de centre-ville : chambre de commerce allemande (IHK), hypothèse</div></div>
       <div class="col">${tile(nf(SD.delai) + " ans", "pour rembourser l'ouverture (3,6 M€, hypothèse) dans le seul cas rentable", "good")}
       ${tile(`< ${nf(D.seuil_loyer, 0)} €`, `de loyer par m² et par mois, sinon le magasin perd de l'argent ; en centre-ville, c'est ${nf(D.loyer_m2_mois, 0)} €`)}
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> acheter en Allemagne et éviter les rues les plus chères.</div></div></div>`, "",
    "5:35 → 6:15 · Elena — Troisième insight : on a calculé ce que gagne un magasin de 2 400 mètres carrés selon deux choix, acheter en France ou en Allemagne, et un loyer de centre-ville ou modéré. Trois façons sur quatre perdent de l'argent. Seule la combinaison achats en Allemagne et loyer modéré gagne 0,45 million par an, et rembourse l'ouverture en 7,9 ans. Au-delà de 33 euros le mètre carré, on perd de l'argent."],
-  [() => head("4 · L'analyse · insight 4 sur 4", "Où ouvrir ? À Cologne,<br>livrée depuis notre entrepôt en France") +
+  [() => head("4 · L'analyse · insight 4 sur 4", "Cologne, la ville la plus adaptée<br>pour un magasin pilote") +
     `<div class="row c2"><div ${IN()}><table><tr><th>Ville</th><th>Habitants</th><th>Magasins du leader / 100 000 hab.</th><th>Distance à l'entrepôt</th><th>Critères</th></tr>
       ${[...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(v => `<tr class="${v.ville === "Köln" ? "hl" : ""}"><td>${v.ville === "Köln" ? "Cologne" : v.ville}</td><td>${nf(v.pop / 1e6, 2)} M</td><td>${nf(v.magasins_par_100k, 2)}</td><td>${nf(v.km_hub, 0)} km</td><td class="score">${score(v)} / 3</td></tr>`).join("")}</table>
       <div class="src" style="font-size:15px">Les 7 plus grandes villes. Critères : plus d'1 million d'habitants · peu de magasins du leader (au plus 0,7 pour 100 000) · moins de 450 km de l'entrepôt. Sources : Destatis, magasins relevés sur les sites de MediaMarkt et Saturn.</div></div>
       <div class="col">${tile("Cologne", "seule grande ville qui coche les 3 critères : 1 million d'habitants, peu de magasins du leader, la plus proche de notre entrepôt", "good")}
       ${tile(nf(K.km_hub, 0) + " km", `depuis l'entrepôt de Chilly-Mazarin (Essonne) : on livre le pilote depuis la France. Un entrepôt à Cologne ramènerait la distance moyenne aux grandes villes de ${nf(D.distance_moy, 0)} à ${nf(D.distance_depuis_koln, 0)} km : à étudier seulement si on déploie`)}</div></div>`, "",
    "6:15 → 6:50 · Romane — Où ouvrir ? On a comparé les 7 plus grandes villes sur trois critères simples. Cologne est la seule à les cocher tous : un million d'habitants, peu de magasins du leader pour sa taille, et la plus proche de notre entrepôt de Chilly-Mazarin, à 416 kilomètres. Pour un seul magasin, on le livre depuis la France ; un entrepôt allemand, à Cologne, ne se justifie qu'en cas de déploiement."],
-  [() => head("4 · La brique de synthèse IA", "L'IA explique nos chiffres au Comex, elle ne les calcule pas") +
+  [() => head("4 · La brique de synthèse IA", "L'IA commente nos chiffres,<br>elle ne les calcule pas") +
     `<div class="row c2e"><div class="col">
       ${["Le dashboard calcule les KPI selon les filtres choisis (ville, achats, loyer…)", "Claude reçoit uniquement ces chiffres, avec une consigne : 2 à 3 phrases pour un décideur", "Claude rédige le commentaire ; un script vérifie que chaque nombre écrit existe dans nos données", "On change un filtre : nouveaux chiffres, nouveau commentaire (109 situations)"]
         .map((t, i) => `<div class="ask" ${IN()} style="margin-bottom:14px"><div class="n" style="background:var(--ai)">${i + 1}</div><div><p style="color:var(--ink);font-size:21px;margin-top:12px">${t}</p></div></div>`).join("")}</div>
@@ -221,17 +221,37 @@ const SLIDES = [
       ${[["Mois 1 à 6", "centrale d'achat allemande + bail à Cologne"], ["Mois 3 à 6", "test de livraison depuis la France"], ["Mois 12", "ouverture du magasin pilote"], ["An 3", "décision de déploiement"]].map(([a, b]) => `<div style="padding:14px 18px 0 0"><div style="font-size:26px;font-weight:800;color:var(--de)">${a}</div><div style="font-size:19px;margin-top:4px">${b}</div></div>`).join("")}</div></div>
     <div ${IN()} style="margin-top:28px;font-size:21px;font-weight:700;color:var(--bad)">Critère d'arrêt à 3 ans : magasin en perte, ou retour sur investissement au-delà de 8 ans → on ne déploie pas.</div>`, "center",
    "7:30 → 9:00 · Romane — Réponse à la question du Comex : réalisable, oui ; rentable, oui, mais seulement sous trois conditions. Notre décision est donc : Go, sous trois conditions, pour un seul magasin pilote à Cologne. Un : acheter en Allemagne, pour garder 28 % de marge. Deux : un loyer sous 33 euros le mètre carré. Trois : un assortiment tech et jeux vidéo. Next steps : centrale d'achat et bail dans les six premiers mois, test de livraison, ouverture à un an, et décision de déploiement à trois ans. Et on s'engage sur un critère d'arrêt : si le magasin perd de l'argent ou rembourse en plus de 8 ans, on ne déploie pas."],
-  [() => `<div class="flagline"></div>` + head("5 · Décision et recommandation", "Ce que nous demandons au Comex") +
+  [() => `<div class="flagline"></div>` + head("5 · Décision et recommandation", "Nos demandes au Comex") +
     [["Valider le pilote de Cologne", "Un magasin de 2 400 m², pas un déploiement national."], ["Valider les 3 conditions", `Achats en Allemagne · loyer < ${nf(D.seuil_loyer, 0)} €/m²/mois · assortiment tech + jeux vidéo.`], ["Fixer la décision à 3 ans", "Résultat annuel positif et retour sur investissement en 8 ans au plus ; sinon, arrêt."]]
       .map(([a, b], i) => `<div class="ask" ${IN()}><div class="n">${i + 1}</div><div><h4>${a}</h4><p>${b}</p></div></div>`).join("") +
     `<div style="font-size:22px;color:var(--muted);margin-top:auto" ${IN()}>Merci, nous sommes prêts pour vos questions.</div>`, "",
    "9:00 → 9:30 · Romane — Nous demandons au Comex trois décisions : valider le pilote, valider nos trois conditions, et fixer le rendez-vous de décision à trois ans. Merci, nous sommes prêts pour vos questions."],
   // ===== Annexes pour les questions
-  [() => head("Annexe · pour les questions", "Nos limites, dites avant qu'on nous les pose") +
-    `<div class="row c2e"><div class="card" ${IN()}><h3>La brique IA (Claude)</h3><ul><li>Chaque onglet du dashboard calcule ses chiffres selon les filtres</li><li>Claude reçoit uniquement ces chiffres et une consigne courte</li><li>Il rédige le commentaire ; un script vérifie chaque nombre</li><li><b>L'IA rédige, elle ne calcule rien</b> : les calculs restent dans le code</li></ul></div>
-      <div class="card" ${IN()}><h3>Nos limites</h3><ul><li>Rentabilité = ordre de grandeur (ratios du groupe ; sensibilité 4,4 à 13,2 ans)</li><li>Investissement de 1 500 €/m² et loyer IHK : hypothèses</li><li>Catalogue vendable : simulé</li><li>394 magasins trouvés contre 403 publiés</li></ul></div></div>
-    <div class="src">Dashboard public : romane13long-source.github.io/fnac-allemagne-dashboard · README du repo</div>`, "",
-   "Annexe — Comment on a utilisé l'IA : elle ne calcule rien ; elle reçoit nos chiffres et les commente, et un script vérifie chaque nombre. Si le jury attaque la rentabilité : c'est un ordre de grandeur, et la conclusion tient dans tous les cas : achats locaux et loyer maîtrisé."],
+  // ===== Fin : définitions et sources (références pour les questions)
+  [() => head("Annexe · définitions", "Définition des indicateurs") +
+    `<table ${IN()} style="font-size:21px"><tr><th>Indicateur</th><th>Ce qu'il mesure</th><th>Comment on le calcule</th></tr>
+      <tr><td><b>Croissance du secteur</b></td><td>de combien les dépenses augmentent chaque année</td><td>moyenne annuelle 2015-2025</td></tr>
+      <tr><td><b>Dépense par habitant</b></td><td>ce qu'un habitant dépense par an dans la catégorie</td><td>dépenses du pays ÷ habitants</td></tr>
+      <tr><td><b>Part de marché</b></td><td>la part du marché qu'une enseigne capte</td><td>ventes de l'enseigne ÷ dépenses du pays, hors TVA</td></tr>
+      <tr><td><b>Indice de prix</b></td><td>le prix d'un même panier, Allemagne comparée à la France</td><td>indices Eurostat, TVA retirée</td></tr>
+      <tr><td><b>Marge brute</b></td><td>ce qui reste d'une vente une fois le produit payé</td><td>28 % pour le groupe ; ajustée au prix allemand</td></tr>
+      <tr><td><b>Densité concurrentielle</b></td><td>combien de magasins du leader pour les habitants</td><td>magasins ÷ population</td></tr>
+      <tr><td><b>Coût au m²</b></td><td>le loyer d'un local commercial</td><td>loyer de référence (IHK), par m² et par mois</td></tr>
+      <tr><td><b>Distance à l'entrepôt</b></td><td>la distance de livraison depuis la France</td><td>à vol d'oiseau, depuis Chilly-Mazarin</td></tr>
+      <tr><td><b>% du catalogue vendable</b></td><td>les produits vendables tels quels en Allemagne</td><td>catalogue simulé (non public)</td></tr>
+      <tr class="hl"><td>★ Délai de retour</td><td>en combien d'années un magasin rembourse son ouverture</td><td>investissement ÷ bénéfice annuel</td></tr></table>`, "",
+   "Slide de référence — à montrer si le jury demande la définition d'un indicateur."],
+  [() => head("Annexe · sources", "Sources et méthode de collecte") +
+    `<table ${IN()} style="font-size:21px"><tr><th>Données</th><th>Source</th><th>Comment</th></tr>
+      <tr><td><b>Marché, prix, population</b></td><td>Eurostat, l'office statistique de l'Union européenne</td><td>API officielle, téléchargement automatique</td></tr>
+      <tr><td><b>Communes allemandes</b></td><td>Destatis, l'office statistique allemand</td><td>fichier officiel des 10 753 communes</td></tr>
+      <tr><td><b>Magasins MediaMarkt et Saturn</b></td><td>sites mediamarkt.de et saturn.de</td><td><b>scraping</b> des plans de site (fichiers publiés pour les robots, robots.txt respecté) : 394 magasins trouvés, 403 publiés ; chaque magasin rattaché à sa commune</td></tr>
+      <tr><td><b>Chiffres de la Fnac et du leader</b></td><td>rapports annuels 2025 (document déposé à l'AMF) et CECONOMY 2024/25</td><td>relevés à la main, page par page</td></tr>
+      <tr><td><b>Expert, Euronics</b></td><td>leurs sites officiels</td><td>nombre de magasins relevé sur le site</td></tr>
+      <tr><td><b>TVA, loi sur le prix du livre</b></td><td>Commission européenne, textes de loi allemands</td><td>pages officielles</td></tr>
+      <tr><td><b>Loyer de centre-ville</b></td><td>chambre de commerce de Stuttgart (IHK)</td><td>hypothèse, signalée comme telle</td></tr></table>
+    <div class="src">Chaque chiffre est étiqueté dans le repo : mesuré, estimation, hypothèse ou simulé. Dashboard public : romane13long-source.github.io/fnac-allemagne-dashboard</div>`, "",
+   "Slide de référence — à montrer si le jury demande d'où viennent les données ou comment le scraping a été fait."],
 ];
 
 /* moteur : affichage, navigation, mise à l'échelle */
