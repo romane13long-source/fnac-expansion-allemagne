@@ -513,7 +513,7 @@ async function renderAI(page, built, force = false) {
   txt.textContent = "Claude rédige le commentaire…"; meta.textContent = "";
   const sample = await getSample();
   if (myCtl !== aiController) return;
-  if (!sample) { txt.textContent = built.phrase; meta.textContent = "Sur ce lien public, Claude n'est pas appelé (il faudrait une clé d'API payante) : ce texte est calculé sans IA, à partir des mêmes faits. Le prompt exact envoyé à Claude est visible ci-dessous ; l'équipe a fait tourner Claude en direct sur ces prompts pendant le projet."; return; }
+  if (!sample) { document.getElementById("ai-regen").hidden = true; txt.textContent = built.phrase; meta.textContent = "Sur ce lien public, Claude n'est pas appelé (il faudrait une clé d'API payante) : ce texte est calculé sans IA, à partir des mêmes faits. Le prompt exact envoyé à Claude est visible ci-dessous ; l'équipe a fait tourner Claude en direct sur ces prompts pendant le projet."; return; }
   try {
     const res = await sample(prompt, { signal: myCtl.signal, modelTier: "quick", cache: !force, onText: ({ text }) => { if (myCtl === aiController) txt.textContent = text; } });
     if (myCtl !== aiController) return;
