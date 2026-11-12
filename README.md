@@ -394,11 +394,11 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 
 **Pipeline**
 
-1. `src/ai/synthese.py` (*à créer*) charge les KPI Gold (`data/gold/kpi.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
+1. `src/ai/synthese.py` charge les KPI Gold (`data/gold/kpi.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
 2. Il construit un prompt qui contient uniquement les chiffres validés et les règles de l'étude.
 3. Il appelle Claude en mode non interactif (`claude -p`, Claude Code) via `subprocess` : aucune clé d'API n'est stockée dans le projet.
 4. Il vérifie que chaque chiffre cité dans la sortie existe dans les KPI ; en cas d'écart, il régénère ou rejette.
-5. Il écrit `data/gold/synthese_ia.md` et `docs/synthese_ia.md`.
+5. Il écrit `docs/synthese_ia.md` (synthèse complète) et `data/gold/commentaires_ia.csv` (un commentaire par axe, lu par le dashboard).
 
 **Format attendu** : trois paragraphes (constat, arbitrage, recommandation Go / No-Go), puis trois risques. Chaque chiffre est suivi de son KPI ou de sa source.
 
@@ -407,13 +407,15 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 - Aucune clé d'API dans le dépôt : `claude -p` utilise la session Claude Code de la personne qui lance le script.
 - Aucune donnée personnelle ; uniquement des agrégats.
 - Validation humaine obligatoire avant publication.
-- **Repli sans clé API** : un template déterministe produit la même structure à partir des KPI, pour que le dashboard reste démontrable hors ligne.
+- **Contrôle du format** : les sections attendues (synthèse, un commentaire par axe, trois risques) doivent toutes être présentes, sinon le texte est rejeté.
+- **Repli sans IA** (Claude Code absent, session expirée, ou deux textes rejetés) : un template déterministe produit la même structure à partir des KPI, pour que le dashboard reste démontrable hors ligne.
 
 ### 5.3 Installation et lancement
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python run_pipeline.py      # collecte, nettoyage, modèle Gold et KPI
+PYTHONPATH=src .venv/bin/python src/ai/synthese.py   # brique IA (claude -p) ; --sans-ia pour le texte déterministe
 .venv/bin/python src/make_schemas.py  # schémas du README
 ```
 

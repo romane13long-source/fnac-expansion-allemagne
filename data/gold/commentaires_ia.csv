@@ -1,0 +1,7 @@
+axe,commentaire
+Marché & Potentiel,"Le secteur TECH croît de 2,9 % par an en Allemagne [K1a], alors qu'il recule de 1,3 % en France [K1a]. CECONOMY y détient entre 17,3 % [K3_bas] et 37,5 % [K3_haut] du marché (estimation)."
+Prix & Marges,"En TECH, l'indice de prix allemand hors taxes est de 82,0 (FR = 100) [K4_ht], pour une marge brute post-taxe de 12,2 % (estimation) [K5]. Les livres atteignent 30,8 % (estimation) [K5]."
+Réseau & Implantation,"Le loyer annuel d'un magasin au tarif IHK est de 3,3 M€ (hypothèse) [K7_magasin]. La densité concurrentielle est de 4,0 magasins par million d'habitants en Nordrhein-Westfalen [K6], contre 4,7 en Allemagne [K6]."
+Opérations & Logistique,"Le hub de Chilly-Mazarin est à 618,6 km en moyenne des villes allemandes de taille importante [K8], sans droits de douane (0 % [K9_douane]). L'écart de TVA en TECH est de -1,0 point [K9_tva]."
+Assortiment,"47,2 % du catalogue France est éligible en Allemagne (simulé) [K11], dont 92,4 % en TECH [K11_detail] et 89,3 % en jeux vidéo [K11_detail] (simulé). Les livres ne le sont qu'à 10,1 % (simulé) [K11_detail]."
+Synthèse,"Le magasin n'est rentable que dans le scénario D, avec un retour en 7,9 années (estimation) [K12]. La sensibilité testée va de 4,4 années [K12_sensibilite] à 13,2 années [K12_sensibilite] (estimation)."
