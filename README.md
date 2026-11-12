@@ -315,7 +315,38 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 
 ### Next Steps (recommandations post-étude)
 
-*À compléter après la décision Go / No-Go.*
+**Décision proposée : Go conditionnel — ouvrir un pilote de deux magasins, pas un réseau national.**
+
+Les chiffres de marché et de marge ci-dessous sont calculés sur les données Silver 2025 ; les comptages de magasins viennent des sources citées. Le marché attire : les dépenses TECH progressent de **+2,9 % en Allemagne** contre **−1,3 % en France**, et la dépense par habitant atteint **363 €** contre **204 €**. Les livres offrent un second levier : **350 € par habitant** contre **155 €**, avec un prix unique qui limite la guerre des prix. Mais l'équation économique est tendue : sur les produits techniques, l'indice de prix allemand est de **94,7** contre **116,5** en France et, à coût d'achat constant, la marge tombe autour de **12 %** contre **28 %** de marge brute groupe. La concurrence est déjà installée : **394 magasins CECONOMY** (403 publiés), **364 Expert**, **plus de 1 100 Euronics**, sans compter Amazon et Otto en ligne. Enfin, le hub de Chilly-Mazarin est à **619 km en moyenne pondérée** des 79 villes allemandes de plus de 100 000 habitants.
+
+Sources des chiffres : `fact_marche`, `fact_indicateurs_officiels`, `fact_magasins_concurrents`, `concurrents_autres`, `communes` et `hubs_logistiques`.
+
+Le Go n'est donc pas un feu vert national : c'est un **test contrôlé**, avec des critères d'arrêt écrits. Les seuils ci-dessous sont des propositions à valider par le Comex ; `M` = mois après la décision.
+
+| Priorité | Action | Horizon | Critère de réussite |
+|---|---|---|---|
+| 1 | Choisir **deux villes pilotes** — une métropole et une ville moyenne — avec une grille : taille du marché, densité CECONOMY, loyer, distance au hub, cannibalisation | M1 | Deux villes classées et validées par le Comex |
+| 2 | Verrouiller l'**équation économique** : négocier les conditions d'achat, mixer TECH / livres, tester un pricing local et des services | M1–M3 | Marge brute **≥ 18 %** (contre ~12 % à coût constant) |
+| 3 | Tester la **logistique** : livraison directe depuis Chilly-Mazarin contre un 3PL allemand | M1–M3 | Délai **< 48 h** et coût logistique maîtrisé (seuil à fixer) |
+| 4 | Ouvrir **deux magasins pilotes** de 1 500–2 000 m² (hypothèse) avec l'assortiment Fnac | M6–M12 | CA/m² proche du benchmark Fnac France, NPS > 50, marge ≥ 18 % |
+| 5 | Décider **Go / No-Go** après 12 mois d'exploitation | M18 | Payback ≤ 5 ans et marge ≥ 18 % ; sinon arrêt |
+| 6 | Si Go : passer à **8–10 magasins en 3 ans** dans les villes les mieux classées | M18–M54 | Modèle réplicable, cash-flow positif |
+
+**Arbitrages**
+- **Pas de déploiement national** avant la preuve du pilote.
+- **Pas de guerre des prix** : Amazon et MediaMarkt sont plus gros ; la Fnac doit différencier par l'assortiment, le conseil, les livres et les services.
+- **Pas d'acquisition de CECONOMY** : coût, endettement et risque d'exécution trop élevés pour un premier pas.
+- **Pas de mégastore** : un format de 1 500–2 000 m² limite le loyer et le risque.
+
+**Risques à surveiller**
+
+| Risque | Impact | Mitigation |
+|---|---|---|
+| Compression de marge | Économie du modèle | Conditions d'achat, mix livres/services, prix local |
+| Concurrence Amazon / MediaMarkt | Parts de marché | Différenciation, expérience en magasin, click & collect |
+| Logistique depuis la France | Délai et coût | 3PL allemand, stock avancé, test comparatif |
+| Réglementation et droit du travail | Ouverture | Conseil local, TVA, Buchpreisbindung, emballage |
+| Exécution du pilote | Go / No-Go | Jalons, budget de sortie, critères d'arrêt écrits |
 
 ## 5. Stack technique
 
@@ -326,10 +357,44 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 | Nettoyage et modélisation | `pandas` 3.1.1 ; `openpyxl` 3.1.5 pour lire le fichier Excel de Destatis |
 | Schémas | `matplotlib` 3.11.2 |
 | Versionnement et collaboration | Git et GitHub (branches `feature/*` → `develop` → `main`) |
-| Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main) |
-| Restitution et brique IA | *à compléter* |
+| Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main), PBIX / PNG / PDF (restitution) |
+| Restitution et brique IA | Power BI Desktop (dashboard, export PNG / PDF) ; API OpenAI `gpt-4o-mini` ou modèle équivalent (synthèse), avec repli sur un template déterministe ; PowerPoint / Keynote pour l'oral |
 
-Installation et lancement :
+### 5.1 Restitution
+
+**Dashboard Power BI Desktop** (`docs/dashboard/fnac_allemagne.pbix`), quatre pages :
+
+1. **Marché & potentiel** : taille et croissance DE / FR, dépense par habitant, parts de marché HT / HT.
+2. **Prix & marges** : indice de prix, marge estimée par catégorie, scénarios de prix.
+3. **Concurrence & implantation** : carte des magasins CECONOMY, densité par Land, villes de plus de 100 000 habitants, distance au hub.
+4. **Synthèse Go / No-Go** : scorecard, payback, recommandation et synthèse IA.
+
+Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissement est manuel après le pipeline de données (Bronze → Silver → Gold) ; les visuels sont exportés en PNG / PDF pour le rapport et les slides. Les données restent portables vers Tableau ou Looker Studio : aucun calcul n'est enfermé dans l'outil de visualisation.
+
+**Slides de l'oral** : 10 à 12 slides pour 10 minutes — question du Comex, méthodologie et sources, marché, économie, concurrence, logistique, scénarios, recommandation Go / No-Go, limites, next steps.
+
+### 5.2 Brique IA
+
+**Rôle** : produire une synthèse rédigée en français (150–200 mots) à partir des KPI, sans accès direct aux données brutes. La brique IA **ne calcule rien** : elle raconte des chiffres déjà validés.
+
+**Pipeline**
+
+1. `src/ai/synthese.py` charge les KPI Gold (`data/gold/kpi_*.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
+2. Il construit un prompt qui contient uniquement les chiffres validés et les règles de l'étude.
+3. Il appelle l'API OpenAI (`gpt-4o-mini` ou modèle équivalent) avec une température basse (0,2), via `urllib.request` pour éviter une dépendance supplémentaire.
+4. Il vérifie que chaque chiffre cité dans la sortie existe dans les KPI ; en cas d'écart, il régénère ou rejette.
+5. Il écrit `data/gold/synthese_ia.md` et `docs/synthese_ia.md`.
+
+**Format attendu** : trois paragraphes (constat, arbitrage, recommandation Go / No-Go), puis trois risques. Chaque chiffre est suivi de son KPI ou de sa source.
+
+**Garde-fous**
+
+- Clé `OPENAI_API_KEY` en variable d'environnement, jamais dans le dépôt.
+- Aucune donnée personnelle ; uniquement des agrégats.
+- Validation humaine obligatoire avant publication.
+- **Repli sans clé API** : un template déterministe produit la même structure à partir des KPI, pour que le dashboard reste démontrable hors ligne.
+
+### 5.3 Installation et lancement
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
