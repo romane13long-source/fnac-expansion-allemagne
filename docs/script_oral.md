@@ -43,12 +43,12 @@ Troisième question : où ouvrir. On ne regarde que les 7 plus grandes villes, c
 
 Le cœur de l'analyse : on a calculé le résultat d'un magasin de 2 400 m² dans quatre scénarios, achats en France ou en Allemagne, loyer de centre-ville ou au niveau français. Trois sur quatre perdent de l'argent. Seul le scénario achats allemands et loyer maîtrisé gagne 0,45 M€ par an, soit un retour en 7,9 ans. L'encadré violet est écrit par notre brique IA : elle ne calcule rien, elle commente nos KPI, et un script vérifie chaque chiffre qu'elle écrit.
 
-## Slide 9 · Fnac Darty peut financer un pilote, pas un réseau
+## Slide 9 · La Fnac peut financer un pilote, pas un réseau
 **7:30 → 8:00 · Elena**
 
-Dernière question : le groupe a-t-il les moyens ? Fnac Darty a dégagé 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net est négatif, -145,6 M€ : on peut financer un test, pas un déploiement national.
+Dernière question : le groupe a-t-il les moyens ? le groupe Fnac a dégagé 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net est négatif, -145,6 M€ : on peut financer un test, pas un déploiement national.
 
-## Slide 10 · GO SOUS CONDITIONS : un magasin pilote à Cologne
+## Slide 10 · 5 · DÉCISION ET RECOMMANDATION · DÉFENSE DES ARBITRAGES 15 PTS
 **8:00 → 9:30 · Romane**
 
 Notre décision : Go sous conditions, pour un seul magasin pilote à Cologne, pas un réseau. Trois conditions : acheter en Allemagne pour retrouver notre marge ; un loyer sous 33 euros le mètre carré ; un assortiment centré sur la tech et les jeux vidéo. Cologne est la seule grande ville qui coche nos trois critères. Calendrier : centrale d'achat et bail dans les six premiers mois, ouverture à un an, décision de déploiement à trois ans, avec un critère d'arrêt écrit.

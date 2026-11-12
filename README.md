@@ -380,7 +380,7 @@ Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi
 
 **Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 11 slides blanches au template homogène, graphiques natifs modifiables, mêmes chiffres que le dashboard, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse en 5 slides dont la capacité financière, Go / No-Go en conclusion) + une slide de réserve (usage de l'IA et limites). Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
 
-**Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`), publié comme page claude.ai pour l'IA en direct :
+**Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`), public : https://romane13long-source.github.io/fnac-allemagne-dashboard/ (dépôt public dédié, qui ne contient que cette page) :
 - 12 onglets, une question par onglet, dans l'ordre du raisonnement : marché, prix et marges, concurrence, où ouvrir (7 villes candidates), logistique, assortiment, rentabilité, capacité financière de Fnac Darty, décision, définitions des KPI, IA et méthode.
 - Filtres : ville candidate, catégorie, achats (France / Allemagne), loyer (IHK / niveau France). Chaque onglet n'affiche que les filtres qui le changent ; un test automatique vérifie que chaque filtre affiché modifie bien les chiffres, les graphiques et la demande faite à l'IA (12 onglets × 56 combinaisons, 0 erreur).
 - Chaque chiffre porte une ligne « ℹ » qui dit ce qu'il mesure (moyenne, calcul, exemple), son étiquette (mesuré, estimation, hypothèse, simulé) et la source sous chaque graphique.
@@ -394,7 +394,7 @@ Réponses préparées aux questions du jury : `docs/questions_jury.md`.
 
 1. Chaque onglet du dashboard calcule ses chiffres selon les filtres choisis.
 2. Il envoie à Claude uniquement ces faits et une consigne (2 à 3 phrases pour un décideur, sans nouveau chiffre). Le prompt est visible dans la page (« Voir ce qu'on envoie à Claude »).
-3. Claude répond en direct, via la capacité « sample » des pages claude.ai : rien n'est pré-écrit ni stocké dans le dépôt.
+3. Ouverte dans claude.ai, la page appelle Claude en direct (capacité « sample »). Sur le lien public GitHub Pages, Claude n'est pas appelé (pas de clé d'API payante) : la page affiche le prompt exact et un texte calculé sans IA, signalé comme tel.
 4. La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.
 5. Hors de claude.ai (fichier ouvert en local), ou si l'accès à Claude est refusé, un texte calculé sans IA s'affiche, signalé comme tel.
 
