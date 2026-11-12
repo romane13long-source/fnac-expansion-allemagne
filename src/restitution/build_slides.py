@@ -32,11 +32,13 @@ F = D["finances"]
 KOLN = next(v for v in D["villes"] if v["ville"] == "Köln")
 PDV = {k["enseigne"]: k["pdv"] for k in D["concurrents"]}
 
-INK, WHITE = RGBColor(0x0B, 0x0B, 0x0B), RGBColor(0xFF, 0xFF, 0xFF)
-BLUE, ORANGE, RED, GREEN = RGBColor(0x2A, 0x78, 0xD6), RGBColor(0xEB, 0x68, 0x34), RGBColor(0xD0, 0x3B, 0x3B), RGBColor(0x0C, 0xA3, 0x0C)
-VIOLET, GREY, MUTED = RGBColor(0x62, 0x50, 0xD6), RGBColor(0xA3, 0xA2, 0x9C), RGBColor(0x52, 0x51, 0x4E)
-TINT, VTINT, DARKBAR = RGBColor(0xF4, 0xF4, 0xF1), RGBColor(0xF1, 0xEF, 0xFC), RGBColor(0x14, 0x17, 0x22)
-FONT = "Calibri"
+# Modèle de la v2 de l'équipe : fond blanc, accent jaune, tuiles crème, courbes noir (Allemagne) / gris (France)
+INK, WHITE = RGBColor(0x11, 0x11, 0x11), RGBColor(0xFF, 0xFF, 0xFF)
+YEL, CREAM = RGBColor(0xF6, 0xCF, 0x45), RGBColor(0xF3, 0xF0, 0xE6)
+GREY, MUTED, LINE = RGBColor(0x9E, 0x9E, 0x9E), RGBColor(0x6B, 0x6B, 0x6B), RGBColor(0xD9, 0xD9, 0xD9)
+BLUE = ORANGE = RED = GREEN = INK  # chiffres en noir, comme dans le modèle ; le sens est porté par le texte
+VIOLET, TINT, VTINT, DARKBAR = INK, CREAM, WHITE, INK
+FONT = "Arial"
 
 
 def n(v, d=1):
@@ -73,12 +75,28 @@ def tb(slide, x, y, w, h, runs, size=16, color=INK, bold=False, align=PP_ALIGN.L
     return box_
 
 
-def slide(section, title):
+def bar(s, x, y, w, h, color=YEL):
+    shp = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, x, y, w, h)
+    shp.fill.solid()
+    shp.fill.fore_color.rgb = color
+    shp.line.fill.background()
+    shp.shadow.inherit = False
+    return shp
+
+
+def slide(section, title, cover=False):
     s = prs.slides.add_slide(BLANK)
     s.background.fill.solid()
     s.background.fill.fore_color.rgb = WHITE
-    tb(s, M, Inches(0.4), CW, Inches(0.35), section.upper(), size=12, bold=True, color=MUTED)
-    tb(s, M, Inches(0.75), CW, Inches(1.1), title, size=30, bold=True)
+    if cover:  # couverture et conclusion : bande jaune à gauche
+        bar(s, 0, 0, Inches(0.13), prs.slide_height)
+    tb(s, M, Inches(0.38), CW, Inches(0.3), section.upper(), size=11, bold=True, color=MUTED)
+    if title:
+        tb(s, M, Inches(0.68), CW, Inches(1.1), title, size=28, bold=True, anchor=MSO_ANCHOR.TOP)
+        bar(s, M, Inches(1.72), Inches(0.75), Inches(0.06))
+    num = len(prs.slides)
+    tb(s, M, Inches(7.05), Inches(6), Inches(0.25), "Fnac → Allemagne · Comex 2027-2029", size=9, color=MUTED)
+    tb(s, prs.slide_width - M - Inches(1), Inches(7.05), Inches(1), Inches(0.25), f"{num:02d}", size=10, bold=True, color=MUTED, align=PP_ALIGN.RIGHT)
     return s
 
 
@@ -92,15 +110,16 @@ def box(s, x, y, w, h, fill):
     return shp
 
 
-def stat(s, x, y, w, value, label, color=INK, h=Inches(1.55), size=36):
-    """Tuile chiffre : gros nombre + ce qu'il mesure, en clair."""
-    box(s, x, y, w, h, TINT)
-    tb(s, x + Inches(0.22), y + Inches(0.12), w - Inches(0.44), Inches(0.75), value, size=size, bold=True, color=color)
-    tb(s, x + Inches(0.22), y + Inches(0.85), w - Inches(0.44), h - Inches(0.9), label, size=12, color=MUTED)
+def stat(s, x, y, w, value, label, color=INK, h=Inches(1.55), size=34):
+    """Tuile chiffre (modèle v2) : fond crème, barre jaune, gros nombre + ce qu'il mesure, en clair."""
+    box(s, x, y, w, h, CREAM)
+    bar(s, x, y + Inches(0.08), Inches(0.07), h - Inches(0.16))
+    tb(s, x + Inches(0.28), y + Inches(0.12), w - Inches(0.48), Inches(0.75), value, size=size, bold=True, color=INK)
+    tb(s, x + Inches(0.28), y + Inches(0.82), w - Inches(0.48), h - Inches(0.87), label, size=12, color=MUTED)
 
 
 def footer(s, txt):
-    tb(s, M, Inches(7.02), CW, Inches(0.3), "Source : " + txt, size=10, color=MUTED)
+    tb(s, M, Inches(6.78), CW, Inches(0.25), "Source : " + txt, size=9, color=MUTED)
 
 
 def notes(s, minutage, qui, texte):
@@ -120,9 +139,12 @@ def lecture_ia(s, x, y, w, groupe, cle, h=Inches(1.0)):
     """Encadré « Lecture IA » : commentaire rédigé par Claude (claude -p) à partir des KPI, chiffres contrôlés."""
     if not AI:
         return
-    box(s, x, y, w, h, VTINT)
-    tb(s, x + Inches(0.2), y + Inches(0.1), w - Inches(0.4), h - Inches(0.15), [
-        [("✦ Lecture IA · ", {"bold": True, "color": VIOLET, "size": 12}), (sans_decision(AI[groupe][cle]["texte"]), {"size": 12})]], size=12)
+    b = box(s, x, y, w, h, WHITE)
+    b.line.color.rgb, b.line.width = YEL, Pt(2)
+    bar(s, x, y + Inches(0.08), Inches(0.07), h - Inches(0.16))
+    tb(s, x + Inches(0.28), y + Inches(0.08), w - Inches(0.45), h - Inches(0.12), [
+        [("✦ LECTURE IA", {"bold": True, "size": 11}), ("  · rédigée par Claude à partir de nos KPI, chiffres vérifiés", {"size": 9, "color": MUTED})],
+        [(sans_decision(AI[groupe][cle]["texte"]), {"size": 12})]], size=12)
 
 
 def style(chart, legend=False):
@@ -153,12 +175,12 @@ def table(s, x, y, w, rows, widths, size=13, header_fill=DARKBAR, h=None):
 
 
 # ============================================================ 1. ENTREPRISE & PAYS (1 min)
-s = slide("Comex Fnac · Stratégie 2027-2029", "")
-tb(s, M, Inches(1.7), CW, Inches(1.2), "Fnac → Allemagne", size=64, bold=True)
-box(s, M, Inches(3.05), Inches(0.12), Inches(1.4), BLUE)
-tb(s, M + Inches(0.4), Inches(3.05), CW - Inches(0.4), Inches(1.4),
-   "« L'implantation dans le pays ciblé est-elle réalisable et rentable ? »", size=28, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
-tb(s, M, Inches(5.4), CW, Inches(0.5), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL", size=16)
+s = slide("Comex Fnac · Stratégie 2027-2029", "", cover=True)
+tb(s, M, Inches(1.5), CW, Inches(1.2), "Fnac → Allemagne", size=60, bold=True)
+tb(s, M, Inches(3.0), Inches(9), Inches(1.0), "L'implantation dans le pays ciblé est-elle réalisable et rentable ?", size=26)
+bar(s, M, Inches(4.45), Inches(2.3), Inches(0.07))
+tb(s, M, Inches(4.75), CW, Inches(0.4), "Romane LONG · Elena KERVENNIC · Arquam EL MEZOUARI EL GLAOUI · Samantha ASDRUBAL", size=15)
+tb(s, M, Inches(5.25), CW, Inches(0.4), "Projet final Data Analytics · Eugenia School M2", size=13, color=MUTED)
 footer(s, "projet final Data Analytics, Eugenia School M2 · données publiques, aucune donnée interne réelle de la Fnac")
 notes(s, "0:00 → 0:15", "Romane", "Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle "
       "réalisable et rentable ? On a construit toute la chaîne de données pour y répondre ; notre décision arrive à la fin.")
@@ -179,25 +201,25 @@ notes(s, "0:15 → 1:00", "Romane", f"La Fnac compte {D['x_magasins_fr']} magasi
       f"{n(abs(T['croissance_moy']['FR']))} % en France. L'Allemagne est le premier marché d'Europe et le groupe n'y a aucun magasin.")
 
 # ============================================================ 2. BASE DE DONNÉES & CADRAGE (1 min 30)
-s = slide("2 · Base de données et cadrage · modélisation 20 pts + sources 15 pts", "Un pipeline reproductible, une source officielle par sujet")
-pic = s.shapes.add_picture(str(ROOT / "docs" / "images" / "02_modele_etoile_flocon.png"), M, Inches(1.85), height=Inches(4.95))
-x0 = M + pic.width + Inches(0.3)
-w0 = prs.slide_width - x0 - M
-tb(s, x0, Inches(1.9), w0, Inches(5.0), [
-    [("Bronze → Silver → Gold", {"bold": True, "size": 18})],
-    [("Un script (run_pipeline.py) télécharge, nettoie, modélise : relancé deux fois, résultat identique.", {})],
-    [("Comment on a collecté", {"bold": True, "size": 18})],
-    [("API Eurostat (marché, prix, population) · fichier Destatis (10 753 communes) · scraping des plans de site MediaMarkt / Saturn (394 magasins) · rapports annuels relevés à la main.", {})],
-    [("Sources officielles", {"bold": True, "size": 18})],
-    [("Eurostat = office statistique de l'UE. Fnac Darty (document déposé à l'AMF), CECONOMY, Commission européenne, EUR-Lex.", {})],
-    [("Chaque chiffre est étiqueté", {"bold": True, "size": 18})],
-    [("mesuré, estimation, hypothèse ou simulé.", {})]], size=14)
-footer(s, "repo GitHub fnac-expansion-allemagne · README § 2 (dictionnaire, 11 règles de gestion) et § 3 (sources)")
+s = slide("2 · Base de données et cadrage · modélisation 20 pts + sources 15 pts", "Un pipeline simple, des sources officielles,\ndes chiffres traçables")
+cw3 = (CW - Inches(0.5)) / 3
+cartes = [
+    ("PIPELINE REPRODUCTIBLE", "Bronze → Silver → Gold", ["Un seul script (run_pipeline.py) enchaîne collecte, nettoyage, modèle et KPI.", "Relancé deux fois : résultat identique.", "Le détail du modèle de données est dans le README."]),
+    ("COMMENT ON A COLLECTÉ", "Une source par sujet", ["API Eurostat (office statistique de l'UE) : marché, prix, population", "Destatis : 10 753 communes allemandes", "Scraping des plans de site MediaMarkt / Saturn : 394 magasins", "Rapports annuels Fnac Darty et CECONOMY, textes de loi (TVA, douane)"]),
+    ("CHAQUE CHIFFRE EST ÉTIQUETÉ", "Mesuré, estimation, hypothèse ou simulé", ["mesuré : chiffre officiel", "estimation : notre calcul", "hypothèse : non sourcé", "simulé : données fictives (catalogue)"]),
+]
+for i, (lab, titre, points) in enumerate(cartes):
+    x = M + i * (cw3 + Inches(0.25))
+    box(s, x, Inches(2.0), cw3, Inches(4.5), CREAM)
+    tb(s, x + Inches(0.3), Inches(2.2), cw3 - Inches(0.6), Inches(0.3), lab, size=11, bold=True, color=MUTED)
+    tb(s, x + Inches(0.3), Inches(2.6), cw3 - Inches(0.6), Inches(0.9), titre, size=20, bold=True)
+    tb(s, x + Inches(0.3), Inches(3.6), cw3 - Inches(0.6), Inches(2.8), [[("•  " + p_, {})] for p_ in points], size=14)
+footer(s, "README § 2 (dictionnaire, règles de gestion) et § 3 (sources) · run_pipeline.py")
 notes(s, "1:00 → 2:30", "Elena", "Aucune donnée n'était fournie : tout vient de sources publiques. On a utilisé l'API d'Eurostat, l'office "
       "statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel allemand des communes ; "
       "et du scraping pour localiser les magasins MediaMarkt et Saturn, à partir des plans de site publiés pour les robots. "
-      "Le pipeline suit les trois couches du cours : Bronze, Silver, Gold. Le Gold est un modèle en constellation : quatre tables "
-      "de faits qui partagent leurs dimensions, avec un flocon commune vers Land. Chaque chiffre porte son étiquette.")
+      "Le pipeline suit les trois couches du cours : Bronze, Silver, Gold ; le modèle de données est détaillé dans le README. "
+      "Chaque chiffre porte son étiquette : mesuré, estimation, hypothèse ou simulé.")
 
 # ============================================================ 3. POURQUOI CES KPI (2 min)
 s = slide("3 · La démarche analytique · choix des KPI 30 pts", "Un KPI par question du Comex, un KPI de synthèse pour trancher")
@@ -225,7 +247,7 @@ cd.add_series("Allemagne", [round(ph["DE"][y]) for y in yrs])
 cd.add_series("France", [round(ph["FR"][y]) for y in yrs])
 ch = s.shapes.add_chart(XL_CHART_TYPE.LINE, M, Inches(1.85), Inches(7.4), Inches(3.9), cd).chart
 style(ch, legend=True)
-for ser, col in zip(ch.series, (BLUE, ORANGE)):
+for ser, col in zip(ch.series, (INK, GREY)):
     ser.format.line.color.rgb, ser.format.line.width, ser.smooth = col, Pt(3), False
 ch.has_title = True
 ch.chart_title.text_frame.text = "Dépense tech par habitant (€ par an)"
@@ -254,7 +276,7 @@ pl = ch.plots[0]
 pl.gap_width, pl.has_data_labels = 40, True
 pl.data_labels.number_format, pl.data_labels.number_format_is_linked = "0.0", False
 pl.data_labels.font.size = Pt(13)
-for i, col in enumerate((ORANGE, BLUE)):
+for i, col in enumerate((GREY, INK)):
     pt = ch.series[0].points[i]
     pt.format.fill.solid()
     pt.format.fill.fore_color.rgb = col
@@ -272,23 +294,24 @@ pl.gap_width, pl.has_data_labels = 60, True
 pl.data_labels.number_format, pl.data_labels.number_format_is_linked = '0.0" %"', False
 pl.data_labels.position, pl.data_labels.font.size = XL_LABEL_POSITION.OUTSIDE_END, Pt(12)
 ch.series[0].format.fill.solid()
-ch.series[0].format.fill.fore_color.rgb = RED
+ch.series[0].format.fill.fore_color.rgb = GREY
 ch.value_axis.maximum_scale, ch.value_axis.minimum_scale = 30, 0
 ch.has_title = True
 ch.chart_title.text_frame.text = "Marge brute si l'on achète en France (groupe : 28 %)"
 ch.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(13)
-lecture_ia(s, M, Inches(5.95), Inches(6.4), "kpi", "K5")
+lecture_ia(s, M, Inches(5.95), Inches(6.4), "kpi", "K5", h=Inches(0.55)) if False else None
 xs, ws = M + Inches(6.7), prs.slide_width - M - (M + Inches(6.7))
 stat(s, xs, Inches(1.85), ws, f"{sg(T['indice_ht'][L] - 100, 0)} %", "prix tech allemands par rapport aux français, hors taxes : la Fnac devra vendre moins cher", color=RED)
 stat(s, xs, Inches(3.55), ws, f"{n(T['marge'][L])} %", "de marge brute si on achète au prix français et revend au prix allemand, contre 28 % pour le groupe", color=RED)
 stat(s, xs, Inches(5.25), ws, "0 %", "de droits de douane : France et Allemagne sont dans l'union douanière de l'UE ; seule la TVA change (19 % contre 20 %)", color=GREEN)
+tb(s, M, Inches(6.0), Inches(6.4), Inches(0.6), f"Formule : 1 − (1 − 28 %) ÷ (indice HT ÷ 100). Exemple {L} : 1 − 0,72 ÷ {n(T['indice_ht'][L] / 100, 4)} = {n(T['marge'][L])} %. La marge de 28 % avec achats locaux est une hypothèse, pas une marge observée.", size=10, color=MUTED)
 footer(s, "Eurostat prc_ppp_ind_1 ; Fnac Darty DEU 2025 p. 30 (marge 28 %) ; EUR-Lex TFUE art. 28 et 30 ; Commission européenne (TVA)")
 notes(s, "5:15 → 6:00", "Romane", f"Deuxième constat, et c'est la réponse à une question qu'on nous pose souvent : non, la France n'est pas "
       f"moins chère. Les produits tech y coûtent {n(pu['FR'][L], 1)} contre {n(pu['DE'][L], 1)} en Allemagne, sur une base 100 "
       f"européenne. Si la Fnac achète au prix français et vend au prix allemand, sa marge tombe à {n(T['marge'][L])} %, contre 28 %. "
       "Il n'y a aucun droit de douane entre les deux pays : la difficulté est économique, pas réglementaire.")
 
-s = slide("4 · L'analyse", "Où ouvrir ? Sur les 7 plus grandes villes, Cologne coche les 3 critères")
+s = slide("4 · L'analyse", "Où ouvrir ? Cologne coche les 3 critères")
 score = lambda v: (v["km_hub"] <= 450) + (v["magasins_par_100k"] <= 0.7) + (v["pop"] >= 1e6)  # noqa: E731
 villes = sorted(D["villes"], key=lambda v: (-score(v), v["km_hub"]))
 rows = [("Ville", "Habitants", "CECONOMY / 100 000 hab.", "Distance au hub", "Score")] + [
@@ -298,7 +321,7 @@ tb(s, M, Inches(5.6), Inches(7.6), Inches(1.3), [[("Critères : ", {"bold": True
 xs, ws = M + Inches(7.9), prs.slide_width - M - (M + Inches(7.9))
 stat(s, xs, Inches(1.85), ws, f"{n(KOLN['km_hub'], 0)} km", "de Cologne au hub Fnac Darty de Chilly-Mazarin : la plus proche des grandes villes", color=GREEN)
 stat(s, xs, Inches(3.55), ws, f"{n(D['distance_moy'], 0)} → {n(D['distance_depuis_koln'], 0)} km", "distance moyenne aux 79 grandes villes, depuis la France puis depuis un entrepôt à Cologne", size=30)
-lecture_ia(s, xs, Inches(5.25), ws, "villes", "Köln", h=Inches(1.6))
+lecture_ia(s, xs, Inches(5.25), ws, "villes", "Köln", h=Inches(1.45))
 footer(s, "Destatis (population, coordonnées) ; magasins CECONOMY (plans des sites, rattachés aux communes) ; calcul de l'équipe")
 notes(s, "6:00 → 6:45", "Elena", "Troisième question : où ouvrir. On ne regarde que les 7 plus grandes villes, celles qui peuvent faire "
       "vivre un grand magasin, et on les note sur trois critères simples. Cologne est la seule à cocher les trois : plus d'un million "
@@ -309,17 +332,19 @@ notes(s, "6:00 → 6:45", "Elena", "Troisième question : où ouvrir. On ne rega
 s = slide("4 · L'analyse · + brique IA", "Un magasin n'est rentable qu'avec des achats en Allemagne et un loyer maîtrisé")
 sc = list(D["scenarios"].values())
 cd = CategoryChartData()
-cd.categories = [x["nom"] + " · " + sg(x["resultat"], 2) + " M€" for x in sc]
+court = {"A": "A. achats France, loyer IHK", "B": "B. achats France, loyer France", "C": "C. achats locaux, loyer IHK", "D": "D. achats locaux, loyer France"}
+cd.categories = [court[k] + " · " + sg(x["resultat"], 2) for k, x in D["scenarios"].items()]
 cd.add_series("Perte", [round(x["resultat"], 2) if x["resultat"] < 0 else 0 for x in sc])
 cd.add_series("Gain", [round(x["resultat"], 2) if x["resultat"] > 0 else 0 for x in sc])
 ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.85), Inches(7.4), Inches(3.0), cd).chart
 style(ch)
 pl = ch.plots[0]
 pl.gap_width, pl.overlap, pl.has_data_labels = 50, 100, False
-for ser, col in zip(ch.series, (RED, GREEN)):
+for ser, col in zip(ch.series, (WHITE, YEL)):
     ser.invert_if_negative = False
     ser.format.fill.solid()
     ser.format.fill.fore_color.rgb = col
+    ser.format.line.color.rgb = INK
 ch.category_axis.reverse_order = True
 ch.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
 ch.category_axis.tick_labels.font.size = Pt(12)
@@ -340,7 +365,7 @@ tb(s, M, Inches(6.0), Inches(7.4), Inches(0.9), "Calcul du scénario D en M€ p
 xs, ws = M + Inches(7.7), prs.slide_width - M - (M + Inches(7.7))
 stat(s, xs, Inches(1.85), ws, f"{n(SD['delai'])} ans", "pour rembourser l'investissement (3,6 M€, hypothèse) dans le seul scénario rentable ; jamais dans les 3 autres", color=GREEN)
 stat(s, xs, Inches(3.55), ws, f"< {n(D['seuil_loyer'], 0)} €", f"loyer maximal par m² et par mois ; la référence IHK (chambre de commerce allemande) est de {n(D['loyer_m2_mois'], 0)} €", color=BLUE)
-lecture_ia(s, xs, Inches(5.25), ws, "kpi", "K12", h=Inches(1.6))
+lecture_ia(s, xs, Inches(5.25), ws, "kpi", "K12", h=Inches(1.45))
 footer(s, "Fnac Darty DEU 2025 p. 30, 32, 33, 40 ; IHK Stuttgart 2024 (loyer, hypothèse) ; investissement 1 500 €/m² (hypothèse non sourcée)")
 notes(s, "6:45 → 7:30", "Romane", "Le cœur de l'analyse : on a calculé le résultat d'un magasin de 2 400 m² dans quatre scénarios, achats en "
       "France ou en Allemagne, loyer de centre-ville ou au niveau français. Trois sur quatre perdent de l'argent. Seul le scénario "
@@ -358,10 +383,11 @@ ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, M, Inches(1.85), Inches(7.4
 style(ch)
 pl = ch.plots[0]
 pl.gap_width, pl.overlap = 50, 100
-for ser, col in zip(ch.series, (RED, BLUE)):
+for ser, col in zip(ch.series, (WHITE, GREY)):
     ser.invert_if_negative = False
     ser.format.fill.solid()
     ser.format.fill.fore_color.rgb = col
+    ser.format.line.color.rgb = INK
 ch.category_axis.reverse_order = True
 ch.category_axis.tick_label_position = XL_TICK_LABEL_POSITION.LOW
 ch.has_title = True
@@ -402,7 +428,23 @@ notes(s, "8:00 → 9:30", "Romane", "Notre décision : Go sous conditions, pour 
       "sur la tech et les jeux vidéo. Cologne est la seule grande ville qui coche nos trois critères. Calendrier : centrale d'achat et "
       "bail dans les six premiers mois, ouverture à un an, décision de déploiement à trois ans, avec un critère d'arrêt écrit.")
 
-s = slide("Pour les questions", "Comment on a utilisé l'IA, et nos limites")
+s = slide("5 · Décision et recommandation", "Ce que nous demandons au Comex", cover=True)
+asks = [("Valider le pilote de Cologne", "Un magasin de 2 400 m², pas un déploiement national."),
+        ("Valider les 3 conditions", f"Achats en Allemagne · loyer < {n(D['seuil_loyer'], 0)} €/m²/mois · assortiment tech + jeux vidéo."),
+        ("Fixer la décision à M36", "Résultat annuel positif et retour sur investissement en 8 ans au plus ; sinon, arrêt.")]
+for i, (t1, t2) in enumerate(asks):
+    y = Inches(2.3) + i * Inches(1.35)
+    c = s.shapes.add_shape(MSO_SHAPE.OVAL, M, y, Inches(0.45), Inches(0.45))
+    c.fill.solid(); c.fill.fore_color.rgb = YEL; c.line.fill.background(); c.shadow.inherit = False
+    tb(s, M, y, Inches(0.45), Inches(0.45), str(i + 1), size=14, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    tb(s, M + Inches(0.75), y - Inches(0.02), Inches(10), Inches(0.5), t1, size=24, bold=True)
+    tb(s, M + Inches(0.75), y + Inches(0.5), Inches(10), Inches(0.4), t2, size=15, color=MUTED)
+tb(s, M, Inches(6.4), Inches(9), Inches(0.4), "Merci, nous sommes prêts pour vos questions.", size=15, color=MUTED)
+notes(s, "9:30 → 10:00", "Romane", "Concrètement, nous demandons au Comex trois décisions : valider le pilote de Cologne, valider nos trois "
+      "conditions, et fixer dès maintenant le rendez-vous de décision à trois ans avec un critère d'arrêt. Merci, nous sommes prêts "
+      "pour vos questions.")
+
+s = slide("Annexe · pour les questions", "Comment on a utilisé l'IA, et nos limites")
 hw = (CW - Inches(0.4)) / 2
 tb(s, M, Inches(1.9), hw, Inches(5.0), [
     [("La brique IA (Claude)", {"bold": True, "size": 18})],
