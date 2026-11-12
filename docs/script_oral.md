@@ -56,7 +56,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 ## Slide 6 · Des prix 18 % plus bas : il faut acheter en Allemagne — 5:00 → 5:35 · Romane
 
 > Deuxième constat, contre-intuitif : la tech est moins chère en Allemagne. Sur un même panier, la France est à 116,5, l'Allemagne à 94,7, sur une base 100 européenne. Hors TVA, l'écart est de 18 %.
-> Si la Fnac achète au prix français et revend au prix allemand, sa marge brute tombe de 28 % à 12 %. Conclusion : il faut acheter en Allemagne.
+> Si la Fnac achète au prix français et revend au prix allemand, sa marge brute tombe de 28 % à 12 %. C'est un ordre de grandeur : un prix moyen national, pas nos prix réels, et on suppose le même coût d'achat. Mais le sens est clair : il faut acheter en Allemagne.
 
 ## Slide 7 · Un magasin rentable à deux conditions : achats locaux et loyer modéré — 5:35 → 6:15 · Elena
 

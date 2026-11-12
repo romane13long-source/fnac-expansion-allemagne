@@ -181,9 +181,9 @@ const SLIDES = [
   [() => head("4 · L'analyse · insight 2 sur 4", "Des prix 18 % plus bas :<br>il faut acheter en Allemagne") +
     `<div class="row c2e"><div class="chart" ${IN()}><h3>Prix d'un même panier tech en ${L}</h3><div class="sub">Base 100 = moyenne de l'Union européenne</div>
       ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "moyenne UE = 100", labelW: 190, H: 260, W: 760 })}
-      <div class="src" style="margin-top:auto">Source : Eurostat, indices de niveau des prix (chiffres officiels)</div></div>
+      <div class="src" style="margin-top:auto">Source : Eurostat, indices de niveau des prix 2025. Attention : c'est le prix moyen de tout le panier tech du pays, pas les prix de la Fnac : un ordre de grandeur, pas un prix exact</div></div>
       <div class="col">${tile(sg(T.indice_ht[L] - 100, 0) + " %", "les produits tech sont 18 % moins chers en Allemagne une fois la TVA retirée (calcul : 94,7 ÷ 1,19 comparé à 116,5 ÷ 1,20)", "bad")}
-      ${tile(nf(T.marge[L]) + " %", "de marge brute si l'on achète au prix français et revend au prix allemand, contre 28 % pour le groupe aujourd'hui (estimation)", "bad")}
+      ${tile(nf(T.marge[L]) + " %", "de marge brute si l'on achète au prix français et revend au prix allemand, contre 28 % pour le groupe aujourd'hui (estimation : même coût d'achat, hors transport et promotions)", "bad")}
       <div class="card" ${IN()} style="font-size:19px;line-height:1.5"><b>Et par habitant ?</b> Plus d'habitants (83,6 M contre 68,9 M) ne change pas les prix, mais chaque Allemand dépense plus, en moyenne par an :<br>
         tech <b style="color:var(--de)">${nf(D.categories.TECH.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.TECH.par_hab.FR, 0)} €</b> · livres, presse <b style="color:var(--de)">${nf(D.categories.LIVRES.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.LIVRES.par_hab.FR, 0)} €</b> (écart à confirmer)<br>
         <b>Donc :</b> des prix plus bas mais plus d'achats ; il faut acheter en Allemagne pour garder la marge.</div></div></div>`, "",
