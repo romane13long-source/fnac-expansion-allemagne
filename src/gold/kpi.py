@@ -102,6 +102,15 @@ loyer = v("loyer_reference_centre_ville", "DE")
 add("K7", "Réseau & Implantation", "Coût moyen au m² commercial (loyer, centre-ville)", loyer * 12, "€/m²/an", "hypothèse",
     "loyer de référence IHK Stuttgart (115 €/m²/mois, unité mensuelle déduite) × 12", "DE", annee=2024)
 
+# Pression concurrentielle nationale (borne haute, règle de gestion n° 11) : CECONOMY + Expert + Euronics
+autres = pd.read_csv(SILVER / "concurrents_autres.csv")
+pdv_autres = autres.loc[autres["canal"].eq("magasin"), "nb_points_de_vente"].sum()
+pop_de = population.set_index(["pays_id", "annee"])["population_1er_janvier"][("DE", int(population["annee"].max()))]
+add("K6_national", "Réseau & Implantation", "Pression concurrentielle nationale (borne haute)",
+    (magasins["nb_magasins"].sum() + pdv_autres) / pop_de * 1e6, "points de vente / M hab.", "estimation",
+    "(magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 ; formats non comparables",
+    "DE", zone="Allemagne", annee=2025)
+
 # --- Opérations & Logistique --------------------------------------------------------------
 grandes = communes[communes["population"] >= 100_000]
 add("K8", "Opérations & Logistique", "Distance moyenne depuis le hub de Chilly-Mazarin (villes ≥ 100 000 hab.)",
@@ -148,6 +157,12 @@ add("K12_ca", "Synthèse", "CA annuel estimé d'un magasin (2 400 m²)", ca_maga
     "CA France × (1 - part en ligne) / surface commerciale France × surface d'un magasin", "DE", annee=LAST)
 add("K12_invest", "Synthèse", "Investissement d'ouverture d'un magasin", investissement / 1e6, "M€", "hypothèse",
     "coût d'aménagement au m² (non sourcé) × surface", "DE", annee=LAST)
+add("K7_magasin", "Réseau & Implantation", "Loyer annuel d'un magasin de 2 400 m² au loyer IHK", loyer * 12 * h["surface_magasin_m2"] / 1e6,
+    "M€ / an", "hypothèse", "loyer de référence × 12 × surface d'un magasin", "DE", annee=2024)
+for nom_seuil, loyer_max in {"loyer maximal pour un résultat positif (achats locaux)":
+                             ca_magasin * (marge_groupe * 100 - couts_hors_loyer_pct) / 100 / h["surface_magasin_m2"] / 12}.items():
+    add("K12_seuil_loyer", "Synthèse", nom_seuil.capitalize(), loyer_max, "€/m²/mois", "estimation",
+        "CA × (marge 28 % - coûts hors loyer) / surface / 12", "DE", annee=LAST)
 scenarios = {
     "A. achats France + loyer IHK": (marge_de_achats_france, loyer * 12 * h["surface_magasin_m2"]),
     "B. achats France + loyer niveau France": (marge_de_achats_france, loyers_groupe_pct / 100 * ca_magasin),
@@ -162,6 +177,19 @@ for nom, (marge_pct, loyer_annuel) in scenarios.items():
     delai = investissement / resultat if resultat > 0 else 999
     add("K12", "Synthèse", "Délai de retour sur investissement d'un magasin (999 = jamais)", delai, "années",
         "estimation", "investissement / résultat annuel", "DE", zone=nom, annee=LAST)
+
+# Sensibilité du scénario D (le seul positif) : CA au m² ± 20 % et investissement 1 000 / 1 500 / 2 000 €/m².
+# K12 est un ordre de grandeur calculé sur des ratios du GROUPE (CA France, surfaces France y compris
+# Nature & Découvertes, coûts groupe) : ni montée en charge, ni impôts, ni BFR, ni investissement de maintien.
+loyer_d = scenarios["D. achats locaux + loyer niveau France"][1]
+for ecart_ca in (-0.20, 0.0, 0.20):
+    for invest_m2 in (1000, 1500, 2000):
+        ca = ca_magasin * (1 + ecart_ca)
+        resultat = ca * (marge_groupe * 100 - couts_hors_loyer_pct) / 100 - loyer_d * (1 + ecart_ca)
+        delai = invest_m2 * h["surface_magasin_m2"] / resultat if resultat > 0 else 999
+        add("K12_sensibilite", "Synthèse", "Délai de retour, scénario D, sensibilité (999 = jamais)", delai, "années",
+            "estimation", "investissement / résultat annuel, loyer proportionnel au CA",
+            "DE", zone=f"CA {ecart_ca:+.0%} ; invest {invest_m2} €/m²", annee=LAST)
 
 kpi = pd.DataFrame(rows)
 assert kpi["valeur"].map(math.isfinite).all(), "valeur non calculable"

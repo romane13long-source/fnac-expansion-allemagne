@@ -57,7 +57,7 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 | Prix & marges | **Marge brute estimée post-taxe** | 1 − (1 − taux de marge brute du groupe) / (indice relatif hors taxes / 100), à coût d'achat identique et avec la TVA de la catégorie | idem | La marge reste-t-elle suffisante au prix allemand ? |
 | Réseau & implantation | **Densité concurrentielle par zone de chalandise** | magasins CECONOMY du Land / population du Land × 1 000 000 | `fact_magasins_concurrents`, `dim_commune`, `dim_land` | Dans quels Länder ouvrir en premier ? |
 | Réseau & implantation | **Pression concurrentielle nationale** *(complément, borne haute)* | (magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 | `fact_magasins_concurrents`, `concurrents_autres` (Silver), `fact_population` | La densité CECONOMY sous-estime-t-elle la concurrence ? |
-| Réseau & implantation | **Coût moyen au m² commercial** *(hypothèse)* | loyer de référence × surface type d'un magasin | hypothèse documentée (§ 3) | Quel coût pour chaque ouverture ? |
+| Réseau & implantation | **Coût moyen au m² commercial** *(hypothèse)* | loyer de référence mensuel × 12 (€/m²/an) ; loyer d'un magasin = × 2 400 m² | hypothèse documentée (§ 3) | Quel coût pour chaque ouverture ? |
 | Opérations & logistique | **Distance moyenne depuis le hub** | distance à vol d'oiseau (formule de haversine) entre le hub et chaque ville de 100 000 habitants ou plus, moyenne pondérée par la population | `dim_commune`, hub | Livrer depuis la France, ou ouvrir un entrepôt en Allemagne ? |
 | Opérations & logistique | **Droits de douane / taxes locales** | droits de douane entre pays de l'UE ; écart de TVA DE − FR | `fact_indicateurs_officiels` | Surcoût réglementaire du passage de frontière |
 | Assortiment | **Taux de pénétration des catégories** | (dépenses DE / population DE) / (dépenses FR / population FR) × 100, par catégorie | `fact_marche`, `fact_population` | Quelles catégories vendre en priorité ? |
@@ -195,6 +195,10 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 | `source`, `url` | Texte | Document et lien officiel | NA | expert.de - Daten und Fakten | idem |
 | `commentaire` | Texte | Positionnement et limite | NA | Réseau coopératif de proximité | idem |
 
+**`kpi.csv`** (Gold), une ligne par valeur de KPI : `kpi_id` (K1a … K12), `axe` (axe du guide des KPI), `kpi`, `pays_id`, `categorie_id`, `zone` (Land, scénario ou famille), `annee`, `valeur`, `unite`, `nature` (mesuré / estimation / hypothèse / simulé), `formule`. Exemple : K12, « D. achats locaux + loyer niveau France », 7,94 années, estimation. Lu par le dashboard et par la brique IA.
+
+**`catalogue_simule.csv`** (Gold, **simulé**) : `reference_id`, `famille`, `categorie_id`, `specifique_france`, `eligible_allemagne`, `nature`. 10 000 références fictives (graine fixe), règles dans `src/gold/catalogue_simule.py`.
+
 **`hubs_logistiques`** (1 ligne) : `hub`, `commune`, `code_insee` (clé), `longitude`, `latitude`, `statut`, `source`, `url`. Exemple : Plateforme Fnac Darty Chilly-Mazarin, 91161, 2,3103 / 48,7051. Source : communiqué Fnac Darty et API Découpage administratif (geo.api.gouv.fr).
 
 **`correspondance_categories`** (2 lignes) : `categorie_id` (clé), `categorie_fr`, `code_marche_eurostat`, `code_prix_eurostat`, `correspondance` (exacte / approximative), `commentaire`. Exemple : TECH, CP081, A010801, exacte. Table créée par l'équipe (règle de gestion n° 8).
@@ -328,6 +332,8 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 - Prix TECH **18 % plus bas** en Allemagne (indice hors taxes 82, France = 100) : à coût d'achat français, la marge brute tombe à **12 %** contre **28 %** pour le groupe.
 - Concurrent installé : CECONOMY détient **17 à 38 %** du marché TECH (HT / HT), avec 394 magasins géolocalisés (403 publiés) ; Expert, Euronics, Amazon et Otto en plus.
 - Délai de retour sur investissement d'un magasin de 2 400 m² : **jamais** dans 3 scénarios sur 4. Seul le scénario « achats locaux + loyer au niveau français » est rentable : **+0,45 M€ par an, 7,9 ans** *(estimation ; l'investissement de 1 500 €/m² est une hypothèse non sourcée)*.
+- **Limites du ROI** : c'est un ordre de grandeur calculé avec des ratios du **groupe** (CA France, surfaces France y compris Nature & Découvertes, coûts groupe), pas de la Fnac seule ; il ne compte ni montée en charge, ni impôts, ni besoin en fonds de roulement, ni investissement de maintien. Sensibilité du scénario D (`K12_sensibilite`) : de **4,4 ans** (CA +20 %, 1 000 €/m²) à **13,2 ans** (CA −20 %, 2 000 €/m²).
+- Écart à expliquer : Eurostat donne **350 € par habitant** de dépenses « journaux, livres et papeterie » en Allemagne contre **155 €** en France (2025). Les autres pays vérifiés en 2023 sont plus proches de la France (Italie, Espagne) : la différence peut venir des méthodes nationales et n'est pas utilisée comme argument.
 
 **Conditions de succès du pilote** (issues du modèle, à valider par le Comex)
 1. **Acheter en Allemagne** (centrale d'achat locale) pour retrouver une marge brute proche de **28 %**.
