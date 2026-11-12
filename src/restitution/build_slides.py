@@ -504,5 +504,6 @@ md = ["# Script de l'oral (10 min)", "", "Généré par `src/restitution/build_s
       "de présentation du PowerPoint. Répartition Romane / Elena proposée, à ajuster.", ""]
 for num, titre, minutage, qui, texte in SCRIPT:
     md += [f"## Slide {num} · {titre or 'Titre'}", f"**{minutage} · {qui}**", "", texte, ""]
-(ROOT / "docs" / "script_oral.md").write_text("\n".join(md), encoding="utf-8")
+# Le script de l'oral officiel est docs/script_oral.md (rédigé pour les slides web) : on ne l'écrase plus ici
+(ROOT / "docs" / "script_oral_pptx.md").write_text("\n".join(md), encoding="utf-8")
 print(f"{out.name} : {len(prs.slides)} slides ; script_oral.md : {len(SCRIPT)} sections")

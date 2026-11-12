@@ -1,64 +1,109 @@
-# Script de l'oral (10 min)
+# Script de l'oral : Fnac → Allemagne (10 min)
 
-Généré par `src/restitution/build_slides.py` avec les chiffres du Gold. Le même texte est dans les notes de présentation du PowerPoint. Répartition Romane / Elena proposée, à ajuster.
+Présentation : `docs/slides.html` (F = plein écran, flèches = avancer, N = afficher ces notes sous la slide).
+Le minutage suit le tableau de l'oral du sujet (slide 8 du PDF). Répartition Romane / Elena proposée, à ajuster.
+Tous les chiffres viennent du repo (`data/gold/kpi.csv` et sources citées sur chaque slide).
 
-## Slide 1 · COMEX FNAC · STRATÉGIE 2027-2029
-**0:00 → 0:15 · Romane**
+| Section du sujet | Temps | Slides | Qui |
+|---|---|---|---|
+| 1. Entreprise et pays cible | 1 min | 1-2 | Romane |
+| 2. Base de données et cadrage | 1 min 30 | 3 | Elena |
+| 3. Démarche analytique | 2 min | 4 | Romane |
+| 4. Analyse et brique IA | 3 min | 5-9 | Elena / Romane en alternance |
+| 5. Décision et recommandation | 1 min 30 | 10-11 | Romane |
+| Questions | — | annexes A-B | les deux |
 
-Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? On a construit toute la chaîne de données pour y répondre ; notre décision arrive à la fin.
+---
 
-## Slide 2 · Une Fnac qui rétrécit en France, un marché allemand qui grandit
-**0:15 → 1:00 · Romane**
+## Slide 1 · Couverture — 0:00 → 0:10 · Romane
 
-La Fnac compte 205 magasins en France fin 2025, après 15 fermetures. Les dépenses des ménages allemands en tech progressent de 2,7 % par an depuis 2015, quand elles reculent de 0,8 % en France. L'Allemagne est le premier marché d'Europe et le groupe n'y a aucun magasin.
+> Bonjour. Le Comex de la Fnac nous pose une seule question : l'implantation en Allemagne est-elle réalisable et rentable ? Nous allons y répondre en dix minutes, et notre décision arrive à la fin.
 
-## Slide 3 · Un pipeline simple, des sources officielles,
-des chiffres traçables
-**1:00 → 2:30 · Elena**
+## Slide 2 · La Fnac recule en France, le marché allemand grandit — 0:10 → 1:00 · Romane
 
-Aucune donnée n'était fournie : tout vient de sources publiques. On a utilisé l'API d'Eurostat, l'office statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel allemand des communes ; et du scraping pour localiser les magasins MediaMarkt et Saturn, à partir des plans de site publiés pour les robots. Le pipeline suit les trois couches du cours : Bronze, Silver, Gold ; le modèle de données est détaillé dans le README. Chaque chiffre porte son étiquette : mesuré, estimation, hypothèse ou simulé.
+> La Fnac compte 205 magasins en France fin 2025, après 15 fermetures dans l'année : le réseau français se contracte.
+> En face, l'Allemagne : 83,6 millions d'habitants, le premier marché d'Europe, et des dépenses tech qui progressent de 2,7 % par an depuis 2015, quand elles reculent de 0,8 % par an en France.
+> La Fnac n'y a aucun magasin, et le leader local, MediaMarkt-Saturn, est déjà notre concurrent direct en France. L'enjeu de la stratégie 2027-2029, c'est donc de trouver de la croissance hors de France, sans détruire de valeur.
 
-## Slide 4 · Un KPI par question du Comex, un KPI de synthèse pour trancher
-**2:30 → 4:30 · Romane**
+*Transition :* « Pour répondre, il nous fallait des données fiables. Elena. »
 
-On a suivi le guide des KPI du Comex, axe par axe, en se demandant pour chacun quelle décision il éclaire. Aucun ne répond seul à « rentable ? » : on a donc ajouté un KPI de synthèse, le délai de retour d'un magasin, et le cash-flow du groupe pour savoir s'il peut financer le projet. Méthode : on compare toujours hors taxes, et chaque KPI a sa définition en clair dans le dashboard.
+## Slide 3 · Une architecture solide, des sources fiables — 1:00 → 2:30 · Elena
 
-## Slide 5 · Un Allemand dépense 1,8 fois plus en tech qu'un Français
-**4:30 → 5:15 · Elena**
+> Aucune donnée n'était fournie : tout vient de sources publiques.
+> Pour le marché, les prix et la population, on a utilisé l'API d'Eurostat, l'office statistique de l'Union européenne. Pour les villes, le fichier officiel des communes allemandes, Destatis. Pour les magasins du concurrent, on a fait du scraping : on a lu les plans de site de MediaMarkt et de Saturn, des fichiers publiés pour les robots, et on a localisé 394 magasins. Les chiffres des entreprises viennent de leurs rapports annuels, page par page.
+> Tout passe par un pipeline en trois couches, comme vu en cours : Bronze, la donnée brute jamais modifiée ; Silver, une table propre par source ; Gold, un modèle en étoile avec un flocon, de la commune vers le Land. Un seul script refait toute la chaîne, et relancé deux fois il donne exactement le même résultat.
+> Enfin, chaque chiffre est étiqueté : mesuré quand il est officiel, estimation quand c'est notre calcul, hypothèse quand il n'a pas de source, simulé pour les données fictives. On sait toujours d'où vient un chiffre.
 
-Premier constat : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais la place est prise : CECONOMY, c'est-à-dire MediaMarkt et Saturn, tient entre 17 et 38 % du marché, et deux coopératives, Expert et Euronics, ont des centaines de petits magasins.
+*Transition :* « Avec ces données, quels indicateurs suivre ? Romane. »
 
-## Slide 6 · Mais la France est plus chère : vendre au prix allemand écrase la marge
-**5:15 → 6:00 · Romane**
+## Slide 4 · Un KPI par question du Comex — 2:30 → 4:30 · Romane
 
-Deuxième constat, et c'est la réponse à une question qu'on nous pose souvent : non, la France n'est pas moins chère. Les produits tech y coûtent 116,5 contre 94,7 en Allemagne, sur une base 100 européenne. Si la Fnac achète au prix français et vend au prix allemand, sa marge tombe à 12,2 %, contre 28 %. Il n'y a aucun droit de douane entre les deux pays : la difficulté est économique, pas réglementaire.
+> On est partis du guide des KPI du Comex, et pour chaque indicateur on s'est demandé : quelle décision il éclaire ?
+> Le marché attire-t-il ? On mesure la croissance du secteur et les parts de marché : celle de la Fnac en France, celle du leader en Allemagne. Ça donne le plafond de chiffre d'affaires.
+> Notre prix tient-il ? L'indice de prix Allemagne-France et la marge brute après taxes.
+> Où ouvrir, et à quel coût ? La densité de magasins concurrents et le coût au mètre carré.
+> Peut-on livrer ? La distance à notre entrepôt et les taxes.
+> Que vendre ? La consommation par catégorie et la part de notre catalogue vendable en Allemagne.
+> Mais aucun de ces indicateurs ne répond seul à « est-ce rentable ? ». On a donc ajouté un KPI de synthèse : le délai de retour sur investissement d'un magasin, et le cash-flow du groupe pour savoir s'il peut financer le projet.
 
-## Slide 7 · Où ouvrir ? Cologne coche les 3 critères
-**6:00 → 6:45 · Elena**
+*Transition :* « Voici ce que disent les chiffres. Elena. »
 
-Troisième question : où ouvrir. On ne regarde que les 7 plus grandes villes, celles qui peuvent faire vivre un grand magasin, et on les note sur trois critères simples. Cologne est la seule à cocher les trois : plus d'un million d'habitants, peu de magasins du concurrent pour sa taille, et 416 km de notre entrepôt. Un entrepôt en Allemagne diviserait les distances par deux, mais pour un seul magasin, livrer depuis la France suffit. [DÉMO 30 s : dashboard, onglet « Où ouvrir ? », changer de ville ; le commentaire IA se réécrit en direct]
+## Slide 5 · Insight 1 : le marché attire — 4:30 → 5:00 · Elena
 
-## Slide 8 · Un magasin n'est rentable qu'avec des achats en Allemagne et un loyer maîtrisé
-**6:45 → 7:30 · Romane**
+> Premier constat : le marché attire. Un Allemand dépense 363 euros par an en produits tech, un Français 204 : 1,8 fois plus, et l'écart se creuse depuis 2015.
+> Mais la place est prise : le leader CECONOMY, c'est-à-dire MediaMarkt et Saturn, tient entre 17 et 38 % du marché, et deux coopératives, Expert et Euronics, ont des centaines de magasins. Il y a de la demande, mais il faudra se différencier.
 
-Le cœur de l'analyse : on a calculé le résultat d'un magasin de 2 400 m² dans quatre scénarios, achats en France ou en Allemagne, loyer de centre-ville ou au niveau français. Trois sur quatre perdent de l'argent. Seul le scénario achats allemands et loyer maîtrisé gagne 0,45 M€ par an, soit un retour en 7,9 ans. L'encadré violet est écrit par notre brique IA : elle ne calcule rien, elle commente nos KPI, et un script vérifie chaque chiffre qu'elle écrit.
+## Slide 6 · Insight 2 : vendre au prix allemand divise notre marge par deux — 5:00 → 5:35 · Romane
 
-## Slide 9 · La Fnac peut financer un pilote, pas un réseau
-**7:30 → 8:00 · Elena**
+> Deuxième constat. On pense souvent que la France est moins chère : c'est l'inverse. Sur un même panier tech, la France est à 116,5 et l'Allemagne à 94,7, sur une base 100 européenne. Une fois la TVA retirée, la tech est 18 % moins chère en Allemagne.
+> Si la Fnac achète ses produits au prix français et les revend au prix allemand, sa marge brute passe de 28 % à 12 %. Et attention : avoir plus d'habitants ne change pas les prix, mais chaque Allemand achète plus. Conclusion : il faut acheter en Allemagne.
 
-Dernière question : le groupe a-t-il les moyens ? le groupe Fnac a dégagé 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net est négatif, -145,6 M€ : on peut financer un test, pas un déploiement national.
+## Slide 7 · Insight 3 : une seule façon d'ouvrir gagne de l'argent — 5:35 → 6:15 · Elena
 
-## Slide 10 · 5 · DÉCISION ET RECOMMANDATION · DÉFENSE DES ARBITRAGES 15 PTS
-**8:00 → 9:30 · Romane**
+> Troisième constat, le plus important. On a calculé ce que gagne un magasin de 2 400 mètres carrés, qui ferait 14,6 millions d'euros de ventes par an : ce qui reste après avoir payé les produits, les salaires et le loyer.
+> On a croisé deux choix : acheter en France ou en Allemagne, et un loyer de centre-ville ou modéré. Trois combinaisons sur quatre perdent de l'argent. Seule la combinaison achats en Allemagne et loyer modéré gagne 0,45 million par an, et rembourse l'ouverture, 3,6 millions, en 7,9 ans.
+> Le seuil à retenir : au-delà de 33 euros le mètre carré par mois, on perd de l'argent. La chambre de commerce allemande, l'IHK, donne 115 euros en centre-ville : il faut éviter les rues les plus chères.
 
-Notre décision : Go sous conditions, pour un seul magasin pilote à Cologne, pas un réseau. Trois conditions : acheter en Allemagne pour retrouver notre marge ; un loyer sous 33 euros le mètre carré ; un assortiment centré sur la tech et les jeux vidéo. Cologne est la seule grande ville qui coche nos trois critères. Calendrier : centrale d'achat et bail dans les six premiers mois, ouverture à un an, décision de déploiement à trois ans, avec un critère d'arrêt écrit.
+## Slide 8 · Insight 4 : Cologne, livrée depuis notre entrepôt français — 6:15 → 6:50 · Romane
 
-## Slide 11 · 5 · DÉCISION ET RECOMMANDATION
-**9:30 → 10:00 · Romane**
+> Où ouvrir ? On a comparé les sept plus grandes villes allemandes sur trois critères simples : plus d'un million d'habitants, peu de magasins du leader pour leur taille, et moins de 450 kilomètres de notre entrepôt.
+> Cologne est la seule à cocher les trois. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne : on livre le pilote depuis la France. Un entrepôt en Allemagne, à Cologne, diviserait les distances par plus de deux, mais il ne se justifie que si on déploie un réseau.
 
-Concrètement, nous demandons au Comex trois décisions : valider le pilote de Cologne, valider nos trois conditions, et fixer dès maintenant le rendez-vous de décision à trois ans avec un critère d'arrêt. Merci, nous sommes prêts pour vos questions.
+## Slide 9 · La brique de synthèse IA — 6:50 → 7:30 · Elena
 
-## Slide 12 · Comment on a utilisé l'IA, et nos limites
-**réserve · Romane + Elena**
+> Notre brique IA. Le principe : l'IA ne calcule rien, les calculs restent dans notre code. Le dashboard calcule les indicateurs selon les filtres choisis ; Claude reçoit uniquement ces chiffres, avec une consigne : écrire deux ou trois phrases pour un décideur. Un script vérifie ensuite que chaque nombre écrit par l'IA existe bien dans nos données.
+> Quand on change un filtre, le commentaire change : 109 situations au total. Exemple ici, le même magasin à Cologne : avec des achats en France et un loyer de centre-ville, l'IA explique qu'on perd 4,1 millions par an ; avec des achats en Allemagne et un loyer modéré, qu'on gagne 0,45 million et qu'on rembourse en 7,9 ans.
 
-Slide de réserve. Si on nous demande comment on a utilisé l'IA : elle ne calcule rien ; elle reçoit nos chiffres et les commente en direct, et la page vérifie chaque nombre. Si le jury attaque le ROI : c'est un ordre de grandeur, et la sensibilité montre que la conclusion tient : il faut des achats locaux et un loyer maîtrisé dans tous les cas.
+*Transition :* « Donc, réalisable et rentable ? Romane. »
+
+## Slide 10 · Décision — 7:30 → 9:00 · Romane
+
+> Réponse à la question du Comex. Réalisable ? Oui : le marché est porteur, il n'y a pas d'obstacle réglementaire, et on a identifié la ville et l'entrepôt. Rentable ? Oui, mais seulement sous trois conditions ; sinon, le magasin perd de l'argent.
+> Notre décision est donc : Go, sous trois conditions, pour un seul magasin pilote à Cologne.
+> Un : acheter en Allemagne, pour garder 28 % de marge au lieu de 12. Deux : un loyer sous 33 euros le mètre carré, donc une grande surface hors des rues les plus chères. Trois : un assortiment tech et jeux vidéo, dont 90 % du catalogue est vendable en Allemagne.
+> Next steps : dans les six premiers mois, une centrale d'achat allemande et le bail à Cologne ; en parallèle, un test de livraison depuis la France ; ouverture du pilote à un an ; décision de déploiement à trois ans.
+> Et on s'engage sur un critère d'arrêt : si le magasin perd de l'argent, ou s'il met plus de huit ans à rembourser, on ne déploie pas.
+
+## Slide 11 · Ce que nous demandons au Comex — 9:00 → 9:30 · Romane
+
+> Concrètement, nous demandons au Comex trois décisions : valider le pilote de Cologne, valider nos trois conditions, et fixer dès aujourd'hui le rendez-vous de décision à trois ans.
+> Merci, nous sommes prêts pour vos questions.
+
+---
+
+## Pour les questions (annexes et `docs/questions_jury.md`)
+
+**Annexe A · Le groupe peut-il financer ?** 145 millions d'euros de cash-flow libre en 2025 ; le pilote en coûte 3,6, soit 2,5 %. Mais le résultat net 2025 est de −145,6 millions : on peut financer un test, pas un réseau. Ces chiffres sont publiés pour l'ensemble du groupe, la Fnac seule ne l'est pas.
+
+**Annexe B · Nos limites.**
+- La rentabilité est un ordre de grandeur : ratios du groupe, sans montée en charge ni impôts. Selon les ventes et l'investissement, le retour va de 4,4 à 13,2 ans ; la conclusion ne change pas : il faut acheter en Allemagne et maîtriser le loyer.
+- L'investissement de 1 500 € par m² et le loyer de 115 € sont des hypothèses.
+- La part du catalogue vendable est simulée : le catalogue de la Fnac n'est pas public.
+- On a trouvé 394 magasins du concurrent contre 403 publiés.
+
+**Questions probables :**
+- *« Eurostat, c'est fiable ? »* C'est l'office statistique de l'Union européenne : il harmonise les chiffres des instituts nationaux pour qu'on puisse comparer les pays.
+- *« Comment avez-vous fait le scraping ? »* On a lu les plans de site publiés pour les robots (robots.txt respecté), puis rattaché chaque magasin à sa commune ; les villes homonymes ont été corrigées à la main.
+- *« Pourquoi seulement 7 villes ? »* Ce sont les seules assez grandes pour faire vivre un magasin de 2 400 m².
+- *« Pourquoi pas un entrepôt en Allemagne ? »* Pour un seul magasin, l'entrepôt coûterait plus qu'il ne rapporte ; on l'étudiera si on déploie.
+- *« Que se passe-t-il si l'IA se trompe ? »* Elle ne calcule rien, et un script vérifie chaque nombre qu'elle écrit ; un nombre inconnu est rejeté.
