@@ -493,8 +493,7 @@ def apparitions(slide_, shapes, pas_ms=700):
     slide_._element.append(parse_xml(xml))
 
 
-for sl in prs.slides:
-    fondu(sl)
+# Ni transition ni animation générées : PowerPoint refusait ce XML ; les ajouter à la main si besoin (onglets Transitions / Animations)
 couverture = prs.slides[0]
 cibles = [sh for sh in couverture.shapes if sh.has_text_frame and (sh.text_frame.text == "Fnac → Allemagne" or sh.text_frame.text.startswith(("L'implantation", "Romane", "Projet final")))]
 # apparitions(couverture, cibles)  # désactivé : PowerPoint refusait ce XML d'animation (fenêtre de réparation) ; à ajouter à la main

@@ -476,7 +476,7 @@ function pageDefinitions() {
 function pageMethode() {
   return { phrase: "Les données sont publiques et collectées par script ; l'IA ne calcule rien : elle commente, en direct, les chiffres déjà calculés, et chaque nombre qu'elle écrit est vérifié.", tiles: [],
     body: `<div class="grid2">${card("Comment l'IA est utilisée", "Brique « Commentaires & synthèse IA » (slide 5 du sujet).",
-      `<ol><li>Chaque onglet calcule ses chiffres en direct (selon les filtres).</li><li>Il envoie à Claude <b>uniquement ces faits</b> + une consigne (bouton « Voir ce qu'on envoie à Claude »).</li><li>Claude rédige 2 à 3 phrases pour un décideur, en direct : rien n'est écrit à l'avance.</li><li>La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.</li><li>Sur ce lien public, Claude n'est pas appelé (pas de clé d'API payante) : la page montre le prompt exact et un texte calculé sans IA, signalé comme tel. Ouverte dans claude.ai, la même page appelle Claude en direct.</li></ol>
+      `<ol><li>Chaque onglet calcule ses chiffres en direct (selon les filtres).</li><li>Il envoie à Claude <b>uniquement ces chiffres</b> + une consigne courte (2 à 3 phrases pour un décideur, aucun nouveau chiffre).</li><li>Claude rédige 2 à 3 phrases pour un décideur, en direct : rien n'est écrit à l'avance.</li><li>La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.</li><li>Sur ce lien public, Claude n'est pas appelé (pas de clé d'API payante) : la page affiche un texte calculé sans IA, signalé comme tel. Ouverte dans claude.ai, la même page appelle Claude en direct.</li></ol>
       <p class="note">Pourquoi ce choix : l'IA est bonne pour rédiger, pas pour calculer. Les calculs restent dans le code (traçables), l'IA les explique.</p>`, "page claude.ai, capacité « sample » (Claude appelé depuis la page)")}
       ${card("Comment les données ont été collectées", "Pipeline Bronze → Silver → Gold (run_pipeline.py), relançable.",
       `<ul><li><b>API Eurostat</b> : dépenses des ménages, prix, population (téléchargement automatique).</li><li><b>Destatis</b> : fichier officiel des 10 753 communes allemandes.</li><li><b>Scraping MediaMarkt / Saturn</b> : nous avons lu les <i>plans de site</i> (fichiers XML publiés exprès pour les robots, robots.txt respecté), qui listent l'adresse de chaque magasin ; chaque magasin a été rattaché à sa commune (394 trouvés contre 403 publiés). 5 rattachements ambigus (villes homonymes) corrigés à la main.</li><li><b>Rapports officiels</b> (Fnac Darty, CECONOMY) : chiffres relevés à la main avec la page.</li></ul>`, "README § 3 du repo")}</div>`,
@@ -506,14 +506,14 @@ Faits :
 }
 async function renderAI(page, built, force = false) {
   const box = document.getElementById("ai-box"); if (!box) return;
-  const txt = box.querySelector(".txt"), meta = box.querySelector(".meta"), pre = box.querySelector("pre");
-  const prompt = aiPrompt(page, built.facts); pre.textContent = prompt;
+  const txt = box.querySelector(".txt"), meta = box.querySelector(".meta");
+  const prompt = aiPrompt(page, built.facts);
   if (!force && aiCache.has(prompt)) { const c = aiCache.get(prompt); txt.innerHTML = c.html; meta.textContent = c.meta; return; }
   aiController?.abort(); const myCtl = aiController = new AbortController();
   txt.textContent = "Claude rédige le commentaire…"; meta.textContent = "";
   const sample = await getSample();
   if (myCtl !== aiController) return;
-  if (!sample) { document.getElementById("ai-regen").hidden = true; txt.textContent = built.phrase; meta.textContent = "Sur ce lien public, Claude n'est pas appelé (il faudrait une clé d'API payante) : ce texte est calculé sans IA, à partir des mêmes faits. Le prompt exact envoyé à Claude est visible ci-dessous ; l'équipe a fait tourner Claude en direct sur ces prompts pendant le projet."; return; }
+  if (!sample) { document.getElementById("ai-regen").hidden = true; txt.textContent = built.phrase; meta.textContent = "Sur ce lien public, Claude n'est pas appelé (il faudrait une clé d'API payante) : ce texte est calculé sans IA, à partir des mêmes chiffres que ceux envoyés à Claude."; return; }
   try {
     const res = await sample(prompt, { signal: myCtl.signal, modelTier: "quick", cache: !force, onText: ({ text }) => { if (myCtl === aiController) txt.textContent = text; } });
     if (myCtl !== aiController) return;
@@ -551,7 +551,7 @@ function render() {
   document.getElementById("f-ville").value = state.ville;
   for (const [id, key] of [["f-cat", "cat"], ["f-achats", "achats"], ["f-loyer", "loyer"]]) document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state[key]));
   document.getElementById("page").innerHTML = `<h2 class="page">${page.label}</h2><p class="q">${page.q}</p><div class="phrase">${built.phrase}</div>` +
-    (built.facts ? `<section class="card ai" id="ai-box" aria-live="polite"><div class="ai-head"><h3>✦ Commentaire IA</h3><button id="ai-regen">↻ Redemander à Claude</button></div><div class="txt"></div><div class="meta"></div><details><summary>Voir ce qu'on envoie à Claude</summary><pre></pre></details></section>` : "") +
+    (built.facts ? `<section class="card ai" id="ai-box" aria-live="polite"><div class="ai-head"><h3>✦ Commentaire IA</h3><button id="ai-regen">↻ Redemander à Claude</button></div><div class="txt"></div><div class="meta"></div></section>` : "") +
     (built.tiles.length ? `<section class="tiles">${built.tiles.join("")}</section>` : "") + built.body;
   built.draw?.();
   document.querySelectorAll("[data-go]").forEach(n => n.onclick = () => { state.tab = n.dataset.go; render(); });
