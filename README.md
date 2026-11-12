@@ -315,28 +315,37 @@ Chaque membre est responsable de ses KPI de bout en bout, de la donnée au texte
 
 ### Next Steps (recommandations post-étude)
 
-**Décision proposée : Go conditionnel — ouvrir un pilote de deux magasins, pas un réseau national.**
+**Décision : Go conditionnel — un magasin pilote à Cologne, pas un réseau national.**
 
-Les chiffres de marché et de marge ci-dessous sont calculés sur les données Silver 2025 ; les comptages de magasins viennent des sources citées. Le marché attire : les dépenses TECH progressent de **+2,9 % en Allemagne** contre **−1,3 % en France**, et la dépense par habitant atteint **363 €** contre **204 €**. Les livres offrent un second levier : **350 € par habitant** contre **155 €**, avec un prix unique qui limite la guerre des prix. Mais l'équation économique est tendue : sur les produits techniques, l'indice de prix allemand est de **94,7** contre **116,5** en France et, à coût d'achat constant, la marge tombe autour de **12 %** contre **28 %** de marge brute groupe. La concurrence est déjà installée : **394 magasins CECONOMY** (403 publiés), **364 Expert**, **plus de 1 100 Euronics**, sans compter Amazon et Otto en ligne. Enfin, le hub de Chilly-Mazarin est à **619 km en moyenne pondérée** des 79 villes allemandes de plus de 100 000 habitants.
+Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention).
 
-Sources des chiffres : `fact_marche`, `fact_indicateurs_officiels`, `fact_magasins_concurrents`, `concurrents_autres`, `communes` et `hubs_logistiques`.
+**Ce qui pousse au Go**
+- Un marché qui grandit : dépenses TECH **+2,9 % en Allemagne** contre **−1,3 % en France** ; **363 €** par habitant contre **204 €** (pénétration 178, France = 100).
+- Pas de barrière réglementaire : droits de douane **0 %**, TVA presque identique (19 % contre 20 % pour TECH).
+- Cologne : Land (Rhénanie-du-Nord-Westphalie) où la densité CECONOMY est parmi les plus faibles (**4,0 magasins par million d'habitants**, moyenne nationale 4,7), et ville de plus de 500 000 habitants la plus proche du hub de Chilly-Mazarin (**416 km**, contre **619 km** en moyenne pondérée pour les 79 villes de plus de 100 000 habitants).
 
-Le Go n'est donc pas un feu vert national : c'est un **test contrôlé**, avec des critères d'arrêt écrits. Les seuils ci-dessous sont des propositions à valider par le Comex ; `M` = mois après la décision.
+**Ce qui empêche un Go sans condition**
+- Prix TECH **18 % plus bas** en Allemagne (indice hors taxes 82, France = 100) : à coût d'achat français, la marge brute tombe à **12 %** contre **28 %** pour le groupe.
+- Concurrent installé : CECONOMY détient **17 à 38 %** du marché TECH (HT / HT), avec 394 magasins géolocalisés (403 publiés) ; Expert, Euronics, Amazon et Otto en plus.
+- Délai de retour sur investissement d'un magasin de 2 400 m² : **jamais** dans 3 scénarios sur 4. Seul le scénario « achats locaux + loyer au niveau français » est rentable : **+0,45 M€ par an, 7,9 ans** *(estimation ; l'investissement de 1 500 €/m² est une hypothèse non sourcée)*.
 
-| Priorité | Action | Horizon | Critère de réussite |
+**Conditions de succès du pilote** (issues du modèle, à valider par le Comex)
+1. **Acheter en Allemagne** (centrale d'achat locale) pour retrouver une marge brute proche de **28 %**.
+2. **Loyer inférieur à 33 €/m²/mois** : au-delà, le magasin perd de l'argent même avec des achats locaux. Le loyer de référence IHK (115 €/m²/mois, petites surfaces de centre-ville) est trois fois trop élevé : il faut viser un emplacement de grande surface hors rue prime.
+3. **Assortiment ciblé** : produits techniques et jeux vidéo (environ 90 % éligibles), peu de livres (10 % éligibles, catalogue en français) *(données simulées)*.
+
+| Étape | Action | Horizon | Critère de passage |
 |---|---|---|---|
-| 1 | Choisir **deux villes pilotes** — une métropole et une ville moyenne — avec une grille : taille du marché, densité CECONOMY, loyer, distance au hub, cannibalisation | M1 | Deux villes classées et validées par le Comex |
-| 2 | Verrouiller l'**équation économique** : négocier les conditions d'achat, mixer TECH / livres, tester un pricing local et des services | M1–M3 | Marge brute **≥ 18 %** (contre ~12 % à coût constant) |
-| 3 | Tester la **logistique** : livraison directe depuis Chilly-Mazarin contre un 3PL allemand | M1–M3 | Délai **< 48 h** et coût logistique maîtrisé (seuil à fixer) |
-| 4 | Ouvrir **deux magasins pilotes** de 1 500–2 000 m² (hypothèse) avec l'assortiment Fnac | M6–M12 | CA/m² proche du benchmark Fnac France, NPS > 50, marge ≥ 18 % |
-| 5 | Décider **Go / No-Go** après 12 mois d'exploitation | M18 | Payback ≤ 5 ans et marge ≥ 18 % ; sinon arrêt |
-| 6 | Si Go : passer à **8–10 magasins en 3 ans** dans les villes les mieux classées | M18–M54 | Modèle réplicable, cash-flow positif |
+| 1 | Négocier une centrale d'achat allemande | M1–M6 | Marge brute TECH proche de 28 % |
+| 2 | Trouver un emplacement à Cologne (2 400 m²) | M1–M6 | Loyer < 33 €/m²/mois |
+| 3 | Tester la logistique : livraison depuis Chilly-Mazarin contre un prestataire allemand | M3–M6 | Coût et délai comparés (seuils à fixer) |
+| 4 | Ouvrir le magasin pilote, assortiment TECH + jeux | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
+| 5 | Décision de déploiement après **2 ans d'exploitation** | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
 
 **Arbitrages**
 - **Pas de déploiement national** avant la preuve du pilote.
-- **Pas de guerre des prix** : Amazon et MediaMarkt sont plus gros ; la Fnac doit différencier par l'assortiment, le conseil, les livres et les services.
+- **Pas de guerre des prix** : Amazon et MediaMarkt sont plus gros ; la Fnac doit se différencier par l'assortiment, le conseil et les services.
 - **Pas d'acquisition de CECONOMY** : coût, endettement et risque d'exécution trop élevés pour un premier pas.
-- **Pas de mégastore** : un format de 1 500–2 000 m² limite le loyer et le risque.
 
 **Risques à surveiller**
 
@@ -358,11 +367,11 @@ Le Go n'est donc pas un feu vert national : c'est un **test contrôlé**, avec d
 | Schémas | `matplotlib` 3.11.2 |
 | Versionnement et collaboration | Git et GitHub (branches `feature/*` → `develop` → `main`) |
 | Formats | JSON (Eurostat), XLSX (Destatis), XML (plans de site), CSV (Silver, Gold, chiffres relevés à la main), PBIX / PNG / PDF (restitution) |
-| Restitution et brique IA | Power BI Desktop (dashboard, export PNG / PDF) ; API OpenAI `gpt-4o-mini` ou modèle équivalent (synthèse), avec repli sur un template déterministe ; PowerPoint / Keynote pour l'oral |
+| Restitution et brique IA | Power BI Desktop (dashboard, export PNG / PDF) ; Claude en ligne de commande (`claude -p`, synthèse), avec repli sur un template déterministe ; PowerPoint / Keynote pour l'oral |
 
 ### 5.1 Restitution
 
-**Dashboard Power BI Desktop** (`docs/dashboard/fnac_allemagne.pbix`), quatre pages :
+**Dashboard Power BI Desktop** (`docs/dashboard/fnac_allemagne.pbix`, *en cours de construction*), quatre pages :
 
 1. **Marché & potentiel** : taille et croissance DE / FR, dépense par habitant, parts de marché HT / HT.
 2. **Prix & marges** : indice de prix, marge estimée par catégorie, scénarios de prix.
@@ -379,9 +388,9 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 
 **Pipeline**
 
-1. `src/ai/synthese.py` charge les KPI Gold (`data/gold/kpi_*.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
+1. `src/ai/synthese.py` (*à créer*) charge les KPI Gold (`data/gold/kpi.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
 2. Il construit un prompt qui contient uniquement les chiffres validés et les règles de l'étude.
-3. Il appelle l'API OpenAI (`gpt-4o-mini` ou modèle équivalent) avec une température basse (0,2), via `urllib.request` pour éviter une dépendance supplémentaire.
+3. Il appelle Claude en mode non interactif (`claude -p`, Claude Code) via `subprocess` : aucune clé d'API n'est stockée dans le projet.
 4. Il vérifie que chaque chiffre cité dans la sortie existe dans les KPI ; en cas d'écart, il régénère ou rejette.
 5. Il écrit `data/gold/synthese_ia.md` et `docs/synthese_ia.md`.
 
@@ -389,7 +398,7 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 
 **Garde-fous**
 
-- Clé `OPENAI_API_KEY` en variable d'environnement, jamais dans le dépôt.
+- Aucune clé d'API dans le dépôt : `claude -p` utilise la session Claude Code de la personne qui lance le script.
 - Aucune donnée personnelle ; uniquement des agrégats.
 - Validation humaine obligatoire avant publication.
 - **Repli sans clé API** : un template déterministe produit la même structure à partir des KPI, pour que le dashboard reste démontrable hors ligne.
@@ -398,7 +407,7 @@ Le dashboard est alimenté par les CSV du Gold (`data/gold/`). Le rafraîchissem
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python run_pipeline.py      # collecte + nettoyage
+.venv/bin/python run_pipeline.py      # collecte, nettoyage, modèle Gold et KPI
 .venv/bin/python src/make_schemas.py  # schémas du README
 ```
 
