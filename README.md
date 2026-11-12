@@ -51,17 +51,22 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 | Axe | KPI | Formule | Données utilisées | Ce qu'il permet de décider |
 |---|---|---|---|---|
 | Marché & potentiel | **Taux de croissance annuel du secteur** | (dépenses des ménages N / dépenses N-1) − 1, par catégorie et par pays | `fact_marche` | Le marché allemand grandit-il ? |
-| Marché & potentiel | **Part de marché de Fnac Darty en France** *(estimation)* | CA France × (part produits techniques + part produits éditoriaux) / dépenses FR (TECH + LIVRES) | `fact_indicateurs_officiels`, `fact_marche` | Quelle part la Fnac sait-elle prendre sur son marché d'origine ? |
-| Marché & potentiel | **Part de marché du concurrent en Allemagne** *(fourchette)* | basse : ventes CECONOMY DE × part « IT et mobile » / dépenses DE TECH ; haute : ventes CECONOMY DE / dépenses DE TECH | `fact_indicateurs_officiels`, `fact_marche` | Le marché est-il déjà verrouillé ? |
-| Prix & marges | **Indice de prix relatif DE / FR** | indice de niveau des prix DE / indice FR × 100 (TTC), puis hors taxes : (indice DE / (1 + TVA DE)) / (indice FR / (1 + TVA FR)) × 100 | `fact_marche`, `fact_indicateurs_officiels` | Les prix allemands permettent-ils le positionnement de la Fnac ? |
-| Prix & marges | **Marge brute estimée post-taxe** | 1 − (1 − taux de marge brute du groupe) / (indice relatif hors taxes / 100), à coût d'achat identique | idem | La marge reste-t-elle suffisante au prix allemand ? |
+| Marché & potentiel | **Part de marché de Fnac Darty en France** *(estimation)* | CA France **HT** × (part produits techniques + part produits éditoriaux) / dépenses FR **ramenées HT** (TVA 20 % TECH, 5,5 % LIVRES) | `fact_indicateurs_officiels`, `fact_marche` | Quelle part la Fnac sait-elle prendre sur son marché d'origine ? |
+| Marché & potentiel | **Part de marché du concurrent en Allemagne** *(fourchette)* | basse : ventes CECONOMY DE **HT** × part « IT et mobile » / dépenses DE TECH **ramenées HT** (TVA 19 %) ; haute : ventes CECONOMY DE **HT** / dépenses DE TECH **ramenées HT** | `fact_indicateurs_officiels`, `fact_marche` | Le marché est-il déjà verrouillé ? |
+| Prix & marges | **Indice de prix relatif DE / FR** | indice de niveau des prix DE / indice FR × 100 (TTC), puis hors taxes : (indice DE / (1 + TVA DE de la catégorie)) / (indice FR / (1 + TVA FR de la catégorie)) × 100 | `fact_marche`, `fact_indicateurs_officiels` | Les prix allemands permettent-ils le positionnement de la Fnac ? |
+| Prix & marges | **Marge brute estimée post-taxe** | 1 − (1 − taux de marge brute du groupe) / (indice relatif hors taxes / 100), à coût d'achat identique et avec la TVA de la catégorie | idem | La marge reste-t-elle suffisante au prix allemand ? |
 | Réseau & implantation | **Densité concurrentielle par zone de chalandise** | magasins CECONOMY du Land / population du Land × 1 000 000 | `fact_magasins_concurrents`, `dim_commune`, `dim_land` | Dans quels Länder ouvrir en premier ? |
+| Réseau & implantation | **Pression concurrentielle nationale** *(complément, borne haute)* | (magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 | `fact_magasins_concurrents`, `concurrents_autres` (Silver), `fact_population` | La densité CECONOMY sous-estime-t-elle la concurrence ? |
 | Réseau & implantation | **Coût moyen au m² commercial** *(hypothèse)* | loyer de référence × surface type d'un magasin | hypothèse documentée (§ 3) | Quel coût pour chaque ouverture ? |
 | Opérations & logistique | **Distance moyenne depuis le hub** | distance à vol d'oiseau (formule de haversine) entre le hub et chaque ville de 100 000 habitants ou plus, moyenne pondérée par la population | `dim_commune`, hub | Livrer depuis la France, ou ouvrir un entrepôt en Allemagne ? |
 | Opérations & logistique | **Droits de douane / taxes locales** | droits de douane entre pays de l'UE ; écart de TVA DE − FR | `fact_indicateurs_officiels` | Surcoût réglementaire du passage de frontière |
 | Assortiment | **Taux de pénétration des catégories** | (dépenses DE / population DE) / (dépenses FR / population FR) × 100, par catégorie | `fact_marche`, `fact_population` | Quelles catégories vendre en priorité ? |
 | Assortiment | **% du catalogue France éligible** *(simulé)* | part des références du catalogue vendables en Allemagne | données simulées, signalées comme telles | 100 % du catalogue ou un assortiment ciblé ? |
 | Synthèse | **Délai de retour sur investissement d'un magasin** | investissement d'ouverture / résultat annuel estimé d'un magasin | KPI ci-dessus | Go / No-Go |
+
+> **Parts de marché : comparaison HT / HT.** Le CA des entreprises est publié hors taxes ; les dépenses des ménages Eurostat sont TTC. Les formules ci-dessus ramènent donc le marché à un montant HT avant de calculer une part (TVA 20 % FR / 19 % DE pour TECH ; 5,5 % FR / 7 % DE pour LIVRES). Sans cette correction, la part est sous-estimée d'environ 17 % pour TECH et 5 % pour LIVRES (`1 − 1/1,20` et `1 − 1/1,055`).
+>
+> **Densité concurrentielle.** Le KPI géolocalisé ne compte que CECONOMY (MediaMarkt + Saturn), seul réseau dont chaque magasin est connu. Les autres enseignes (Expert, Euronics, Amazon, Otto) sont suivies au niveau national dans `concurrents_autres` : elles documentent la pression concurrentielle, mais ne peuvent pas être affectées à un Land sans leur propre géolocalisation.
 
 ### 2.2 Dimensions (axes d'analyse)
 
@@ -72,7 +77,7 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 | `dim_categorie` | `categorie_id` | TECH, LIVRES | Séparer les deux métiers de la Fnac |
 | `dim_commune` | `code_commune` | 10 753 communes allemandes | Localiser les concurrents, mesurer les distances |
 | `dim_land` | `land_code` | 16 Länder | Zone de chalandise à l'échelle régionale (flocon de `dim_commune`) |
-| `dim_indicateur` | `indicateur_id` | 20 indicateurs relevés dans les rapports | Tracer la source et la page de chaque chiffre |
+| `dim_indicateur` | `indicateur_id` | 21 indicateurs relevés dans les rapports | Tracer la source et la page de chaque chiffre |
 
 ### 2.3 Règles de gestion
 
@@ -80,12 +85,13 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 2. **Une année commune.** Une date (« 2025-12-31 ») donne son année. Un exercice décalé (« 2024/25 ») est rattaché à son **année de clôture** (2025). Un taux en vigueur est daté de l'année de consultation.
 3. **Valeurs provisoires gardées.** Eurostat marque certaines valeurs « provisoire ». On les garde, avec la mention dans `statut_eurostat`, et on le signale dans les visuels.
 4. **Zones sans habitants exclues.** 200 « communes » sans habitants (forêts, lacs, eaux côtières) sont retirées : on ne peut pas y ouvrir de magasin.
-5. **Un seul concurrent.** MediaMarkt et Saturn appartiennent à CECONOMY : ils forment **un** concurrent. Un magasin listé sur les deux sites (même identifiant) est compté une fois.
+5. **Un seul concurrent par groupe.** MediaMarkt et Saturn appartiennent à CECONOMY : ils forment **un** concurrent. Un magasin listé sur les deux sites (même identifiant) est compté une fois. Les autres enseignes (Expert, Euronics, Amazon, Otto) sont suivies séparément dans `concurrents_autres`.
 6. **Rattachement magasin → commune**, du plus sûr au moins sûr : table manuelle, puis nom exact, puis début du nom officiel. Un mot générique seul (« Bad », « Sankt ») ne suffit jamais. La méthode utilisée est gardée dans `methode_rattachement`.
 7. **Chiffre de groupe.** Un chiffre publié pour un groupe entier (CECONOMY, Fnac Darty) porte le pays `GROUPE`. Une clé n'est jamais vide.
 8. **Correspondance des catégories.** TECH a la même définition dans le marché et dans les prix (`exacte`). LIVRES n'a pas d'indice de prix propre : on utilise celui des loisirs et de la culture (`approximative`).
-9. **Prix comparés hors taxes.** Les indices de prix Eurostat incluent la TVA. Pour estimer une marge, on retire la TVA de chaque pays.
+9. **Prix et parts comparés à TVA homogène.** Les indices de prix Eurostat et les dépenses des ménages sont TTC ; le CA des entreprises est HT. On ne compare jamais un CA HT à un marché TTC : pour les parts de marché, les dépenses sont ramenées HT en les divisant par (1 + TVA du pays et de la catégorie) ; pour la marge, la TVA est retirée du prix. Taux retenus : TECH 20 % FR / 19 % DE ; LIVRES 5,5 % FR / 7 % DE (taux réduit appliqué à tout le poste, approximation).
 10. **Hypothèses et données simulées signalées.** Toute valeur qui ne vient pas d'une source officielle est marquée « hypothèse » ou « simulé ».
+11. **Périmètre concurrentiel à deux niveaux.** La densité géolocalisée porte sur CECONOMY, seul réseau connu magasin par magasin. Les autres enseignes sont suivies au niveau national dans `concurrents_autres` et servent de borne de pression concurrentielle, sans être imputées à un Land.
 
 ### 2.4 Termes métier
 
@@ -97,7 +103,8 @@ Un KPI par question du guide fourni par le Comex, et un KPI de synthèse qui ré
 | **Dépenses de consommation des ménages** | Ce que les ménages d'un pays dépensent dans une catégorie : la taille du marché. |
 | **Part de marché** | Ventes d'une entreprise / taille totale du marché. |
 | **Taux de marge brute** | (Chiffre d'affaires − coût d'achat des produits vendus) / chiffre d'affaires. |
-| **TVA** | Taxe sur la valeur ajoutée, incluse dans le prix payé par le client et reversée à l'État. Taux normal : 19 % en Allemagne, 20 % en France. |
+| **TVA** | Taxe sur la valeur ajoutée, incluse dans le prix payé par le client et reversée à l'État. Taux normal : 19 % en Allemagne, 20 % en France ; taux réduit : 7 % en Allemagne, 5,5 % en France (livres). |
+| **HT / TTC** | Hors taxes / toutes taxes comprises. Le CA est publié HT, les dépenses des ménages et les prix payés sont TTC : on convertit avant toute comparaison. |
 | **Union douanière** | Les marchandises circulent entre pays de l'UE sans droits de douane. |
 | **Taux de pénétration** | Dépense par habitant dans une catégorie, comparée à un pays de référence. |
 | **Prix unique du livre** | En Allemagne (Buchpreisbindungsgesetz) comme en France (loi Lang), l'éditeur fixe le prix de vente du livre : un libraire ne peut pas le casser. |
@@ -162,7 +169,7 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 | `code_commune` | Texte (clé étrangère) | Commune du magasin | jointure sur le nom normalisé | 09562000 | Destatis |
 | `commune`, `land_code`, `land_nom`, `longitude`, `latitude` | Texte, numérique | Attributs de la commune rattachée | NA | Erlangen, 09, Bayern | Destatis |
 
-**`sources_officielles`**, chiffres relevés dans des documents officiels (20 lignes)
+**`sources_officielles`**, chiffres relevés dans des documents officiels (22 lignes)
 
 | Champ | Type de donnée | Description | Formule | Exemple | Source |
 |---|---|---|---|---|---|
@@ -174,19 +181,35 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 | `annee` | Entier | Année de rattachement | règle de gestion n° 2 | 2025 | calculé |
 | `source`, `page`, `url` | Texte | Document, page et lien officiel | NA | Fnac Darty - DEU 2025, p. 39 | idem |
 
+**`concurrents_autres`**, autres enseignes concurrentes en Allemagne (4 lignes)
+
+| Champ | Type de donnée | Description | Formule | Exemple | Source |
+|---|---|---|---|---|---|
+| `enseigne` | Texte (clé) | Nom de l'enseigne | NA | Expert | relevé par l'équipe |
+| `groupe` | Texte | Groupe ou centrale d'achat | NA | Expert SE | idem |
+| `canal` | Texte | `magasin` ou `en ligne` | NA | magasin | idem |
+| `pays` | Texte (clé) | Pays | NA | DE | idem |
+| `nb_points_de_vente` | Entier | Nombre de points de vente en Allemagne ; 0 = pure player | NA | 364 | source citée |
+| `periode` | Texte | Période telle qu'écrite dans la source | NA | consulté 2026-11-12 | idem |
+| `annee` | Entier | Année de rattachement | règle de gestion n° 2 | 2026 | calculé |
+| `source`, `url` | Texte | Document et lien officiel | NA | expert.de - Daten und Fakten | idem |
+| `commentaire` | Texte | Positionnement et limite | NA | Réseau coopératif de proximité | idem |
+
 **`hubs_logistiques`** (1 ligne) : `hub`, `commune`, `code_insee` (clé), `longitude`, `latitude`, `statut`, `source`, `url`. Exemple : Plateforme Fnac Darty Chilly-Mazarin, 91161, 2,3103 / 48,7051. Source : communiqué Fnac Darty et API Découpage administratif (geo.api.gouv.fr).
 
 **`correspondance_categories`** (2 lignes) : `categorie_id` (clé), `categorie_fr`, `code_marche_eurostat`, `code_prix_eurostat`, `correspondance` (exacte / approximative), `commentaire`. Exemple : TECH, CP081, A010801, exacte. Table créée par l'équipe (règle de gestion n° 8).
 
 ### 2.6 Modèle de données
 
-**Modèle relationnel** (tables Silver et leurs clés) :
+**Modèle relationnel** (tables Silver du modèle en étoile et leurs clés) :
 
 ![Modèle relationnel](docs/images/01_modele_relationnel.png)
 
 **Modèle cible** (Gold) : quatre tables de faits de grains différents, qui partagent leurs dimensions (constellation), avec un flocon `dim_commune → dim_land` :
 
 ![Modèle en étoile / flocon](docs/images/02_modele_etoile_flocon.png)
+
+> `concurrents_autres` est une table de référence **nationale** : elle n'a pas de grain magasin et n'entre donc pas dans le modèle en étoile. Elle sert à documenter la pression concurrentielle hors CECONOMY.
 
 ## 3. Architecture & choix des sources
 
@@ -200,6 +223,7 @@ Le pipeline suit les couches vues en cours : on ne modifie jamais la donnée bru
  Destatis (xlsx)  ──►  fichier communes   ──►  communes                    ├──►  4 tables de faits
  Plans de site    ──►  sitemaps XML       ──►  magasins_concurrents        │    + 6 dimensions
  Rapports (PDF)   ──►  data/manual (CSV)  ──►  sources_officielles        ──┘    → KPI → dashboard + IA
+ Pages officielles ──►  data/manual (CSV)  ──►  concurrents_autres (réf. nationale)
              src/collect/*.py          src/clean/*.py (contrôles)
 ```
 
@@ -215,8 +239,9 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 | Prix | Eurostat `prc_ppp_ind_1` (indices de niveau des prix) | API open data | Même nomenclature que le marché : les chiffres se comparent directement | Pas d'indice pour les livres seuls |
 | Population | Eurostat `demo_pjan` | API open data | Même producteur que le marché | Valeurs récentes « provisoires » |
 | Communes allemandes | Destatis, *Gemeindeverzeichnis* 31.12.2025 | Fichier open data | Office statistique allemand : code officiel, population, coordonnées | Coordonnées du centre de la commune |
-| Magasins du concurrent | Plans de site mediamarkt.de et saturn.de | Scraper (fichiers publiés pour les robots, robots.txt respecté) | Seule liste publique complète. Recoupée avec le rapport annuel : 394 magasins trouvés contre 403 publiés | 2 % d'écart ; conditions d'utilisation des sites non lues |
-| Chiffres du concurrent | CECONOMY, *Annual Report 2024/25* | Rapport officiel | Comptes publiés d'une société cotée | Ventes Allemagne avec l'électroménager ; exercice clos au 30/09 |
+| Magasins CECONOMY | Plans de site mediamarkt.de et saturn.de | Scraper (fichiers publiés pour les robots, robots.txt respecté) | Seule liste publique complète. Recoupée avec le rapport annuel : 394 magasins trouvés contre 403 publiés | 2 % d'écart ; conditions d'utilisation des sites non lues |
+| Chiffres CECONOMY | CECONOMY, *Annual Report 2024/25* | Rapport officiel | Comptes publiés d'une société cotée | Ventes Allemagne avec l'électroménager ; exercice clos au 30/09 |
+| Autres concurrents | Expert, Euronics, Amazon, Otto (Conrad et Medimax en veille) | Pages officielles / rapports | Comptages nationaux, formats complémentaires | Pas de géolocalisation magasin ; ne pas additionner avec CECONOMY |
 | Chiffres de la Fnac | Fnac Darty, *Document d'enregistrement universel 2025* (déposé à l'AMF) | Rapport officiel | Document réglementaire d'une société cotée | La Fnac seule n'est pas publiée : chiffres du groupe |
 | TVA | Commission européenne, *Your Europe* | Page officielle | Taux publiés par la Commission | Page possiblement pas à jour |
 | Droits de douane | EUR-Lex, TFUE art. 28 et 30 | Texte de loi | Interdiction des droits de douane entre pays de l'UE | — |
@@ -224,6 +249,18 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 | Loyer commercial | IHK Region Stuttgart, enquête 2024 | Enquête d'une chambre de commerce | Seule donnée publique accessible | **Hypothèse** : une seule ville, unité de temps (mois) déduite |
 | Hub logistique | Communiqué Fnac Darty (Chilly-Mazarin) + API Découpage administratif (geo.api.gouv.fr) | Officiel | Seul site logistique confirmé publiquement | Les 7 autres plateformes ne sont pas publiées |
 | Part du catalogue éligible | — | **Base interne simulée** | Aucune donnée publique | Simulée et signalée comme telle |
+
+**Le paysage concurrentiel allemand**
+
+| Enseigne | Groupe | Canal | Points de vente | Rôle / positionnement | Source |
+|---|---|---|---|---|---|
+| MediaMarkt + Saturn | CECONOMY | magasins | 394 (sitemaps) ; 403 (rapport) | Leader tech, grandes surfaces | Sitemaps + CECONOMY 2024/25 |
+| Expert | Expert SE | magasins | 364 | Réseau coopératif de proximité | expert.de, *Daten und Fakten* |
+| Euronics | Euronics Deutschland eG | magasins | > 1 100 | Coopérative, petits et moyens magasins | euronics.de, *Über EURONICS* |
+| Amazon.de | Amazon | en ligne | 0 | Leader de l'e-commerce | amazon.de |
+| Otto.de | Otto Group | en ligne | 0 | Vente à distance et marketplace | ottogroup.com |
+
+Les comptages ne sont pas additifs : les formats et les surfaces diffèrent. Seul CECONOMY est géolocalisé au magasin près, donc seul réseau utilisé dans le KPI de densité par Land ; les autres servent de borne de pression concurrentielle. Conrad (4 sites, surtout B2B), Electronic Partner / Medimax et les enseignes alimentaires (Kaufland, etc.) restent des acteurs de niche ou non spécialistes, non retenus dans le comptage.
 
 **Sources écartées, et pourquoi**
 - OpenStreetMap : ses serveurs n'ont pas répondu (5 essais, 2 serveurs).
@@ -234,7 +271,7 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 ### 3.3 Organisation des fichiers
 
 ```
-data/manual/   Chiffres relevés à la main dans des documents officiels (source + page)
+data/manual/   Chiffres relevés à la main et concurrents (source + lien)
 data/raw/      Bronze : données téléchargées par les scripts, jamais modifiées
 data/silver/   Silver : données nettoyées, un fichier par source
 data/gold/     Gold   : modèle en étoile + KPI
@@ -308,3 +345,16 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 - **DEU 2025** : Fnac Darty, *Document d'enregistrement universel 2025*, déposé à l'AMF le 06/03/2026. https://www.fnacdarty.com/wp-content/uploads/2026/03/fnac-darty-deu-2025-assemblage-pdf-opti-1.pdf
 - **Fnac Darty around the world** : https://www.fnacdarty.com/en/group/fnac-darty-around-the-world/
 - **Eurostat `demo_pjan`** : population au 1er janvier. https://ec.europa.eu/eurostat/databrowser/view/demo_pjan/default/table
+- **Eurostat `nama_10_cp18`** : dépenses des ménages par fonction (COICOP 2018). https://ec.europa.eu/eurostat/databrowser/view/nama_10_cp18/default/table
+- **Eurostat `prc_ppp_ind_1`** : indices de niveau des prix. https://ec.europa.eu/eurostat/databrowser/view/prc_ppp_ind_1/default/table
+- **Destatis** : *Gemeindeverzeichnis*, 31.12.2025. https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/Archiv/GVAuszugJ/31122025_Auszug_GV.xlsx?__blob=publicationFile
+- **CECONOMY** : *Annual Report 2024/25*. https://www.ceconomy-mms.com/api/documents/file/CECONOMY%20Annual%20Report%202024-25
+- **Commission européenne** : *VAT rates*. https://ec.europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_en.htm
+- **EUR-Lex** : TFUE, art. 28 et 30 (union douanière). https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM:customs_union
+- **Buchpreisbindungsgesetz** : § 3. https://www.gesetze-im-internet.de/buchprg/__3.html
+- **IHK Region Stuttgart** : *Mietpreisumfrage Einzelhandel 2024*. https://www.ihk.de/stuttgart/branchen/handel/zahlen-und-fakten/mietpreisumfrage-einzelhandel-2024-6201604
+- **Fnac Darty** : communiqué de la plateforme de Chilly-Mazarin. https://www.fnacdarty.com/en/inauguration-of-a-new-platform-dedicated-to-deliveryand-after-sales-service-in-chilly-mazarin/
+- **Expert SE** : *Daten und Fakten*. https://www.expert.de/Pressemitteilungen/Daten-Fakten
+- **Euronics Deutschland eG** : *Über EURONICS*. https://www.euronics-deutschland.de/ueber-euronics/
+- **Amazon.de** : https://www.amazon.de/
+- **Otto Group** : https://www.ottogroup.com/en/

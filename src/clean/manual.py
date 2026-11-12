@@ -32,6 +32,17 @@ facts.to_csv(SILVER / "sources_officielles.csv", index=False)
 print(f"sources_officielles.csv : {len(facts)} chiffres, {facts['source'].nunique()} documents sources, "
       f"années {sorted(facts['annee'].unique())}")
 
+# Autres concurrents : comptages nationaux, sans géolocalisation magasin (règle de gestion n° 11)
+autres = pd.read_csv(MANUAL / "concurrents_autres.csv", dtype={"pays": str})
+autres["nb_points_de_vente"] = pd.to_numeric(autres["nb_points_de_vente"], errors="raise").astype(int)
+autres["annee"] = autres["periode"].map(to_year)
+assert autres.notna().all().all(), "concurrents_autres : case vide"
+assert autres["url"].str.startswith("https://").all(), "concurrents_autres : lien manquant ou non sécurisé"
+assert not autres.duplicated(["enseigne", "pays"]).any(), "concurrents_autres : enseigne saisie deux fois"
+autres.to_csv(SILVER / "concurrents_autres.csv", index=False)
+print(f"concurrents_autres.csv : {len(autres)} enseignes, "
+      f"{autres['nb_points_de_vente'].sum()} points de vente (0 = pure player)")
+
 for name in ["hubs_logistiques", "correspondance_categories"]:
     table = pd.read_csv(MANUAL / f"{name}.csv", dtype=str)
     assert table.notna().all().all(), f"{name} : case vide"
