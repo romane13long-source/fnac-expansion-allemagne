@@ -88,7 +88,7 @@ K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par millio
 K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Thüringen,2025,4.33,magasins / M hab.,mesuré,magasins du Land / population du Land × 1 000 000
 K6,Réseau & Implantation,Densité concurrentielle (magasins CECONOMY par million d'habitants),DE,,Allemagne,2025,4.72,magasins / M hab.,mesuré,magasins / population × 1 000 000
 K7,Réseau & Implantation,"Coût moyen au m² commercial (loyer, centre-ville)",DE,,,2024,1380.0,€/m²/an,hypothèse,"loyer de référence IHK Stuttgart (115 €/m²/mois, unité mensuelle déduite) × 12"
-K6_national,Réseau & Implantation,Pression concurrentielle nationale (borne haute),DE,,Allemagne,2025,22.23,points de vente / M hab.,estimation,(magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 ; formats non comparables
+K6_national,Réseau & Implantation,Pression concurrentielle nationale (borne haute),DE,,Allemagne,2025,22.66,points de vente / M hab.,estimation,(magasins CECONOMY + points de vente Expert + Euronics) / population DE × 1 000 000 ; formats non comparables
 K8,Opérations & Logistique,Distance moyenne depuis le hub de Chilly-Mazarin (villes ≥ 100 000 hab.),DE,,,2025,618.61,km,mesuré,"moyenne des distances à vol d'oiseau, pondérée par la population (79 villes)"
 K9_douane,Opérations & Logistique,Droits de douane France -> Allemagne,DE,,,2026,0.0,%,mesuré,union douanière de l'UE (TFUE art. 28 et 30)
 K9_tva,Opérations & Logistique,Écart de TVA Allemagne - France,DE,TECH,,2026,-1.0,points de %,mesuré,TVA DE - TVA FR

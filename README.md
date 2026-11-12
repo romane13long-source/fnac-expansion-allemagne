@@ -189,7 +189,7 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 | `groupe` | Texte | Groupe ou centrale d'achat | NA | Expert SE | idem |
 | `canal` | Texte | `magasin` ou `en ligne` | NA | magasin | idem |
 | `pays` | Texte (clé) | Pays | NA | DE | idem |
-| `nb_points_de_vente` | Entier | Nombre de points de vente en Allemagne ; 0 = pure player | NA | 364 | source citée |
+| `nb_points_de_vente` | Entier | Nombre de points de vente en Allemagne (borne basse « plus de … ») ; 0 = pure player | NA | 400 | source citée |
 | `periode` | Texte | Période telle qu'écrite dans la source | NA | consulté 2026-11-12 | idem |
 | `annee` | Entier | Année de rattachement | règle de gestion n° 2 | 2026 | calculé |
 | `source`, `url` | Texte | Document et lien officiel | NA | expert.de - Daten und Fakten | idem |
@@ -259,7 +259,7 @@ Règle : un seul jeu de données par sujet, pour ne jamais avoir deux chiffres d
 | Enseigne | Groupe | Canal | Points de vente | Rôle / positionnement | Source |
 |---|---|---|---|---|---|
 | MediaMarkt + Saturn | CECONOMY | magasins | 394 (sitemaps) ; 403 (rapport) | Leader tech, grandes surfaces | Sitemaps + CECONOMY 2024/25 |
-| Expert | Expert SE | magasins | 364 | Réseau coopératif de proximité | expert.de, *Daten und Fakten* |
+| Expert | Expert SE | magasins | > 400 | Réseau coopératif de proximité | expert.de, *Daten und Fakten* |
 | Euronics | Euronics Deutschland eG | magasins | > 1 100 | Coopérative, petits et moyens magasins | euronics.de, *Über EURONICS* |
 | Amazon.de | Amazon | en ligne | 0 | Leader de l'e-commerce | amazon.de |
 | Otto.de | Otto Group | en ligne | 0 | Vente à distance et marketplace | ottogroup.com |
