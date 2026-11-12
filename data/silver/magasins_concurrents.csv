@@ -119,10 +119,10 @@ mediamarkt,32,fellbach-32,fellbach,nom exact,False,08119020,"Fellbach, Stadt",08
 mediamarkt,509,flensburg-509,flensburg,nom exact,False,01001000,"Flensburg, Stadt",01,Schleswig-Holstein,9.43751,54.78252
 mediamarkt,224,flensburg-galerie-224,flensburg-galerie,nom exact,False,01001000,"Flensburg, Stadt",01,Schleswig-Holstein,9.43751,54.78252
 mediamarkt,1878,forchheim-1878,forchheim,nom exact,False,09474126,"Forchheim, GKSt",09,Bayern,11.0594,49.720292
-mediamarkt,555,frankfurt-borsigallee-555,frankfurt-borsigallee,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
-mediamarkt,447,frankfurt-nordwestzentrum-447,frankfurt-nordwestzentrum,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
-mediamarkt,1292,frankfurt_skyline_plaza-1292,frankfurt-skyline-plaza,nom exact,True,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
-mediamarkt,50,frankfurt_zeil-50,frankfurt-zeil,nom exact,False,12053000,"Frankfurt (Oder), Stadt",12,Brandenburg,14.551151,52.344651
+mediamarkt,555,frankfurt-borsigallee-555,frankfurt-borsigallee,table manuelle,False,06412000,"Frankfurt am Main, Stadt",06,Hessen,8.682433,50.11088
+mediamarkt,447,frankfurt-nordwestzentrum-447,frankfurt-nordwestzentrum,table manuelle,False,06412000,"Frankfurt am Main, Stadt",06,Hessen,8.682433,50.11088
+mediamarkt,1292,frankfurt_skyline_plaza-1292,frankfurt-skyline-plaza,table manuelle,True,06412000,"Frankfurt am Main, Stadt",06,Hessen,8.682433,50.11088
+mediamarkt,50,frankfurt_zeil-50,frankfurt-zeil,table manuelle,False,06412000,"Frankfurt am Main, Stadt",06,Hessen,8.682433,50.11088
 mediamarkt,421,freiburg-421,freiburg,nom exact,False,03359018,"Freiburg (Elbe), Flecken",03,Niedersachsen,9.287803,53.824052
 mediamarkt,47,freiburg-city-47,freiburg-city,nom exact,False,03359018,"Freiburg (Elbe), Flecken",03,Niedersachsen,9.287803,53.824052
 mediamarkt,63,freising-63,freising,nom exact,False,09178124,"Freising, GKSt",09,Bayern,11.748361,48.403627
@@ -210,7 +210,7 @@ mediamarkt,319,koeln-weiden-319,koeln-weiden,nom exact,False,05315000,"Köln, St
 mediamarkt,502,konstanz-502,konstanz,nom exact,False,08335043,"Konstanz, Universitätsstadt",08,Baden-Württemberg,9.175957,47.662757
 mediamarkt,488,krefeld-488,krefeld,nom exact,False,05114000,"Krefeld, Stadt",05,Nordrhein-Westfalen,6.56089,51.332637
 mediamarkt,1231,kulmbach-1231,kulmbach,nom exact,False,09477128,"Kulmbach, GKSt",09,Bayern,11.455614,50.10807
-mediamarkt,495,lahr-495,lahr,nom exact,False,07232072,Lahr,07,Rheinland-Pfalz,6.29142,49.944081
+mediamarkt,495,lahr-495,lahr,table manuelle,False,08317065,"Lahr/Schwarzwald, Stadt",08,Baden-Württemberg,7.874292,48.339132
 mediamarkt,562,landau-562,landau,début du nom officiel,False,07313000,"Landau in der Pfalz, Stadt",07,Rheinland-Pfalz,8.112414,49.196595
 mediamarkt,624,landsberg-am-lech-624,landsberg-am-lech,nom exact,False,09181130,"Landsberg am Lech, GKSt",09,Bayern,10.877828,48.049514
 mediamarkt,471,landshut-471,landshut,nom exact,False,09261000,Landshut,09,Bayern,12.152143,48.536978

@@ -4,34 +4,34 @@
 
 ## Synthèse
 
-Le marché allemand est attractif : la TECH y croît de 2,9 % par an [K1a] contre -1,3 % [K1a] en France, et les dépenses par habitant atteignent 363,0 € [K10_detail] contre 204,2 € [K10_detail]. Mais la rentabilité n'est pas acquise : avec des achats en France et le loyer IHK, le résultat annuel d'un magasin est de -4,1 M€ [K12_resultat] (estimation) et le projet n'est jamais rentable [K12] (estimation).
+Le marché allemand de la tech croît de 2,9 % [K1a] (mesuré) par an quand la France recule de 1,3 % [K1a] (mesuré). La dépense par habitant atteint 363,0 € [K10_detail] (mesuré) contre 204,2 € [K10_detail] (mesuré). Mais CECONOMY y détient entre 17,3 % [K3_bas] (estimation) et 37,5 % [K3_haut] (estimation) du marché, et la marge brute tech post-taxe n'est que de 12,2 % [K5] (estimation).
 
-L'arbitrage porte sur les achats et le loyer. Avec des achats locaux et un loyer au niveau France, le retour sur investissement atteint 7,9 années [K12] (estimation). Le loyer maximal pour un résultat positif est de 32,7 €/m²/mois [K12_seuil_loyer] (estimation). La marge brute TECH post-taxe n'est que de 12,2 % [K5] (estimation), face à Ceconomy, dont la part de marché est estimée entre 17,3 % [K3_bas] et 37,5 % [K3_haut] (estimation).
+Avec achats en France et loyer IHK, le résultat annuel est de -4,1 M€ [K12_resultat] (estimation) et le magasin n'est jamais rentable [K12] (estimation). Passer à des achats locaux ne suffit pas à loyer IHK : -2,4 M€ [K12_resultat] (estimation). Seule la combinaison achats locaux et loyer au niveau France donne un retour en 7,9 années [K12] (estimation).
 
-Nous recommandons un Go sous conditions : un magasin pilote à Cologne, avec achats via une centrale allemande, loyer inférieur au seuil [K12_seuil_loyer] et assortiment TECH et jeux vidéo. La décision de déploiement sera prise après la période d'exploitation du pilote.
+Nous recommandons un Go sous conditions : un magasin pilote à Cologne, avec achats via une centrale allemande, assortiment TECH et jeux vidéo, et un loyer inférieur à 32,7 €/m²/mois [K12_seuil_loyer] (estimation). Le loyer IHK, 3,3 M€ par an [K7_magasin] (hypothèse), est à renégocier sous ce seuil. Le déploiement sera décidé à l'issue de la phase pilote.
 
 ## Commentaires par axe
 
 ### Marché & Potentiel
-Le secteur TECH allemand croît de 2,9 % par an [K1a], quand le secteur français recule de -1,3 % [K1a]. Fnac Darty détient 17,3 % [K2] (estimation) du marché en France.
+Sur 2015-2025, la croissance annuelle moyenne de la tech est de 2,7 % [K1b] (mesuré) en Allemagne contre -0,8 % [K1b] (mesuré) en France. La part de marché de Fnac Darty en France est de 17,3 % [K2] (estimation).
 
 ### Prix & Marges
-L'indice de prix TECH Allemagne/France est de 81,3 [K4_ttc] (base France = 100), d'où une marge brute post-taxe estimée à 12,2 % [K5] (estimation). Les livres atteignent 30,8 % [K5] (estimation), mais leur éligibilité à l'assortiment est très faible.
+En tech, l'indice de prix hors taxes allemand est de 82,0 (indice FR = 100) [K4_ht] (mesuré), pour une marge brute post-taxe de 12,2 % [K5] (estimation), contre 30,8 % [K5] (estimation) en livres. La tech allemande est donc peu rémunératrice sans achats via une centrale.
 
 ### Réseau & Implantation
-La densité Ceconomy est de 4 magasins par million d'habitants [K6] en Nordrhein-Westfalen, contre 4,7 [K6] au niveau national. Le loyer annuel d'un magasin de 2 400 m² au loyer IHK s'élève à 3,3 M€ [K7_magasin] (hypothèse).
+La densité CECONOMY est de 4 magasins / M hab. [K6] (mesuré) en Nordrhein-Westfalen, contre 4,7 magasins / M hab. [K6] (mesuré) pour l'Allemagne. Le loyer IHK d'un magasin atteint 3,3 M€ par an [K7_magasin] (hypothèse).
 
 ### Opérations & Logistique
-La distance moyenne depuis le hub de Chilly-Mazarin est de 618,6 km [K8]. Les droits de douane sont de 0 % [K9_douane].
+Le hub de Chilly-Mazarin est à 618,6 km [K8] (mesuré) en moyenne des grandes villes allemandes. Les droits de douane sont de 0 % [K9_douane] (mesuré) et l'écart de TVA en tech est de -1 point [K9_tva] (mesuré).
 
 ### Assortiment
-Le catalogue France est éligible à 92,4 % [K11_detail] (simulé) en TECH et à 89,3 % [K11_detail] (simulé) en jeux vidéo, contre 10,1 % [K11_detail] (simulé) en livres. Cela justifie un assortiment centré TECH et jeux vidéo.
+La pénétration de la tech en Allemagne est de 177,8 (indice FR = 100) [K10] (mesuré). 92,4 % [K11_detail] (simulé) de la famille TECH et 89,3 % [K11_detail] (simulé) des jeux vidéo sont éligibles, contre 10,1 % [K11_detail] (simulé) pour les livres.
 
 ### Synthèse
-Un magasin de 2 400 m² génère un CA estimé à 14,6 M€ [K12_ca] (estimation) pour un investissement de 3,6 M€ [K12_invest] (hypothèse). Seul le scénario D (achats locaux, loyer niveau France) est rentable, avec un retour en 7,9 années [K12] (estimation).
+Les trois autres scénarios que le scénario D ne sont jamais rentables [K12] (estimation). Pour le scénario D, le délai de retour varie de 4,4 années [K12_sensibilite] (estimation) à 13,2 années [K12_sensibilite] (estimation) selon le chiffre d'affaires et l'investissement.
 
 ## Risques
 
-- **Loyer :** avec achats locaux et loyer IHK, le résultat reste de -2,4 M€ [K12_resultat] (estimation) et le projet est jamais rentable [K12] (estimation). Le loyer IHK repose sur une hypothèse [K7_magasin].
-- **Sensibilité du retour :** si le CA baisse de 20 % et l'investissement atteint 2000 €/m², le retour passe à 13,2 années [K12_sensibilite] (estimation).
-- **Concurrence :** Ceconomy pourrait détenir jusqu'à 37,5 % [K3_haut] (estimation) du marché TECH, avec une pression nationale estimée à 22,2 points de vente par million d'habitants [K6_national] (estimation).
+- **Marge insuffisante :** la marge brute tech post-taxe est de 12,2 % [K5] (estimation) ; sans centrale d'achat allemande, le résultat reste négatif.
+- **Loyer :** au loyer IHK de 3,3 M€ par an [K7_magasin] (hypothèse), le résultat en achats locaux est de -2,4 M€ [K12_resultat] (estimation), loin du seuil de 32,7 €/m²/mois [K12_seuil_loyer] (estimation).
+- **Concurrence et rentabilité :** CECONOMY peut atteindre 37,5 % [K3_haut] (estimation) du marché, et le retour monte à 13,2 années [K12_sensibilite] (estimation) dans le pire cas de sensibilité.

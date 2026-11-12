@@ -59,7 +59,7 @@ def faits():
             "Opérations & Logistique": f"distance moyenne pondérée au hub de Chilly-Mazarin {f(D['distance_moy'], 0)} km ; droits de douane 0 % ; "
                                        f"écart de TVA Allemagne - France {f(c['tva']['DE'])} point",
             "Assortiment": f"{CATS[cat]} : dépense par habitant {L} Allemagne {f(c['par_hab']['DE'], 0)} €, France {f(c['par_hab']['FR'], 0)} € ; "
-                           f"pénétration {f(c['penetration'], 0)} (France = 100) ; catalogue éligible {f(D['eligible'])} % (simulé)",
+                           f"pénétration {f(c['penetration'], 0)} (France = 100) ; part éligible en Allemagne de cette famille {f(D['eligible_familles'][cat])} % (simulé), catalogue total {f(D['eligible'])} %",
         }
         for axe, phrase in base.items():
             F["axes"][f"{cat}|{axe}"] = phrase
@@ -134,10 +134,10 @@ N'utilise QUE les nombres des faits (virgule décimale). Écris « (estimation) 
 Réponds UNIQUEMENT avec un objet JSON valide, sans texte autour : mêmes groupes et mêmes clés que les faits, valeur = commentaire.
 N'utilise jamais de guillemets droits (") dans les commentaires : utilise « » si besoin.
 """
-LOTS = [("axes", "scenarios", "lands", "familles", "concurrents"), ("villes", "marche", "prix", "kpi")]
+LOTS = [("axes", "scenarios", "familles", "concurrents"), ("lands",), ("villes", "kpi"), ("marche", "prix")]
 
 
-def appeler_claude(groupes, essais=2):
+def appeler_claude(groupes, essais=3):
     for essai in range(1, essais + 1):
         try:
             return _appel(groupes)

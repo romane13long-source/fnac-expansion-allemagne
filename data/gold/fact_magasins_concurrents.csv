@@ -119,10 +119,10 @@ magasin_id,enseigne,code_commune,methode_rattachement,nb_magasins
 509,mediamarkt,01001000,nom exact,1
 224,mediamarkt,01001000,nom exact,1
 1878,mediamarkt,09474126,nom exact,1
-555,mediamarkt,12053000,nom exact,1
-447,mediamarkt,12053000,nom exact,1
-1292,mediamarkt,12053000,nom exact,1
-50,mediamarkt,12053000,nom exact,1
+555,mediamarkt,06412000,table manuelle,1
+447,mediamarkt,06412000,table manuelle,1
+1292,mediamarkt,06412000,table manuelle,1
+50,mediamarkt,06412000,table manuelle,1
 421,mediamarkt,03359018,nom exact,1
 47,mediamarkt,03359018,nom exact,1
 63,mediamarkt,09178124,nom exact,1
@@ -210,7 +210,7 @@ magasin_id,enseigne,code_commune,methode_rattachement,nb_magasins
 502,mediamarkt,08335043,nom exact,1
 488,mediamarkt,05114000,nom exact,1
 1231,mediamarkt,09477128,nom exact,1
-495,mediamarkt,07232072,nom exact,1
+495,mediamarkt,08317065,table manuelle,1
 562,mediamarkt,07313000,début du nom officiel,1
 624,mediamarkt,09181130,nom exact,1
 471,mediamarkt,09261000,nom exact,1
