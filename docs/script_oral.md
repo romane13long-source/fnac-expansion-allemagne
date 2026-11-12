@@ -36,7 +36,7 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv` et sources citées sur c
 
 *Transition :* « Avec ces données, quels indicateurs suivre ? Romane. »
 
-## Slide 4 · Un KPI par question du Comex — 2:30 → 4:30 · Romane
+## Slide 4 · Pour chaque question du Comex, un indicateur qui aide à décider — 2:30 → 4:30 · Romane
 
 > On est partis du guide des KPI du Comex, et pour chaque indicateur on s'est demandé : quelle décision il éclaire ?
 > Le marché attire-t-il ? On mesure la croissance du secteur et les parts de marché : celle de la Fnac en France, celle du leader en Allemagne. Ça donne le plafond de chiffre d'affaires.
@@ -48,23 +48,23 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv` et sources citées sur c
 
 *Transition :* « Voici ce que disent les chiffres. Elena. »
 
-## Slide 5 · Insight 1 : le marché attire — 4:30 → 5:00 · Elena
+## Slide 5 · Les Allemands dépensent 1,8 fois plus en tech : le marché est attractif — 4:30 → 5:00 · Elena
 
 > Premier constat : le marché attire. Un Allemand dépense 363 euros par an en produits tech, un Français 204 : 1,8 fois plus, et l'écart se creuse depuis 2015.
 > Mais la place est prise : le leader CECONOMY, c'est-à-dire MediaMarkt et Saturn, tient entre 17 et 38 % du marché, et deux coopératives, Expert et Euronics, ont des centaines de magasins. Il y a de la demande, mais il faudra se différencier.
 
-## Slide 6 · Insight 2 : vendre au prix allemand divise notre marge par deux — 5:00 → 5:35 · Romane
+## Slide 6 · Les prix sont 18 % plus bas en Allemagne : si on achète en France, la marge passe de 28 % à 12 % — 5:00 → 5:35 · Romane
 
 > Deuxième constat. On pense souvent que la France est moins chère : c'est l'inverse. Sur un même panier tech, la France est à 116,5 et l'Allemagne à 94,7, sur une base 100 européenne. Une fois la TVA retirée, la tech est 18 % moins chère en Allemagne.
 > Si la Fnac achète ses produits au prix français et les revend au prix allemand, sa marge brute passe de 28 % à 12 %. Et attention : avoir plus d'habitants ne change pas les prix, mais chaque Allemand achète plus. Conclusion : il faut acheter en Allemagne.
 
-## Slide 7 · Insight 3 : une seule façon d'ouvrir gagne de l'argent — 5:35 → 6:15 · Elena
+## Slide 7 · Un magasin ne gagne de l'argent que si on achète en Allemagne et que le loyer reste bas — 5:35 → 6:15 · Elena
 
 > Troisième constat, le plus important. On a calculé ce que gagne un magasin de 2 400 mètres carrés, qui ferait 14,6 millions d'euros de ventes par an : ce qui reste après avoir payé les produits, les salaires et le loyer.
 > On a croisé deux choix : acheter en France ou en Allemagne, et un loyer de centre-ville ou modéré. Trois combinaisons sur quatre perdent de l'argent. Seule la combinaison achats en Allemagne et loyer modéré gagne 0,45 million par an, et rembourse l'ouverture, 3,6 millions, en 7,9 ans.
 > Le seuil à retenir : au-delà de 33 euros le mètre carré par mois, on perd de l'argent. La chambre de commerce allemande, l'IHK, donne 115 euros en centre-ville : il faut éviter les rues les plus chères.
 
-## Slide 8 · Insight 4 : Cologne, livrée depuis notre entrepôt français — 6:15 → 6:50 · Romane
+## Slide 8 · Où ouvrir ? À Cologne, livrée depuis notre entrepôt en France — 6:15 → 6:50 · Romane
 
 > Où ouvrir ? On a comparé les sept plus grandes villes allemandes sur trois critères simples : plus d'un million d'habitants, peu de magasins du leader pour leur taille, et moins de 450 kilomètres de notre entrepôt.
 > Cologne est la seule à cocher les trois. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne : on livre le pilote depuis la France. Un entrepôt en Allemagne, à Cologne, diviserait les distances par plus de deux, mais il ne se justifie que si on déploie un réseau.

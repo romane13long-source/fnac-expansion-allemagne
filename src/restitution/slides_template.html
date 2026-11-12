@@ -159,7 +159,7 @@ const SLIDES = [
     <div class="src">Source : README § 2 (dictionnaire, règles de gestion) et § 3 (sources) du repo</div>`, "mid",
    "1:00 → 2:30 · Elena — Aucune donnée n'était fournie, tout vient de sources publiques. On a utilisé l'API d'Eurostat, l'office statistique de l'Union européenne, pour le marché, les prix et la population ; le fichier officiel des communes allemandes ; et du scraping pour localiser les magasins MediaMarkt et Saturn. Le pipeline suit les trois couches du cours et aboutit à un modèle en étoile, avec un flocon de la commune vers le Land. Chaque chiffre est étiqueté : mesuré, estimé, hypothèse ou simulé."],
   // ===== 3. La démarche analytique · 2 min · Choix des KPI 30 pts
-  [() => head("3 · La démarche analytique · 2 min · choix des KPI 30 pts", "Un KPI par question du Comex,<br>un KPI de synthèse pour trancher") +
+  [() => head("3 · La démarche analytique · 2 min · choix des KPI 30 pts", "Pour chaque question du Comex,<br>un indicateur qui aide à décider") +
     `<table ${IN()}><tr><th>Question du Comex</th><th>KPI retenus</th><th>Ce qu'ils décident</th></tr>
       <tr><td><b>Le marché attire-t-il ?</b></td><td>Croissance du secteur · parts de marché (la Fnac en France, le concurrent en Allemagne)</td><td>Le plafond de chiffre d'affaires</td></tr>
       <tr><td><b>Notre prix tient-il ?</b></td><td>Indice de prix Allemagne / France · marge brute après taxes</td><td>Le positionnement prix</td></tr>
@@ -170,7 +170,7 @@ const SLIDES = [
     <div class="src">Les 12 KPI du guide du sujet ; définitions et calculs : dashboard (onglet « Définitions des KPI ») et README § 2.1</div>`, "",
    "2:30 → 4:30 · Romane — On a suivi le guide des KPI du Comex, et pour chacun on s'est demandé quelle décision il éclaire. Le marché dit quel chiffre d'affaires est accessible ; les prix disent si notre positionnement tient ; le réseau dit où ouvrir et à quel coût ; la logistique dit si on peut livrer ; l'assortiment dit quoi vendre. Aucun ne répond seul à « rentable ? » : on a ajouté le délai de retour d'un magasin, et le cash-flow du groupe pour savoir s'il peut financer le projet."],
   // ===== 4. L'analyse tirée des chiffres · 3 min · Impact décisionnel & DataViz 35 pts
-  [() => head("4 · L'analyse · 3 min · visualisations et insights · 35 pts", `Insight 1 · Le marché attire : un Allemand dépense ${nf(ph.DE[L] / ph.FR[L], 1)} fois plus en tech`) +
+  [() => head("4 · L'analyse · 3 min · insight 1 sur 4 · 35 pts", `Les Allemands dépensent ${nf(ph.DE[L] / ph.FR[L], 1)} fois plus en tech<br>que les Français : le marché est attractif`) +
     `<div class="row c2"><div class="chart" ${IN()}><h3>Dépense tech par habitant et par an (€)</h3><div class="sub">Dépenses des ménages du pays ÷ nombre d'habitants</div><div class="legend"><span><i style="background:var(--de)"></i>Allemagne</span><span><i style="background:var(--fr)"></i>France</span></div>
       ${lines([{ c: "#2a78d6", v: yrs.map(y => ph.DE[y]) }, { c: "#eb6834", v: yrs.map(y => ph.FR[y]) }], yrs)}
       <div class="src" style="margin-top:6px">Source : Eurostat (dépenses des ménages, population), chiffres officiels</div></div>
@@ -178,7 +178,7 @@ const SLIDES = [
       ${tile(`${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} %`, `mais le leader CECONOMY (MediaMarkt + Saturn) tient déjà ce morceau du marché ; Expert et Euronics ont aussi des centaines de magasins`, "bad")}
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> il y a de la demande, mais il faudra se différencier du leader.</div></div></div>`, "",
    "4:30 → 5:00 · Elena — Premier insight : le marché attire. Un Allemand dépense 363 euros par an en tech, un Français 204, et l'écart se creuse depuis 2015. Mais le leader, MediaMarkt-Saturn, tient déjà entre 17 et 38 % du marché : il faudra se différencier."],
-  [() => head("4 · L'analyse", "Insight 2 · Vendre au prix allemand divise notre marge par deux") +
+  [() => head("4 · L'analyse · insight 2 sur 4", "Les prix sont 18 % plus bas en Allemagne :<br>si on achète en France, notre marge passe de 28 % à 12 %") +
     `<div class="row c2e"><div class="chart" ${IN()}><h3>Prix d'un même panier tech en ${L}</h3><div class="sub">Base 100 = moyenne de l'Union européenne</div>
       ${hbars([{ n: "France", v: pu.FR[L], c: "#eb6834" }, { n: "Allemagne", v: pu.DE[L], c: "#2a78d6" }], { ref: 100, refLabel: "moyenne UE = 100", labelW: 190, H: 260 })}
       <div class="src" style="margin-top:auto">Source : Eurostat, indices de niveau des prix (chiffres officiels)</div></div>
@@ -188,15 +188,15 @@ const SLIDES = [
         tech <b style="color:var(--de)">${nf(D.categories.TECH.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.TECH.par_hab.FR, 0)} €</b> · livres, presse <b style="color:var(--de)">${nf(D.categories.LIVRES.par_hab.DE, 0)} €</b> contre <b style="color:var(--fr)">${nf(D.categories.LIVRES.par_hab.FR, 0)} €</b> (écart à confirmer)<br>
         <b>Donc :</b> des prix plus bas mais plus d'achats ; il faut acheter en Allemagne pour garder la marge.</div></div></div>`, "",
    "5:00 → 5:35 · Romane — Deuxième insight : non, la France n'est pas moins chère, c'est l'inverse : 116,5 contre 94,7 en base 100 européenne. Une fois la TVA retirée, la tech est 18 % moins chère en Allemagne. Si la Fnac achète au prix français et vend au prix allemand, sa marge passe de 28 à 12 %. Il faut donc acheter en Allemagne."],
-  [() => head("4 · L'analyse", "Insight 3 · Sur 4 façons d'ouvrir un magasin,<br>une seule gagne de l'argent") +
-    `<div class="row c2"><div class="chart" ${IN()}><h3>Ce que gagne ou perd un magasin par an (M€)</h3><div class="sub">Où on achète les produits + quel loyer · magasin de 2 400 m², 14,6 M€ de ventes</div>
+  [() => head("4 · L'analyse · insight 3 sur 4", "Un magasin ne gagne de l'argent que si on achète<br>en Allemagne et que le loyer reste bas") +
+    `<div class="row c2"><div class="chart" ${IN()}><h3>Bénéfice ou perte d'un magasin par an (M€)</h3><div class="sub">On a testé 4 cas : produits achetés en France ou en Allemagne, loyer cher (centre-ville) ou modéré</div>
       ${hbars(Object.entries(D.scenarios).map(([k, x]) => ({ n: { A: "France + centre-ville", B: "France + loyer modéré", C: "Allemagne + centre-ville", D: "Allemagne + loyer modéré" }[k], v: x.resultat, c: x.resultat > 0 ? "#0c9a0c" : "#d03b3b", lab: sg(x.resultat, 2) + " M€", bold: k === "D" })), { labelW: 410, W: 920 })}
       <div class="src" style="margin-top:auto">Source : rapport annuel 2025 du groupe (ventes au m², coûts) ; loyer de centre-ville : chambre de commerce allemande (IHK), hypothèse</div></div>
       <div class="col">${tile(nf(SD.delai) + " ans", "pour rembourser l'ouverture (3,6 M€, hypothèse) dans le seul cas rentable", "good")}
       ${tile(`< ${nf(D.seuil_loyer, 0)} €`, `de loyer par m² et par mois, sinon le magasin perd de l'argent ; en centre-ville, c'est ${nf(D.loyer_m2_mois, 0)} €`)}
       <div class="card" ${IN()} style="font-size:20px"><b>Ce que ça veut dire :</b> acheter en Allemagne et éviter les rues les plus chères.</div></div></div>`, "",
    "5:35 → 6:15 · Elena — Troisième insight : on a calculé ce que gagne un magasin de 2 400 mètres carrés selon deux choix, acheter en France ou en Allemagne, et un loyer de centre-ville ou modéré. Trois façons sur quatre perdent de l'argent. Seule la combinaison achats en Allemagne et loyer modéré gagne 0,45 million par an, et rembourse l'ouverture en 7,9 ans. Au-delà de 33 euros le mètre carré, on perd de l'argent."],
-  [() => head("4 · L'analyse", "Insight 4 · Où ouvrir : Cologne, livrée depuis notre entrepôt français") +
+  [() => head("4 · L'analyse · insight 4 sur 4", "Où ouvrir ? À Cologne,<br>livrée depuis notre entrepôt en France") +
     `<div class="row c2"><div ${IN()}><table><tr><th>Ville</th><th>Habitants</th><th>Magasins du leader / 100 000 hab.</th><th>Distance à l'entrepôt</th><th>Critères</th></tr>
       ${[...D.villes].sort((a, b) => score(b) - score(a) || a.km_hub - b.km_hub).map(v => `<tr class="${v.ville === "Köln" ? "hl" : ""}"><td>${v.ville === "Köln" ? "Cologne" : v.ville}</td><td>${nf(v.pop / 1e6, 2)} M</td><td>${nf(v.magasins_par_100k, 2)}</td><td>${nf(v.km_hub, 0)} km</td><td class="score">${score(v)} / 3</td></tr>`).join("")}</table>
       <div class="src" style="font-size:15px">Les 7 plus grandes villes. Critères : plus d'1 million d'habitants · peu de magasins du leader (au plus 0,7 pour 100 000) · moins de 450 km de l'entrepôt. Sources : Destatis, magasins relevés sur les sites de MediaMarkt et Saturn.</div></div>
