@@ -1,0 +1,12 @@
+# Questions du jury : nos réponses (chiffres du Gold, sources citées)
+
+| Question | Réponse courte | Où le montrer | Source |
+|---|---|---|---|
+| Cash-flow de Fnac Darty, capacité à réinvestir ? | Cash-flow libre opérationnel 145 M€ en 2025 (210 M€ en 2024) ; investissements 184 M€ ; plan 200 M€/an. Le pilote (3,6 M€, hypothèse) = 2,5 % du cash-flow libre. Mais résultat net 2025 : −145,6 M€ → un seul pilote, pas un réseau. | Dashboard, onglet 8 | DEU 2025 p. 8, 21, 30, 31, 34 |
+| Pourquoi pas toutes les villes d'Allemagne ? | On compare seulement les 7 plus grandes : ce sont celles qui peuvent faire vivre un magasin de 2 400 m². Chaque ville est notée sur 3 critères (distance au hub, concurrence, taille). | Onglet 4 | Destatis, plans des sites |
+| Comment le scraping a-t-il été fait ? | Lecture des plans de site XML de mediamarkt.de et saturn.de (fichiers publiés pour les robots, robots.txt respecté) ; chaque magasin rattaché à sa commune ; 394 trouvés contre 403 publiés ; homonymes corrigés à la main (ex. Francfort-sur-le-Main / sur-l'Oder). | Onglet « IA & méthode » | README § 3 |
+| Une logistique en Allemagne ne serait-elle pas plus rentable ? | Un entrepôt à Cologne ramènerait la distance moyenne aux grandes villes de 619 à 258 km. Pour un seul magasin, l'entrepôt ne se justifie pas : on teste la livraison depuis la France contre un prestataire allemand pendant le pilote (M3–M6). Coûts de transport non chiffrés. | Onglet 5 | Destatis, calcul de l'équipe |
+| 2-3 concurrents ? | CECONOMY (MediaMarkt + Saturn, 394 magasins, 17–38 % du marché tech), Expert (364 points de vente), Euronics (> 1 100), plus Amazon et Otto en ligne. | Onglet 3 | CECONOMY AR 2024/25 ; expert.de ; euronics.de |
+| Est-on moins cher en France ? | Non : niveau des prix tech 116,5 en France contre 94,7 en Allemagne (moyenne UE = 100). Hors taxes, l'Allemagne est 18 % moins chère. | Onglet 2 | Eurostat prc_ppp_ind_1 |
+| Les droits de douane à 0 %, c'est bizarre ? | Non : France et Allemagne sont dans l'union douanière de l'UE, aucun droit de douane entre elles (TFUE art. 28 et 30). Ce qui change, c'est la TVA (19 % contre 20 %). | Onglet 5 | EUR-Lex ; Commission européenne |
+| Comment avez-vous utilisé l'IA ? | L'IA ne calcule rien. Chaque onglet envoie à Claude ses chiffres (selon les filtres) ; Claude rédige le commentaire en direct ; la page vérifie chaque nombre et surligne ceux qui ne sont pas dans les faits. Le prompt envoyé est visible (« Voir ce qu'on envoie à Claude »). | Onglet « IA & méthode » | src/restitution/dashboard_template.html |

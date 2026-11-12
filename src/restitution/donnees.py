@@ -83,6 +83,45 @@ SCENARIOS = {
 }
 
 
+def haversine_km(lon1, lat1, lon2, lat2):
+    import math
+    lon1, lat1, lon2, lat2 = map(math.radians, (lon1, lat1, lon2, lat2))
+    a = math.sin((lat2 - lat1) / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2
+    return 2 * 6371 * math.asin(math.sqrt(a))
+
+
+VILLES_CANDIDATES = 7  # les 7 plus grandes villes : assez pour comparer, peu pour rester lisible
+
+
+def villes_candidates():
+    """Les 7 plus grandes villes d'Allemagne, avec ce qu'il faut pour choisir où ouvrir."""
+    pop_de = communes.population.sum()
+    land_nom = lands.set_index("land_code")["land_nom"]
+    koln = communes[communes.nom.str.startswith("Köln")].iloc[0]
+    out = []
+    for v in communes.sort_values("population", ascending=False).head(VILLES_CANDIDATES).itertuples():
+        nom = v.nom.split(",")[0]
+        out.append({
+            "ville": nom, "land": land_nom[v.land_code], "pop": int(v.population),
+            "part_pop": float(v.population / pop_de * 100),
+            "magasins": int(nb_com.get(v.code_commune, 0)),
+            "magasins_par_100k": float(nb_com.get(v.code_commune, 0) / v.population * 1e5),
+            "densite_land": val("K6", zone=land_nom[v.land_code]),
+            "km_hub": float(v.distance_hub_km),
+            "km_koln": round(haversine_km(koln.longitude, koln.latitude, v.longitude, v.latitude), 1),
+            # Marché potentiel de la ville (estimation) : population × dépense nationale par habitant
+            "marche_tech": float(v.population * val("K10_detail", cat="TECH") / 1e6),
+            "marche_livres": float(v.population * val("K10_detail", cat="LIVRES") / 1e6),
+        })
+    return out
+
+
+def distance_moyenne_depuis(lon, lat):
+    g = communes[communes.population >= 100_000]
+    d = [haversine_km(lon, lat, r.longitude, r.latitude) for r in g.itertuples()]
+    return float(sum(x * p for x, p in zip(d, g.population)) / g.population.sum())
+
+
 def donnees():
     cats = ["TECH", "LIVRES"]
     par_cat = {}
@@ -106,6 +145,7 @@ def donnees():
     marge_groupe = officiel("fnacdarty_taux_marge_brute", "GROUPE")
     poids = {"TECH": officiel("fnacdarty_part_ca_produits_techniques", "GROUPE"),
              "LIVRES": officiel("fnacdarty_part_ca_produits_editoriaux", "GROUPE")}
+    pop_an = {(r.pays_id, int(r.annee)): r.population_1er_janvier for r in pd.read_csv(GOLD / "fact_population.csv").itertuples()}
     return {
         "last": LAST,
         "categories": par_cat,
@@ -130,5 +170,21 @@ def donnees():
             "marge_achats_france": sum(par_cat[c]["marge"][LAST] * poids[c] for c in cats) / sum(poids.values()),
         },
         "x_magasins_fr": 205,
+        "villes": villes_candidates(),
+        "par_hab_annees": {cat: {p: {int(r.annee): float(r.depenses_menages_meur * 1e6 / pop_an[(p, int(r.annee))])
+                                     for r in marche[(marche.pays_id == p) & (marche.categorie_id == cat)].itertuples() if (p, int(r.annee)) in pop_an}
+                                 for p in ("DE", "FR")} for cat in ("TECH", "LIVRES")},
+        "prix_ue": {cat: {p: {int(r.annee): float(r.indice_niveau_prix_ue100)
+                              for r in marche[(marche.pays_id == p) & (marche.categorie_id == cat)].dropna(subset=["indice_niveau_prix_ue100"]).itertuples()}
+                          for p in ("DE", "FR")} for cat in ("TECH", "LIVRES")},
+        "cec_ventes": {2024: officiel("ceconomy_ventes_allemagne_n1", "DE"), 2025: officiel("ceconomy_ventes_allemagne", "DE")},
+        "marche_tech_ht": {y: float(marche[(marche.pays_id == "DE") & (marche.categorie_id == "TECH") & (marche.annee == y)]["depenses_menages_meur"].iloc[0]
+                                    / (1 + officiel("tva_taux_normal", "DE") / 100)) for y in (2024, 2025)},
+        "finances": {k: officiel(f"fnacdarty_{k}", "GROUPE") for k in (
+            "cash_flow_libre_operationnel", "cash_flow_libre_operationnel_n1", "investissements_operationnels", "tresorerie_nette",
+            "resultat_net_part_groupe", "resultat_operationnel_courant", "capex_moyen_plan", "cash_flow_libre_cumule_plan", "taux_marge_brute")},
+        "distance_depuis_koln": distance_moyenne_depuis(*communes[communes.nom.str.startswith("Köln")][["longitude", "latitude"]].iloc[0]),
+        "tva": {"DE": officiel("tva_taux_normal", "DE"), "FR": officiel("tva_taux_normal", "FR"),
+                "DE_reduit": officiel("tva_taux_reduit", "DE"), "FR_reduit": officiel("tva_taux_reduit_le_plus_bas", "FR")},
         "carte": carte(),
     }

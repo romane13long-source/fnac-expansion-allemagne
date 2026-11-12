@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 .DS_Store
+
+# Textes IA générés localement (le dashboard les demande à Claude en direct)
+data/gold/commentaires_ia_filtres.json

@@ -381,36 +381,25 @@ Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi
 
 **Slides générées automatiquement** (`docs/Comex_Fnac_Allemagne.pptx`, script `src/restitution/build_slides.py`, `python-pptx`) : 9 slides au template homogène, graphiques natifs modifiables, calées sur les 5 sections de l'oral (entreprise, base de données, KPI, analyse, Go / No-Go) + une slide de réserve sur les limites. Le texte à dire est dans les notes de présentation et dans `docs/script_oral.md`, minuté.
 
-**Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`) : un fichier HTML autonome, sans bibliothèque externe, qui s'ouvre hors ligne dans un navigateur.
-- 6 onglets, un par axe du guide des KPI + rentabilité : marché, prix et marges, réseau, logistique, assortiment, ★ rentabilité et Go / No-Go.
-- 4 filtres : catégorie (produits techniques / livres), achats (France / Allemagne), loyer (référence IHK / niveau France), Land.
-- **Commentaires IA qui changent avec les filtres et au survol** : 82 commentaires (catégorie × axe, scénario, Land, grande ville, année, famille de produits, concurrent) rédigés par la brique IA au moment du build, chiffres contrôlés. Au survol d'un point, d'une barre ou d'une ville, l'infobulle donne les chiffres et le commentaire IA de cet élément.
-- **Zone de chalandise** : le filtre Land change, sur tous les onglets, la population, le marché potentiel (estimation), la densité concurrente, la distance au hub et le graphique des grandes villes du Land.
-- **Carte** des 394 magasins CECONOMY et des 79 villes de plus de 100 000 habitants (onglet Réseau).
-- Simulateur « et si… ? » : loyer, investissement et CA modifiables, délai de retour recalculé en direct avec les formules du repo.
-- Liens directs vers une vue, par exemple `dashboard.html#tab=roi&loyer=ihk`.
+**Dashboard interactif** (`docs/dashboard.html`, script `src/restitution/build_dashboard.py`), publié comme page claude.ai pour l'IA en direct :
+- 12 onglets, une question par onglet, dans l'ordre du raisonnement : marché, prix et marges, concurrence, où ouvrir (7 villes candidates), logistique, assortiment, rentabilité, capacité financière de Fnac Darty, décision, définitions des KPI, IA et méthode.
+- Filtres : ville candidate, catégorie, achats (France / Allemagne), loyer (IHK / niveau France). Chaque onglet n'affiche que les filtres qui le changent ; un test automatique vérifie que chaque filtre affiché modifie bien les chiffres, les graphiques et la demande faite à l'IA (12 onglets × 56 combinaisons, 0 erreur).
+- Chaque chiffre porte une ligne « ℹ » qui dit ce qu'il mesure (moyenne, calcul, exemple), son étiquette (mesuré, estimation, hypothèse, simulé) et la source sous chaque graphique.
+- Simulateur « et si… ? » (loyer, investissement, ventes) et détail du calcul du résultat d'un magasin étape par étape.
+
+Réponses préparées aux questions du jury : `docs/questions_jury.md`.
 
 ### 5.2 Brique IA
 
-**Rôle** : produire une synthèse rédigée en français (150–200 mots) à partir des KPI, sans accès direct aux données brutes. La brique IA **ne calcule rien** : elle raconte des chiffres déjà validés.
+**Principe : l'IA ne calcule rien, elle commente en direct des chiffres déjà calculés.**
 
-**Pipeline**
+1. Chaque onglet du dashboard calcule ses chiffres selon les filtres choisis.
+2. Il envoie à Claude uniquement ces faits et une consigne (2 à 3 phrases pour un décideur, sans nouveau chiffre). Le prompt est visible dans la page (« Voir ce qu'on envoie à Claude »).
+3. Claude répond en direct, via la capacité « sample » des pages claude.ai : rien n'est pré-écrit ni stocké dans le dépôt.
+4. La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.
+5. Hors de claude.ai (fichier ouvert en local), ou si l'accès à Claude est refusé, un texte calculé sans IA s'affiche, signalé comme tel.
 
-1. `src/ai/synthese.py` charge les KPI Gold (`data/gold/kpi.csv`) et le contexte de l'étude (question, périmètre, sources, limites).
-2. Il construit un prompt qui contient uniquement les chiffres validés et les règles de l'étude.
-3. Il appelle Claude en mode non interactif (`claude -p`, Claude Code) via `subprocess` : aucune clé d'API n'est stockée dans le projet.
-4. Il vérifie que chaque chiffre cité dans la sortie existe dans les KPI ; en cas d'écart, il régénère ou rejette.
-5. Il écrit `docs/synthese_ia.md` (synthèse complète) et `data/gold/commentaires_ia.csv` (un commentaire par axe, lu par le dashboard).
-
-**Format attendu** : trois paragraphes (constat, arbitrage, recommandation Go / No-Go), puis trois risques. Chaque chiffre est suivi de son KPI ou de sa source.
-
-**Garde-fous**
-
-- Aucune clé d'API dans le dépôt : `claude -p` utilise la session Claude Code de la personne qui lance le script.
-- Aucune donnée personnelle ; uniquement des agrégats.
-- Validation humaine obligatoire avant publication.
-- **Contrôle du format** : les sections attendues (synthèse, un commentaire par axe, trois risques) doivent toutes être présentes, sinon le texte est rejeté.
-- **Repli sans IA** (Claude Code absent, session expirée, ou deux textes rejetés) : un template déterministe produit la même structure à partir des KPI, pour que le dashboard reste démontrable hors ligne.
+Pour les slides (fichier statique), `src/ai/synthese.py` et `src/ai/commentaires_dashboard.py` appellent `claude -p` au moment de générer le PowerPoint ; leurs textes sont produits localement et ne sont pas versionnés.
 
 ### 5.3 Installation et lancement
 
