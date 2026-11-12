@@ -497,7 +497,7 @@ for sl in prs.slides:
     fondu(sl)
 couverture = prs.slides[0]
 cibles = [sh for sh in couverture.shapes if sh.has_text_frame and (sh.text_frame.text == "Fnac → Allemagne" or sh.text_frame.text.startswith(("L'implantation", "Romane", "Projet final")))]
-apparitions(couverture, cibles)
+# apparitions(couverture, cibles)  # désactivé : PowerPoint refusait ce XML d'animation (fenêtre de réparation) ; à ajouter à la main
 
 out = ROOT / "docs" / "Comex_Fnac_Allemagne.pptx"
 prs.save(out)

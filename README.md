@@ -4,6 +4,11 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 
 > **L'implantation de la Fnac en Allemagne est-elle réalisable et rentable ?**
 
+**Livrables**
+- 📊 **Dashboard interactif (lien public)** : https://romane13long-source.github.io/fnac-allemagne-dashboard/
+- 🖥️ **Slides de l'oral** : [`docs/Comex_Fnac_Allemagne.pptx`](docs/Comex_Fnac_Allemagne.pptx) · texte de l'oral : [`docs/script_oral.md`](docs/script_oral.md)
+- ❓ **Réponses préparées aux questions du jury** : [`docs/questions_jury.md`](docs/questions_jury.md)
+
 ---
 
 ## 1. Présentation de l'entreprise
