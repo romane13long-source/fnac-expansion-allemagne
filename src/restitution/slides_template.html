@@ -220,17 +220,17 @@ const SLIDES = [
     `<div class="row c2"><div class="chart" ${IN()}><h3>Les ${D.carte.magasins.length} magasins MediaMarkt-Saturn (points bleus)</h3><div class="sub">Chiffre à côté de chaque ville = magasins du leader pour 100 000 habitants</div>
       ${carte()}
       <div class="src" style="margin-top:auto">Cologne : la seule à cocher les 3 critères : plus d'1 million d'habitants · au plus 0,7 magasin pour 100 000 · moins de 450 km de l'entrepôt. Sources : sites mediamarkt.de et saturn.de (scraping), Destatis.</div></div>
-      <div class="col">${tile("Cologne", "seule grande ville qui coche les 3 critères : 1 million d'habitants, peu de magasins du leader, la plus proche de notre entrepôt", "good")}
-      ${tile(nf(K.km_hub, 0) + " km", "de notre entrepôt de Chilly-Mazarin (Essonne), à vol d'oiseau")}
-      ${tile(nf(D.transport.bas.an, 2) + " à " + nf(D.transport.haut.an, 2) + " M€/an", `pour un camion par semaine depuis la France (${nf(D.transport.bas.trajet / 1000, 2)} à ${nf(D.transport.haut.trajet / 1000, 2)} k€ l'aller-retour, hypothèse) : le retour passerait de 7,9 à ${nf(D.transport.bas.delai, 1)}-${nf(D.transport.haut.delai, 1)} ans. Donc la tech est livrée par les fournisseurs allemands`, "bad")}</div></div>`, "",
+      <div class="col">${tile("Cologne", "la seule à cocher les 3 critères : taille, concurrence, distance", "good")}
+      ${tile(nf(K.km_hub, 0) + " km", "de notre entrepôt de Chilly-Mazarin (Essonne)")}
+      ${tile(nf(D.transport.bas.an, 2) + " à " + nf(D.transport.haut.an, 2) + " M€/an", `livrer chaque semaine depuis la France (hypothèse) : retour en près de ${nf(D.transport.haut.delai, 0)} ans au lieu de ${nf(D.scenarios.D.delai, 1)}. Donc : fournisseurs allemands`, "bad")}</div></div>`, "",
    "6:15 → 6:50 · Romane — Où ouvrir ? On a comparé les 7 plus grandes villes sur trois critères simples. Cologne est la seule à les cocher tous : un million d'habitants, peu de magasins du leader pour sa taille, et la plus proche de notre entrepôt de Chilly-Mazarin, à 416 kilomètres. Mais livrer depuis la France coûte cher : un camion par semaine, c'est environ 0,08 million par an, et le retour passerait de 7,9 à près de 10 ans. Donc la tech est livrée par les fournisseurs allemands, et l'entrepôt allemand sera étudié si on déploie."],
   [() => head("4 · La brique de synthèse IA", "L'IA commente nos chiffres,<br>elle ne les calcule pas") +
     `<div class="row c2e"><div class="col">
-      ${["Le dashboard calcule les KPI selon les filtres choisis (ville, achats, loyer…)", "Claude reçoit uniquement ces chiffres, avec une consigne : 2 à 3 phrases pour un décideur", "Claude rédige le commentaire ; un script vérifie que chaque nombre écrit existe dans nos données", "On change un filtre : nouveaux chiffres, nouveau commentaire (109 situations)"]
+      ${["Le dashboard calcule les chiffres selon les filtres", "Claude les reçoit et rédige 2-3 phrases", "Un script vérifie chaque nombre écrit", "109 situations, 109 commentaires"]
         .map((t, i) => `<div class="ask" ${IN()} style="margin-bottom:14px"><div class="n" style="background:var(--ai)">${i + 1}</div><div><p style="color:var(--ink);font-size:21px;margin-top:12px">${t}</p></div></div>`).join("")}</div>
-      <div class="col"><div class="card" ${IN()} style="font-size:18px;line-height:1.5"><h3>Filtres : achats en France, loyer centre-ville</h3>${IA.ex1 || ""}</div>
-      <div class="card" ${IN()} style="font-size:18px;line-height:1.5;border-left:7px solid var(--good)"><h3>Filtres : achats en Allemagne, loyer modéré</h3>${IA.ex2 || ""}</div></div></div>
-    <div class="src">Exemple réel tiré du dashboard (onglet Rentabilité, ville de Cologne) : textes rédigés par Claude, chiffres vérifiés automatiquement</div>`, "",
+      <div class="col"><div class="card" ${IN()} style="font-size:22px;line-height:1.5"><h3>Achats en France, loyer centre-ville</h3>« ${IA.ex1 || ""} »</div>
+      <div class="card" ${IN()} style="font-size:22px;line-height:1.5;border-left:7px solid var(--good)"><h3>Achats en Allemagne, loyer modéré</h3>« ${IA.ex2 || ""} »</div></div></div>
+    <div class="src">Extraits réels du dashboard (Rentabilité, Cologne) : 1re phrase du commentaire rédigé par Claude</div>`, "",
    "6:50 → 7:30 · Elena — Notre brique IA. Le principe : l'IA ne calcule rien, les calculs restent dans notre code. Claude reçoit seulement nos chiffres et rédige un commentaire pour le décideur ; un script vérifie chaque nombre. Quand on change un filtre, le commentaire change : ici, le même magasin à Cologne, d'abord avec des achats en France et un loyer de centre-ville, puis avec des achats en Allemagne et un loyer modéré."],
   // ===== 5. Décision & recommandation · 1 min 30 · Défense des arbitrages 15 pts
   [() => `<div class="flagline" style="background:var(--good)"></div><div class="kicker" ${IN()}>5 · Décision et recommandation · 1 min 30 · défense des arbitrages 15 pts</div>

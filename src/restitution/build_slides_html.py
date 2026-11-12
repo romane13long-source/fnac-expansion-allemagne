@@ -32,8 +32,10 @@ lectures = {} if ia is None else {
 pre_path = GOLD / "commentaires_par_filtre.json"
 if pre_path.exists():
     pre = json.loads(pre_path.read_text(encoding="utf-8"))
-    lectures["ex1"] = pre.get("rentabilite|france|ihk|Köln", "")
-    lectures["ex2"] = pre.get("rentabilite|locaux|france|Köln", "")
+    # Slide « brique IA » : seulement la 1re phrase de chaque commentaire (texte de Claude, non modifié), « Köln » affiché « Cologne »
+    premiere = lambda t: re.split(r"(?<=[.!?]) ", t.replace("Köln", "Cologne"))[0]
+    lectures["ex1"] = premiere(pre.get("rentabilite|france|ihk|Köln", ""))
+    lectures["ex2"] = premiere(pre.get("rentabilite|locaux|france|Köln", ""))
 html = (HERE / "slides_template.html").read_text(encoding="utf-8")
 html = html.replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False)).replace("/*__IA__*/null", json.dumps(lectures, ensure_ascii=False))
 assert "__DATA__" not in html and "__IA__" not in html

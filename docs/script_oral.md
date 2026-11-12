@@ -69,15 +69,14 @@ Tous les chiffres viennent du repo (`data/gold/kpi.csv`, sources citées sur cha
 
 ## Slide 8 · Cologne, la ville la plus adaptée pour un magasin pilote — 6:15 → 6:50 · Romane
 
-> Où ouvrir ? On a comparé les sept plus grandes villes allemandes sur trois critères : plus d'un million d'habitants, peu de magasins du leader pour leur taille, et moins de 450 kilomètres de notre entrepôt.
-> Sur la carte, chaque point bleu est un des 394 magasins MediaMarkt-Saturn qu'on a récupérés par scraping, et le chiffre à côté de chaque ville, c'est le nombre de magasins du leader pour 100 000 habitants.
-> Cologne est la seule à cocher les trois critères. Elle est à 416 kilomètres de notre entrepôt de Chilly-Mazarin, en Essonne.
-> Mais livrer depuis la France a un coût : un camion par semaine, c'est 0,08 à 0,09 million d'euros par an, et le retour sur investissement passerait de 7,9 à près de 10 ans. C'est une hypothèse prudente, mais elle suffit à trancher : la tech doit être livrée par des fournisseurs allemands. L'entrepôt en Allemagne sera étudié si on déploie.
+> Chaque point bleu est un des 394 magasins MediaMarkt-Saturn qu'on a récupérés par scraping. Le chiffre à côté de chaque ville : les magasins du leader pour 100 000 habitants.
+> Cologne n'a pas la plus faible concurrence, mais c'est la seule ville qui coche nos trois critères : plus d'un million d'habitants, peu de magasins du leader, moins de 450 kilomètres de notre entrepôt de Chilly-Mazarin.
+> Et livrer chaque semaine depuis la France coûterait environ 0,08 million par an : le retour passerait à près de 10 ans. Donc on se fait livrer par des fournisseurs allemands.
 
 ## Slide 9 · L'IA commente nos chiffres, elle ne les calcule pas — 6:50 → 7:30 · Elena
 
-> Notre brique IA. Les calculs restent dans notre code. Le dashboard calcule les indicateurs selon les filtres ; Claude reçoit uniquement ces chiffres et rédige deux ou trois phrases pour un décideur. Un script vérifie ensuite que chaque nombre écrit existe dans nos données.
-> Quand on change un filtre, le commentaire change : 109 situations. Exemple, le même magasin à Cologne : achats en France et loyer de centre-ville, l'IA explique qu'on perd 4,1 millions par an ; achats en Allemagne et loyer modéré, qu'on gagne 0,45 million et qu'on rembourse en 7,9 ans.
+> Notre brique IA : le dashboard calcule les chiffres, Claude les reçoit et rédige deux ou trois phrases, et un script vérifie chaque nombre écrit.
+> Quand on change un filtre, le commentaire change : 109 situations. Ici, le même magasin à Cologne : achats en France, il perd 4,1 millions par an ; achats en Allemagne et loyer modéré, il gagne 0,45 million.
 
 *Transition :* « Donc, réalisable et rentable ? Romane. »
 
