@@ -34,6 +34,7 @@ annees_provisoires = set(eurostat.loc[eurostat["statut_eurostat"].eq("provisoire
 min_year = int(eurostat["annee"].min())
 dim_annee = pd.DataFrame({"annee": range(min_year, LAST_YEAR + 1)})
 dim_annee["est_provisoire"] = dim_annee["annee"].isin(annees_provisoires)
+dim_annee["a_des_donnees_eurostat"] = dim_annee["annee"].isin(set(eurostat["annee"]))  # 2026 : aucune donnée
 
 # dim_categorie : la table de correspondance de l'équipe (règle n° 8)
 dim_categorie = categories.rename(columns={"code_marche_eurostat": "code_marche", "code_prix_eurostat": "code_prix"})

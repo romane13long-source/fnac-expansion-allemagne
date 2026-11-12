@@ -8,7 +8,7 @@ sys.path.insert(0, str(SRC))
 
 STEPS = ["collect/eurostat", "collect/destatis", "collect/enseignes",
          "clean/eurostat", "clean/destatis", "clean/enseignes", "clean/manual",
-         "gold/dimensions", "gold/fact_marche"]
+         "gold/dimensions", "gold/fact_marche", "gold/facts"]
 
 for step in STEPS:
     print(f"\n=== {step}")
