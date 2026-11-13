@@ -209,7 +209,7 @@ Format du cours : Champ / Type de donnée / Description / Formule / Exemple / So
 | `unite` | Texte | Unité de la valeur | NA | magasins | idem |
 | `periode` | Texte | Période telle qu'écrite dans le document | NA | 2025-12-31 | idem |
 | `annee` | Entier | Année de rattachement | règle de gestion n° 2 | 2025 | calculé |
-| `source`, `page`, `url` | Texte | Document, page et lien officiel | NA | Fnac Darty - DEU 2025, p. 39 | idem |
+| `source`, `page`, `url` | Texte | Document, page et lien officiels | NA | Fnac Darty - DEU 2025, p. 39 | idem |
 
 **`concurrents_autres`**, autres enseignes concurrentes en Allemagne (4 lignes)
 
