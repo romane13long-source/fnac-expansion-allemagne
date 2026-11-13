@@ -8,6 +8,7 @@
   :root {
     --bg: #ffffff; --ink: #0b0b0b; --muted: #52514e; --soft: #898781; --tile: #f4f4f1; --line: #e1e0d9;
     --de: #2a78d6; --fr: #eb6834; --good: #0c9a0c; --bad: #d03b3b; --ai: #6250d6; --ai-bg: #f1effc; --stage: #1a1a19;
+    --fnac: #e1a925; --fnac-ink: #0b0b0b;
   }
   * { box-sizing: border-box; margin: 0; }
   html, body { height: 100%; background: var(--stage); font-family: "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; color: var(--ink); overflow: hidden; }
@@ -18,11 +19,11 @@
   .slide.mid > .rule + * { margin-top: auto; } .slide.mid .src { margin-top: auto; }
   .kicker { font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   h1 { font-size: 44px; line-height: 1.12; font-weight: 800; margin-top: 10px; max-width: 1350px; }
-  h1 + .rule { width: 90px; height: 6px; background: var(--de); border-radius: 3px; margin: 16px 0 26px; }
+  h1 + .rule { width: 90px; height: 6px; background: var(--fnac); border-radius: 3px; margin: 16px 0 26px; }
   .row { display: grid; gap: 22px; flex: 1; min-height: 0; }
   .c2 { grid-template-columns: 1.55fr 1fr; } .c3 { grid-template-columns: repeat(3, 1fr); } .c2e { grid-template-columns: 1fr 1fr; }
   .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-  .tile { background: var(--tile); border-radius: 14px; padding: 20px 24px; border-left: 7px solid var(--de); }
+  .tile { background: var(--tile); border-radius: 14px; padding: 20px 24px; border-left: 7px solid var(--fnac); }
   .tile .v { font-size: 50px; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
   .tile .l { font-size: 18px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
   .tile.good { border-color: var(--good); } .tile.good .v { color: var(--good); }
@@ -49,16 +50,16 @@
   tr.hl td { background: #e9f6e9; font-weight: 700; }
   .score { font-weight: 800; }
   /* couverture */
-  .cover { justify-content: center; background: linear-gradient(120deg, #ffffff 55%, #eaf2fc); }
+  .cover { justify-content: center; background: linear-gradient(120deg, #ffffff 60%, #fbf3dc); }
   .cover .big { font-size: 110px; font-weight: 850; letter-spacing: -.02em; line-height: 1; }
-  .cover .big span { color: var(--de); }
+  .cover .big span { color: var(--fnac-ink); background: var(--fnac); padding: 0 .12em; display: inline-block; line-height: .82; vertical-align: .06em; }
   .cover .q { font-size: 36px; color: var(--muted); margin-top: 26px; max-width: 1100px; line-height: 1.3; }
   .cover .team { font-size: 21px; margin-top: 56px; }
   .cover .school { font-size: 17px; color: var(--soft); margin-top: 8px; }
-  .flagline { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: linear-gradient(var(--de), var(--fr)); }
+  .flagline { position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: var(--fnac); }
   .go { font-size: 96px; font-weight: 850; color: var(--good); line-height: 1; }
   .ask { display: flex; gap: 26px; align-items: flex-start; margin-bottom: 36px; }
-  .ask .n { flex: none; width: 58px; height: 58px; border-radius: 50%; background: var(--de); color: #fff; font-size: 26px; font-weight: 800; display: grid; place-items: center; }
+  .ask .n { flex: none; width: 58px; height: 58px; border-radius: 50%; background: var(--fnac); color: var(--fnac-ink); font-size: 26px; font-weight: 800; display: grid; place-items: center; }
   .ask h4 { font-size: 34px; } .ask p { font-size: 21px; color: var(--muted); margin-top: 6px; }
   /* apparitions : chaque élément [data-in] entre l'un après l'autre */
   .slide.on [data-in] { animation: up .7s cubic-bezier(.2,.7,.2,1) both; }
@@ -69,7 +70,7 @@
   .slide.on .draw { stroke-dasharray: 2000; animation: draw 1.6s ease-out both; }
   @keyframes draw { from { stroke-dashoffset: 2000; } to { stroke-dashoffset: 0; } }
   /* barre de progression, notes */
-  #prog { position: fixed; left: 0; bottom: 0; height: 5px; background: var(--de); transition: width .4s; z-index: 5; }
+  #prog { position: fixed; left: 0; bottom: 0; height: 5px; background: var(--fnac); transition: width .4s; z-index: 5; }
   #notes { position: fixed; left: 0; right: 0; bottom: 5px; max-height: 32vh; overflow: auto; background: rgba(15,15,14,.94); color: #f0efec; font-size: 18px; line-height: 1.5; padding: 16px 24px; display: none; z-index: 4; }
   #notes.on { display: block; } #notes b { color: #9fc4f5; }
   #help { position: fixed; right: 14px; top: 10px; color: #898781; font-size: 13px; z-index: 5; }
@@ -238,8 +239,8 @@ const SLIDES = [
     <div style="display:flex;align-items:baseline;gap:28px;margin-top:16px" ${IN()}><div class="go">GO</div><div style="font-size:40px;font-weight:800">sous 3 conditions : un magasin pilote à Cologne</div></div>
     <div class="row c3" style="flex:none;margin-top:26px">${tile("Achats en Allemagne", "livrés par des fournisseurs allemands : marge de 28 % (sinon 12 %) ; un camion par semaine depuis la France ferait dépasser 8 ans", "good")}${tile(`Loyer < ${nf(D.seuil_loyer, 0)} €/m²`, "par mois : grande surface hors des rues les plus chères", "good")}${tile("Assortiment ciblé", "la tech d'abord (1,8 fois plus de dépenses qu'en France) ; pas 100 % du catalogue : nos livres sont en français", "good")}</div>
     <div ${IN()} style="margin-top:34px"><div style="font-size:15px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:12px">Next steps</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:5px solid var(--de)">
-      ${[["Mois 1 à 6", "centrale d'achat allemande + bail à Cologne"], ["Mois 3 à 6", "test de livraison : fournisseurs allemands ou camion depuis la France"], ["Mois 12", "ouverture du magasin pilote"], ["An 3", "décision de déploiement"]].map(([a, b]) => `<div style="padding:14px 18px 0 0"><div style="font-size:26px;font-weight:800;color:var(--de)">${a}</div><div style="font-size:19px;margin-top:4px">${b}</div></div>`).join("")}</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:5px solid var(--fnac)">
+      ${[["Mois 1 à 6", "centrale d'achat allemande + bail à Cologne"], ["Mois 3 à 6", "test de livraison : fournisseurs allemands ou camion depuis la France"], ["Mois 12", "ouverture du magasin pilote"], ["An 3", "décision de déploiement"]].map(([a, b]) => `<div style="padding:14px 18px 0 0"><div style="font-size:26px;font-weight:800;color:var(--ink)">${a}</div><div style="font-size:19px;margin-top:4px">${b}</div></div>`).join("")}</div></div>
     <div ${IN()} style="margin-top:28px;font-size:21px;font-weight:700;color:var(--bad)">Critère d'arrêt à 3 ans : magasin en perte, ou retour sur investissement au-delà de 8 ans → on ne déploie pas.</div>`, "center",
    "7:30 → 9:00 · Romane — Réponse à la question du Comex : réalisable, oui ; rentable, oui, mais seulement sous trois conditions. Notre décision est donc : Go, sous trois conditions, pour un seul magasin pilote à Cologne. Un : acheter et se faire livrer en Allemagne, pour garder 28 % de marge sans payer de camions depuis la France. Deux : un loyer sous 33 euros le mètre carré. Trois : la tech d'abord. Next steps : centrale d'achat et bail dans les six premiers mois, test de livraison, ouverture à un an, et décision de déploiement à trois ans. Et on s'engage sur un critère d'arrêt : si le magasin perd de l'argent ou rembourse en plus de 8 ans, on ne déploie pas."],
   [() => `<div class="flagline"></div>` + head("5 · Décision et recommandation", "Nos demandes au Comex") +

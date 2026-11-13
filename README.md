@@ -32,6 +32,20 @@ Projet final du cours Data Analytics (Eugenia School, M2). Le Comex de la Fnac �
 - Le groupe Fnac Darty n'y est pas présent.
 - Son leader, MediaMarkt/Saturn, est le concurrent direct de la Fnac sur les produits techniques.
 
+### Nuances à garder en tête
+
+1. **Nous étudions la Fnac, mais les chiffres publiés sont ceux du groupe Fnac Darty.** Le groupe ne publie pas de comptes pour la Fnac seule. Nous en tirons une **estimation** pour la Fnac, en ne gardant que les produits techniques et éditoriaux, ce qui exclut l'électroménager de Darty. Les taux du groupe (marge brute de 28 %, ratios de frais) sont appliqués tels quels à un magasin Fnac : c'est une **hypothèse**, et ces chiffres ne sont pas ceux de la Fnac seule.
+2. **Le marché allemand n'est pas le marché français.** Les mêmes indicateurs sont calculés pour les deux pays, mais les habitudes diffèrent. Les Allemands dépensent davantage en tech par habitant, et les prix y sont plus bas. Le livre est un cas à part : son prix est fixé par la loi dans les deux pays, et notre catalogue de livres est en français. Transposer le modèle français tel quel serait une erreur. C'est pourquoi la recommandation porte sur un **pilote**, avec un critère d'arrêt.
+3. **Deux catégories qu'on ne mélange jamais : la tech (électronique) et les livres.** Chaque chiffre de marché et de prix porte une catégorie (`categorie_id` = TECH ou LIVRES, codes Eurostat COICOP). Les deux catégories ne sont additionnées qu'une seule fois, pour la part de marché de la Fnac en France, parce que son chiffre d'affaires couvre les deux.
+4. **Le concurrent n'est comparé que sur sa catégorie.** CECONOMY (MediaMarkt-Saturn) vend de la tech, pas des livres. Sa part de marché est donc calculée sur le seul marché TECH allemand, et c'est une **fourchette** : elle va de 17 % si l'on ne garde que ses ventes « IT et mobile » à 38 % si l'on prend toutes ses ventes en Allemagne. Le concurrent des livres (Thalia) n'est pas étudié, ce qui est une limite assumée.
+5. **Nos données, celles du concurrent, celles qu'on simule.** Chaque ligne indique son origine :
+   - Fnac Darty : rapports officiels déposés à l'AMF (pays `FR` ou `GROUPE`) ;
+   - concurrent : rapports CECONOMY et scraping de ses sites (`enseigne`) ;
+   - marché : Eurostat et Destatis ;
+   - le reste est simulé ou supposé.
+
+   La colonne `nature` de `kpi.csv` (mesuré / estimation / hypothèse / simulé) le dit pour chaque KPI. Un chiffre du concurrent n'est jamais utilisé comme s'il était un chiffre de la Fnac.
+
 ### Équipe
 
 | Prénom | Nom |
