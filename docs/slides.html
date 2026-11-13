@@ -246,12 +246,12 @@ const SLIDES = [
     [["Valider le pilote de Cologne", "Un magasin de 2 400 m², pas un déploiement national."], ["Valider les 3 conditions", `Achats et livraisons en Allemagne · loyer < ${nf(D.seuil_loyer, 0)} €/m²/mois · assortiment ciblé, la tech d'abord.`], ["Fixer la décision à 3 ans", "Résultat annuel positif et retour sur investissement en 8 ans au plus ; sinon, arrêt."]]
       .map(([a, b], i) => `<div class="ask" ${IN()}><div class="n">${i + 1}</div><div><h4>${a}</h4><p>${b}</p></div></div>`).join("") +
     `<div ${IN()} style="margin-top:20px"><div style="font-size:15px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Si le pilote réussit : rythme et coût du déploiement</div>
-      <table style="font-size:21px"><tr><th>Étape</th><th>Villes</th><th>Coût (hypothèse)</th><th>Part du cash-flow 2025</th></tr>
-      ${(() => { const m = D.simu.invest_m2 * D.simu.surface / 1e6, cf = D.finances.cash_flow_libre_operationnel;
-        return [["An 1 · pilote", "Cologne", 1], ["Ans 3-4 · vague 1", "Düsseldorf, Francfort + entrepôt à Cologne", 2], ["Ans 5-6 · vague 2", "Munich, Hambourg, Berlin", 3]]
-          .map(([a, b, n]) => `<tr><td><b>${a}</b></td><td>${b}</td><td>${nf(n * m, 1)} M€</td><td>${nf(n * m / cf * 100, 1)} %</td></tr>`).join("") +
-          `<tr class="hl"><td>Total · 6 magasins</td><td>2 à 3 ouvertures par an après le pilote</td><td>${nf(6 * m, 1)} M€</td><td>${nf(6 * m / cf * 100, 1)} %</td></tr>`; })()}</table>
-      <div class="src">Entrepôt non chiffré. Chaque vague n'est lancée que si la précédente est rentable ; prudence : le groupe a perdu ${nf(-D.finances.resultat_net_part_groupe, 1)} M€ en 2025.</div></div>
+      <table style="font-size:21px"><tr><th>Étape</th><th>Villes</th><th>Investissement</th><th>Ventes par an</th><th>Bénéfice par an</th></tr>
+      ${(() => { const m = D.simu.invest_m2 * D.simu.surface / 1e6, cf = D.finances.cash_flow_libre_operationnel, ca = D.simu.ca_magasin / 1e6, r = D.scenarios.D.resultat;
+        return [["An 1 · pilote", "Cologne", 1, 1], ["Ans 3-4 · vague 1", "Düsseldorf, Francfort + entrepôt", 2, 3], ["Ans 5-6 · vague 2", "Munich, Hambourg, Berlin", 3, 6]]
+          .map(([a, b, n, cum]) => `<tr><td><b>${a}</b></td><td>${b}</td><td>${nf(n * m, 1)} M€</td><td>${nf(cum * ca, 1)} M€</td><td>${sg(cum * r, 2)} M€</td></tr>`).join("") +
+          `<tr class="hl"><td>Total · 6 magasins</td><td>2 à 3 ouvertures par an</td><td>${nf(6 * m, 1)} M€ (${nf(6 * m / cf * 100, 0)} % du cash-flow)</td><td>${nf(6 * ca, 1)} M€</td><td>${sg(6 * r, 1)} M€</td></tr>`; })()}</table>
+      <div class="src">Magasins ouverts en fin d'étape, chacun comme le pilote (estimation, avant impôts, hors entrepôt). Chaque vague seulement si la précédente est rentable.</div></div>
     <div style="font-size:22px;color:var(--muted);margin-top:auto" ${IN()}>Merci, nous sommes prêts pour vos questions.</div>`, "",
    "9:00 → 9:30 · Romane — Nous demandons au Comex trois décisions : valider le pilote, valider nos trois conditions, et fixer le rendez-vous de décision à trois ans. Si le pilote réussit, on déploie par vagues : Düsseldorf et Francfort avec un entrepôt à Cologne, puis Munich, Hambourg et Berlin. Six magasins au total, 21,6 millions, soit 14,9 % du cash-flow libre d'une année, étalés sur six ans. Merci, nous sommes prêts pour vos questions."],
   // ===== Annexes pour les questions
