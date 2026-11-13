@@ -140,8 +140,8 @@ const SVGNS = "http://www.w3.org/2000/svg";
 const PAGES = [
   { id: "verdict", label: "Verdict", q: "Faut-il s'implanter en Allemagne ?", f: [], ai: () => "decision|" },
   { id: "marche", label: "1 · Le marché", q: "Le marché allemand vaut-il le coup ?", f: [], ai: () => `marche|TECH|${state.ville}` },
-  { id: "ville", label: "2 · Où ouvrir ?", q: "Dans quelle ville ouvrir le magasin pilote ?", f: [], ai: () => `villes|${state.ville}|TECH` },
-  { id: "rentabilite", label: "3 · Rentabilité", q: "Un magasin gagne-t-il de l'argent ?", f: ["achats", "loyer"], ai: () => `rentabilite|${state.achats}|${state.loyer}|${state.ville}` },
+  { id: "ville", label: "2 · Où ouvrir ?", q: "Dans quelle ville ouvrir le magasin pilote ?", f: ["ville"], ai: () => `villes|${state.ville}|TECH` },
+  { id: "rentabilite", label: "3 · Rentabilité", q: "Un magasin gagne-t-il de l'argent ?", f: ["ville", "achats", "loyer"], ai: () => `rentabilite|${state.achats}|${state.loyer}|${state.ville}` },
   { id: "methode", label: "Méthode", q: "D'où viennent les chiffres ?", f: [] },
 ];
 // anciens liens (#tab=concurrence…) -> nouvel onglet
@@ -516,7 +516,7 @@ function pVille() {
   return {
     phrase: base.phrase,
     tiles: [tile(`Concurrence à ${NOM(v.ville)}`, nf(v.magasins_par_100k, 2), `magasins du leader pour 100 000 hab. (${v.magasins} magasins)`, "Plus c'est bas, plus il reste de la place. Critère : 0,7 au plus.", v.magasins_par_100k <= 0.7 ? "ok" : "bad", "mesuré"),
-            tile("Distance de l'entrepôt", nf(v.km_hub, 0) + " km", `camion hebdo depuis la France : ${nf(D.transport.bas.an, 2)}–${nf(D.transport.haut.an, 2)} M€/an → fournisseurs allemands`, "À vol d'oiseau depuis Chilly-Mazarin. Critère : 450 km au plus.", v.km_hub <= 450 ? "ok" : "bad", "mesuré"),
+            tile("Distance de l'entrepôt", nf(v.km_hub, 0) + " km", v.ville === "Köln" ? `camion hebdo depuis la France : ${nf(D.transport.bas.an, 2)}–${nf(D.transport.haut.an, 2)} M€/an → fournisseurs allemands` : `depuis Chilly-Mazarin · critère : 450 km au plus`, "À vol d'oiseau depuis Chilly-Mazarin. Critère : 450 km au plus.", v.km_hub <= 450 ? "ok" : "bad", "mesuré"),
             tile("Le leader MediaMarkt-Saturn", nf(D.carte.magasins.length, 0) + " magasins", `${nf(D.parts.cec_bas, 0)}–${nf(D.parts.cec_haut, 0)} % du marché tech`, "Magasins comptés un par un (scraping des plans de site) ; part de marché estimée.", "", "estimation")],
     body: card("Les magasins du leader (points bleus) et les 7 grandes villes", "Cologne : la seule à cocher les 3 critères (≥ 1 M hab., ≤ 0,7 magasin pour 100 000, ≤ 450 km). Cliquer une ville pour la comparer.",
       `<div style="max-width:430px;margin:0 auto"><svg id="g1"></svg></div>`, "sites mediamarkt.de et saturn.de (plans de site, robots.txt respecté) ; Destatis"),
