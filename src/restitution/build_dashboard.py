@@ -27,4 +27,4 @@ import re  # noqa: E402
 corps = re.sub(r"(?s)^.*?<head>|</head>\s*<body>|</body>\s*</html>\s*$", "", html)
 corps = re.sub(r'<meta charset="utf-8">\s*<meta name="viewport"[^>]*>\s*', "", corps)
 (ROOT / "docs" / "dashboard_claude_ai.html").write_text(corps.strip() + "\n", encoding="utf-8")
-print(f"docs/dashboard.html : {len(html) / 1024:.0f} Ko, 12 onglets, {len(data['villes'])} villes candidates")
+print(f"docs/dashboard.html : {len(html) / 1024:.0f} Ko, 5 onglets, {len(data['villes'])} villes candidates")
