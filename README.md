@@ -361,7 +361,7 @@ Tous les chiffres ci-dessous viennent de `data/gold/kpi.csv` (2025, sauf mention
 | 2 | Trouver un emplacement à Cologne (2 400 m²) | M1–M6 | Loyer < 33 €/m²/mois |
 | 3 | Tester la livraison : fournisseurs allemands contre camion depuis Chilly-Mazarin | M3–M6 | Coût du transport compatible avec un retour ≤ 8 ans |
 | 4 | Ouvrir le magasin pilote, la tech d'abord | M12 | Ouverture dans le budget (3,6 M€, hypothèse) |
-| 5 | Décision de déploiement à **3 ans** (2 ans d'exploitation) ; l'entrepôt allemand est étudié à ce stade | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
+| 5 | Décision de déploiement à **3 ans** (2 ans après l'ouverture) ; l'entrepôt allemand est étudié à ce stade | M36 | Résultat annuel positif et délai de retour ≤ 8 ans ; sinon arrêt |
 
 **Financement et ouvertures si Go** *(DEU 2025, p. 8, 21, 30, 34)* : cash-flow libre opérationnel **145 M€** en 2025 (210 M€ en 2024), plan d'investissement **200 M€ par an**, résultat net 2025 **−145,6 M€**. Le pilote (3,6 M€, hypothèse) = **2,5 %** du cash-flow libre 2025. **Rythme et coût du déploiement si le pilote réussit** *(guide des KPI : « déterminer le rythme et le coût de déploiement »)* : ans 3-4, **Düsseldorf** (34 km de Cologne) et **Francfort** (153 km) avec un entrepôt à Cologne (7,2 M€) ; ans 5-6, **Munich, Hambourg, Berlin** (10,8 M€). Total **6 magasins, 21,6 M€**, soit **14,9 %** du cash-flow libre 2025, 2 à 3 ouvertures par an ; si chaque magasin fait comme le pilote : **87,6 M€ de ventes** et **+2,7 M€ de bénéfice par an** *(estimation, avant impôts, hors entrepôt)* ; coût de l'entrepôt non chiffré ; chaque vague n'est lancée que si la précédente est rentable. La perte nette 2025 justifie un déploiement par étapes.
 
@@ -407,17 +407,14 @@ Deux supports, générés par le pipeline à partir du Gold (aucun chiffre saisi
 
 ### 5.2 Brique IA
 
-**Principe : l'IA ne calcule rien, elle commente en direct des chiffres déjà calculés.**
+**Principe : l'IA ne calcule rien, elle commente des chiffres déjà calculés.**
 
 1. Chaque onglet du dashboard calcule ses chiffres selon les filtres choisis.
-2. Il envoie à Claude uniquement ces faits et une consigne (2 à 3 phrases pour un décideur, sans nouveau chiffre). Le prompt est visible dans la page (« Voir ce qu'on envoie à Claude »).
-3. Ouverte dans claude.ai, la page appelle Claude en direct (capacité « sample »). Sur le lien public GitHub Pages, Claude n'est pas appelé (pas de clé d'API payante) : la page affiche le prompt exact et un texte calculé sans IA, signalé comme tel.
-4. La page vérifie chaque nombre de la réponse : un nombre absent des faits est surligné ⚠.
-5. Hors de claude.ai (fichier ouvert en local), ou si l'accès à Claude est refusé, un texte calculé sans IA s'affiche, signalé comme tel.
+2. `src/ai/commentaires_par_filtre.py` envoie à Claude (`claude -p`, modèle Sonnet) uniquement ces chiffres et une consigne : 2 à 3 phrases pour un décideur, sans nouveau chiffre.
+3. Un script vérifie chaque nombre de la réponse : un commentaire qui contient un nombre absent des chiffres de l'onglet est rejeté.
+4. Le lien public n'a pas de clé d'API : les commentaires sont donc rédigés à l'avance, un par onglet et par combinaison de filtres (109). Quand on change un filtre, le commentaire affiché change.
 
-**Sur le lien public** (pas de clé d'API), `src/ai/commentaires_par_filtre.py` fait rédiger à l'avance par Claude (`claude -p`) un commentaire pour chaque onglet × combinaison de filtres (109), à partir des chiffres exacts de la page ; chaque nombre est contrôlé, et le commentaire affiché change avec les filtres.
-
-Pour les slides (fichier statique), `src/ai/synthese.py` et `src/ai/commentaires_dashboard.py` appellent `claude -p` au moment de générer le PowerPoint ; leurs textes sont produits localement et ne sont pas versionnés.
+Les slides réutilisent ces commentaires (slide « brique IA », exemple de l'onglet Rentabilité à Cologne).
 
 ### 5.3 Installation et lancement
 
